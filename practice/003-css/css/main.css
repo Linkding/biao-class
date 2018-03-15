@@ -1,5 +1,9 @@
-span {
+.first {
     /* color: whith; */
     background: tomato;
-    border: 5px solid pink
+    /* border: 5px solid pink */
+}
+
+.second {
+    background: slateblue;
 }
