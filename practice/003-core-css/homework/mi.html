@@ -1,30 +1,65 @@
 <style>
-    .nav {
+    .row {
         font-size: 0;
+        margin-bottom: 3px;
+
     }
-    .nav .left .right {
+    .col {
         display: inline-block;
         font-size: 17px;
-        background: brown
+        background: #cccccc;
+        vertical-align: top;
+    }
+    .first-screen {
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto
     }
 </style>
-<body>
+
 <div class="row nav">
-    <div class="col left">1</div>
-    <div class="col right">1</div>
+    <div style="width: 50%" class="col left">左侧</div>
+    <div style="width: 50%" class="col right">右侧</div>
 </div>
 <div class="row first-screen">
-    <div class="row top-bar"></div>
-    <div class="row mid-bar"></div>
-    <div class="row bottom-bar"></div>
+    <div class="row top-bar">
+        <div style="width: 20%" class="col">LOGO</div>
+        <div style="width: 50%" class="col">导航</div>
+        <div style="width: 30%" class="col">搜索</div>
+    </div>
+    <div class="row mid-bar30%">
+        <div style="width: 20%" class="col">主促销</div>
+        <div style="width: 80%" class="col">轮播</div>
+    </div>
+    <div class="row bottom-bar">
+        <div style="width: 20%" class="col">快速通道</div>
+        <div style="width: 80%" class="col">次促销</div>
+    </d8v>
 </div>
 <div class="row main">
-    <div class="row top-bar"></div>
-    <div class="row mid-tar"></div>
+    <div class="row top-bar">
+        <div style="width: 20%" class="col">标题</div>
+        <div style="width: 80%" class="col">按钮</div>
+    </div>
+    <div class="row mid-tar">
+        <div style="width: 20%" class="col">标题</div>
+        <div style="width: 80%" class="col">卡片组</div>
+    </div>
 </div>
 <div class="row footer">
-    <div class="row top-bar"></div>
-    <div class="row mid-bar"></div>
-    <div class="row bottom-bar"></div>     
+    <div class="row top-bar">
+        <div style="width: 20%" class="col">链接</div>
+        <div style="width: 20%" class="col">链接</div>
+        <div style="width: 20%" class="col">链接</div>
+        <div style="width: 20%" class="col">链接</div>
+        <div style="width: 20%" class="col">链接</div>
+    </div>
+    <div class="row mid-bar">
+        <div style="width: 70%" class="col">链接组</div>
+        <div style="width: 30%" class="col">客服电话</div>
+    </div>
+    <div class="row bottom-bar">
+        <div style="width: 60%" class="col">原信息</div>
+        <div style="width: 40%" class="col">认证</div>
+    </div>     
 </div>
-</body>
