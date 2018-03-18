@@ -11,8 +11,17 @@
     .top-bar {
         background: pink;
     }
-    .link-group .auth {
+    .auth, .link-group {
         text-align: right;
+    }
+    .main-title, .house-data,.search-group {
+        text-align: center;
+        
+    }
+
+    .house-data {
+        padding: 0;
+        margin: 0;
     }
 </style>
 <div class="row first-screen">
@@ -40,10 +49,10 @@
     </div>
     <div class="row">
         <div class="row">
-            <div style="width: 100%" class="col">
+            <div style="width: 100%" class="col main-title">
                 <h1>连接每个家的故事</h1>
             </div>
-            <div style="width: 100%" class="col">
+            <div style="width: 100% " class="col house-data">
                 <span>深圳真实房源**套</span>
             </div>
         </div>
@@ -56,7 +65,7 @@
             <div style="width: 20%" class="col">找小区</div>
             <div style="width: 20%" class="col">搜问答</div>
         </div>
-        <div class="row">
+        <div class="row search-group">
             <input type="text" name="" id="">
             <button>开始找房</button>
         </div>
