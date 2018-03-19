@@ -1,0 +1,24 @@
+.main-promote{
+    background-image: url(../../img/phone.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-color: #faf3e3;
+}
+.main-promote .cat {
+    width: 20%;
+    background: rgba(0, 0, 0, .5);
+}
+
+
+.main-promote .slider {
+    width: 80%;
+}
+
+.main-promote .cat a {
+    display: block; 
+    font-size: 75%;
+    padding: 8px 30px;
+    color: #fff;
+    
+}

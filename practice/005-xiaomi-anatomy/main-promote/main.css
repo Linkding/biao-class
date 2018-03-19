@@ -16,3 +16,7 @@
     color: white
     
 }
+
+.main-promote .cat a:hover {
+    background: #fff;
+}
