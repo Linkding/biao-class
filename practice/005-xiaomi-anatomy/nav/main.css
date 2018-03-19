@@ -1,28 +1,4 @@
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
 
-body {
-    margin: 0;
-}
-
-.container {
-    max-width: 1100;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.row {
-    font-size: 0;
-}
-
-.col {
-    display: inline-block;
-    font-size: 12px;
-    vertical-align: top;
-}
 
 
 /* .col:nth-child(odd) {

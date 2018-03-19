@@ -1,0 +1,17 @@
+
+.main-promote .cat {
+    width: 20%;
+    background: rgba(0, 0, 0, .6);   
+    
+}
+
+.main-promote .slider {
+    width: 80%
+}
+
+.main-promote .cat a {
+    font-size: 75%;
+    display: block;
+    padding: 8px 20px;
+    color: white
+}
