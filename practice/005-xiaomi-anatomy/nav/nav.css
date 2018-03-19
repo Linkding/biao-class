@@ -1,0 +1,42 @@
+body {
+    margin: 0;
+}
+
+.row {
+    font-size: 0;
+}
+
+.col {
+    display: inline-block;
+    font-size: 15px;
+    vertical-align: top;
+}
+
+
+/* .col:nth-child(odd) {
+    background: rgba(0 , 0, 0, .3);
+}
+
+.col:nth-child(even) {
+    background: rgba(0 , 0, 0, .4);
+} */
+
+.left,.right {
+    width: 50%;
+}
+
+.right {
+    text-align: right;
+}
+
+
+.nav .left > a ,
+.nav .right >a {
+    padding: 10px 8px;
+    font-family: sans-serif;   
+}
+
+.nav {
+    background: rgb(98, 100, 98);
+    
+}
