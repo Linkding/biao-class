@@ -1,0 +1,28 @@
+/* 第一步 row 上下外边距 */
+.section .head {
+    padding: 15px 0;
+}
+
+/* 第二步，第二行的左右宽度比例 */
+.section .card-group .leader {
+    width: 20%
+}
+.section .card-group .other {
+    width: 80%
+}
+
+/* 第三步，调整leader的大小布局
+ */
+ .section .card-group .leader img{
+    
+ }
+ .card-group .card {
+    background: #fff;
+ }
+.section .head .left .title {
+    font-size: 18px;
+}
+
+.section .head .right .other-list {
+    font-size: 10px;
+}

@@ -5,10 +5,18 @@
 }
 
 img {
-    max-width: 900px;
+    max-width: 100%;
 }
 body {
     margin: 0;
+}
+
+.left, .right {
+    width: 50%;
+}
+
+.right {
+    text-align: right;
 }
 
 .container {
