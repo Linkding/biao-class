@@ -1,3 +1,10 @@
+/* 卡片外边框阴影设置 */
+.card {
+    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, .1);
+    -moz-box-shadow: 0 0 4px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 4px rgba(0, 0, 0, .1);
+}
+
 /* 第一步 row 上下外边距 */
 .section .head {
     padding: 15px 0;
@@ -15,14 +22,56 @@
  */
 
  /* 第四步，对齐leader和other */
+ /* 发现原来是row的关.系没有处理好 */
     
- /* .card-group .card {
-    background: #fff;
- } */
+
 .section .head .left .title {
     font-size: 18px;
 }
 
+.section .card-group .row a {
+    border: 10px;
+}
 .section .head .right .other-list {
     font-size: 10px;
+}
+
+.section .card-group .other .col {
+    padding: 8px 10px;
+}
+
+.section .card-group .other .text {
+    text-align: center;
+    /* padding: 10px; */
+    margin-bottom: 15px;
+}
+
+.section .card-group .other .text div{
+    margin-top: 5px;
+}
+
+.section .card-group .other .thumbnail {
+    padding: 30px 20px ;
+    /* margin-left: 20px; */
+   
+}
+.section .card-group .other .title {
+    color: #111;
+    font-weight: 500;
+    font-size: 85%;
+}
+.section .card-group .other .desc {
+    color: rgba(0, 0, 0, .5);
+    font-weight: 400;
+    font-size: 75%
+    
+}
+.section .card-group .other .price {
+    color: #ff6700;
+}
+
+/* other 卡片直接的间隔 */
+.section .card-group .other .card  {
+    margin-left: 1%;
+    width: 24%;
 }
