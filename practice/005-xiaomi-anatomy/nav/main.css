@@ -1,31 +1,16 @@
-
-
-
-/* .col:nth-child(odd) {
-    background: rgba(0 , 0, 0, .3);
+.nav  {
+    background: #333; 
 }
 
-.col:nth-child(even) {
-    background: rgba(0 , 0, 0, .4);
-} */
-
-.left, .right {
-    width: 50%;
+.nav a {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 75%;
+    color: #b0b0b0;
+    /* margin: 10px; */
+    padding: 8px 5px;
 }
 
-.right {
-    text-align: right;
-}
-
-
-.nav .left > a ,
-.nav .right >a {
-    padding: 8px 6px;
-    font-family: sans-serif;
-
-}
-
-.nav {
-    background: rgb(98, 100, 98);
-    
+.nav a:hover {
+    color: #fff;
 }
