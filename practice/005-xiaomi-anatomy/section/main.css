@@ -11,14 +11,14 @@
     width: 80%
 }
 
-/* 第三步，调整leader的大小布局
+/* 第三步，调整leader的大小布局,已经在全局中设置了img
  */
- .section .card-group .leader img{
+
+ /* 第四步，对齐leader和other */
     
- }
- .card-group .card {
+ /* .card-group .card {
     background: #fff;
- }
+ } */
 .section .head .left .title {
     font-size: 18px;
 }

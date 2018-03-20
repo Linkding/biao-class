@@ -27,6 +27,7 @@ body {
 
 .row {
     font-size: 0;
+    display: block;
 }
 
 .col {
