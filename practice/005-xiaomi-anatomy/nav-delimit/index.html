@@ -1,0 +1,30 @@
+<style>
+    .nav {
+        background: gray;
+    }
+    a {
+        display: inline-block;
+        text-decoration: none;
+        padding: 10px;
+    }
+    .nav-item:after {
+        content: "";
+        display: inline-block;
+        position: relative;
+        width: 1px;
+        height: 30px;
+        /* bottom: 5px; */
+        top: 5px;
+        background: green;
+    }
+
+</style>
+
+<div class="row nav">
+    <div class="col left">
+        <span class="nav-item"><a href="#">item</a></span>
+        <span class="nav-item"><a href="#">item</a></span>
+        <span class="nav-item"><a href="#">item</a></span>
+        <span class="nav-item"><a href="#">item</a></span>
+    </div>
+</div>
