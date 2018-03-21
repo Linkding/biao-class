@@ -1,23 +1,96 @@
+/* ==========global========== */
+body {
+    margin: 0;
+    padding: 0;
+}
 .container {
-    width: 1110px;
+    width: 1500px;
     margin-left: auto;
     margin-right: auto;
+    /* padding: 30px 80px; */
+    
 }
 .row {
     font-size: 0;
 }
 
+a {
+    text-decoration: none;
+}
 .col {
-    font-size: 10px;
+    font-size: 17px;
     display: inline-block;
-    background: #666;
+    /* background: #666; */
 }
 
 .nav {
     background-image: url(../img/bannerV2.jpg);
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain; 
+    /* background-size: contain;  */
     width: 100%;
-    height: 610px;
+    height: 800px;
+    background-size: cover;
 }
+
+.left {
+    width: 20%;
+}
+.right {
+    width:80%;
+}
+
+/* -========top bar======= */
+.nav .top-bar {
+    padding-top: 28px;
+    
+}
+
+.nav .top-bar .left {
+    /* margin-bottom: 20px; */
+    /* margin-left:  */
+    text-align: center
+}
+
+.nav .top-bar .right {
+    text-align: right;
+    /* padding-right: 10px; */
+}
+.nav .top-bar .right .col{
+    padding: 3px;
+}
+
+.nav .top-bar .right  .login .col span{
+    font-size: 9px;
+    color: #fff;
+    font-weight: 100;
+}
+
+.nav .top-bar .right .link-group .col a {
+    margin-left: 25px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+/* ========mid bar============= */
+
+.nav .mid-bar {
+    text-align: center;
+}
+
+.nav .mid-bar .main-title img{
+    width:650px;
+    height: 100px;
+    margin-top: 160px;
+}
+
+.nav .mid-bar .second-title {
+    margin-top: 10px;
+    text-align: center;
+    /* background: #999; */
+    font-size: 25px;
+    color: #fff;
+    font-weight: 200;
+}
+
