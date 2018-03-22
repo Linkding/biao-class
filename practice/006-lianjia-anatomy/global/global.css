@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+    font-size: 17px;
+    font-family: sans-serif;
+}
+
+.row {
+    font-size: 0;
+}
+
+.col {
+    font-size: 1rem;
+    display: inline-block;
+    vertical-align: top;
+}
+
+a {
+    text-decoration: none;
+}
+
+.col.right {
+    text-align: right;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto ;
+}
