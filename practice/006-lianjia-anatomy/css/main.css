@@ -1,0 +1,89 @@
+/* .main.col, .main.row {
+    background: rgba(0, 0, 0, .1);
+} */
+
+.main .quick-link .container {
+    padding: 36px 0px;
+}
+.col.service  {
+    width: 25%;
+    text-align: center;
+}
+
+.text .title {
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.text .desc {
+    font-size: 0.3rem;
+    font-weight: 100;
+    padding: 5px 20px;
+}
+.thumbnail {
+    margin: 30px 40px 30px 40px;
+}
+
+.app {
+    background-image: url(../img/bg-app.jpg);
+    background-repeat: no-repeat;
+    min-height: 250px;
+    background-position: center 0;
+    overflow: auto;
+}
+
+.app .container .col.left {
+    width: 40%
+}
+
+.app .left .sub-title {
+    font-size: 3rem;
+    font-weight: 300;
+}
+
+.app .left .main-title {
+    font-size: 4.5rem;
+    font-weight: 600
+}
+
+.app .download {
+    padding: 50px 0;
+}
+.app .download .android,
+.app .download .apple {
+    display: block;
+    margin:  15px 0;
+    background: #00ae66;
+    width: 100%;
+    font-size: 2rem;
+}
+
+.resold .head .col.left,
+.resold .head .col.right {
+    width: 50%;
+}
+
+
+.resold .head .title  span {
+    font-size: 2.5rem;
+}
+.resold .head .title  span:first-child {
+    font-weight: 700;
+}
+
+.resold .head .title  span:nth-child(2) {
+    font-weight: 100;
+
+}
+.resold .head .desc {
+    font-size: 1.1rem;
+    font-weight: 100;
+    padding-top: 8px;
+}  
+
+.resold .head  .right a {
+    font-size: 1.2rem;
+    font-weight: 200;
+    color: #111;
+    margin-top: 100px;
+}
