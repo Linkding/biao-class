@@ -1,0 +1,101 @@
+.col,
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12 {
+  /* min-height: 50px; */
+  /* border: 1px solid rgba(0, 0, 0, .4); */
+  /* margin-bottom: 10px; */
+}
+
+#logo {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background:  #ff6700;
+  background-repeat: no-repeat;
+  background-image: url(https://s01.mifile.cn/i/mi-logo.png);
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+.nav.global {
+  background: #555;
+}
+
+.nav.global a {
+  padding: 5px 10px;
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+.nav.global a,
+.nav.page a {
+  display: inline-block;
+}
+
+.first-screen .head {
+  padding-top: 20px;
+  padding-bottom: 20px
+}
+
+ .nav.page a {
+  padding: 15px 8px;
+  color: #aaa;
+}
+
+#search-area {
+  font-size: 0;
+  position: relative;
+  top:12px;
+}
+
+#search  {
+  outline: 0;
+}
+
+#search ,
+#search-submit {
+  display: inline-block;
+  font-size: 0.8rem;
+  padding: 8px;
+  line-height: 1.1;
+  border: 1px solid rgba(0, 0, 0, .3);
+  color: rgba(0, 0, 0, .6);
+}
+
+#search-submit {
+  border-left: 0;
+}
+
+.main-promote .cat-list {
+  background: rgba(0, 0, 0, .5);
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.main-promote .cat-list a {
+  display: block;
+  padding: 10px 33px;
+  color: #fff;
+  font-size: 0.4rem;
+}
+
+.main-promote {
+  background-image: url(../img/phone.jpg);
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+}
+
+.cat-list a:hover {
+  background: #ff6700;
+}

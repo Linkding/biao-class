@@ -1,0 +1,104 @@
+.nav.global  {
+    background: rgba(226, 226, 226, 0.6);
+}
+.nav.global a {
+    display: inline-block;
+}
+
+.nav.global a,
+.nav.global span {
+
+    font-size: 0.8rem; 
+    color: rgba(0, 0, 0, .4);
+    padding-right: 8px;  
+    padding-top: 6px;
+    padding-bottom: 6px; 
+}
+
+#search-area {
+    font-size: 0;
+    position: relative;
+    top: 36px;
+    left: 60px;
+}
+
+#search ,
+#search-submit {
+    display: inline-block;
+    font-size: 1.3rem;
+    padding: 8px;
+    line-height: 1.1;
+    border: 1px solid rgba(241, 10, 10, 0.9);
+    /* color: red; */
+}
+
+#search-submit {
+    border-left: 0;
+    background: red;
+    color: #fff;
+}
+
+.search-list > a {
+    font-size: 0.8rem;
+    padding-right: 13px;
+    color: rgba(0, 0, 0, .4);
+}
+
+.search-list a:nth-child(2),
+.search-list a:nth-child(4){ 
+    color:  red;
+}
+
+.nav-name {
+    background: red;
+    color: #fff;
+    padding: 8px 10px;
+}
+
+.nav-name span
+ {
+    /* display: inline-block; */
+    /* height: 30px; */
+    padding-left: 25px;
+
+}
+
+.nav-list {
+    padding: 10px 42px;
+}
+.nav-list a{
+    display: inline-block;
+    block-size: 1.1rem;
+    font-weight: 800;
+}
+
+.main-promote {
+    background-image: url(../img/banner01.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: pink;
+}
+.main-promote .cat{
+    background: rgba(0, 0, 0, .2);
+}
+.main-promote a {
+    display: block;
+    color: #fff;
+    padding: 8px 36px;
+    font-size: 0.8rem;
+    font-weight: 200;
+}
+
+.active {
+    text-align: center;
+    color: red;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+.active span {
+    padding: 6px 0px;
+}
+
+.active-list img {
+    padding: 8px 6px
+}
