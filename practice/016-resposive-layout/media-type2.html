@@ -1,0 +1,43 @@
+<html lang="en">
+   <head >
+       <meta charset="UTF-8">
+       <meta name="viewerport"
+       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+       <meta http-equiv="X-UA-Compatible" content="ie=edege">
+       <title>Documont</title>
+        <style>
+            * {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+            .row {
+                display: block;
+            }
+
+            .row::before,
+            .row::after{
+                clear: both;
+                content: "";
+                display: block;
+            }
+            .col {
+                float: left;
+                width: 50%;
+                min-height: 20px;
+                border: 1px solid rgba(0, 0, 0, .3)
+            }
+
+            @media (max-width: 500px) {
+                .col {
+                    width: 100%;
+                }
+            }
+        </style>
+   </head>
+</html>
+<div class="row">
+    <div class="col"></div>
+    <div class="col"></div>
+</div>
