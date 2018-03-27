@@ -1,0 +1,66 @@
+body {
+    background: #eee;
+}
+
+.head {
+    background-image: url(../img/slider-01.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    min-height: 500px;
+    position: relative;
+}
+
+.nav {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    right: 50px;
+    background: #fff;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius:5px;
+    padding: 0 10px;
+}
+
+.nav a {
+    font-size: 0.9rem;
+    font-weight: 400;
+    padding: 10px;
+    color: #222;
+}
+
+.card {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 10px;
+    line-height: 1.1
+}
+.row.fat {
+    margin-left: -5px;
+    margin-right: -5px;
+}
+.card .thumbnail {
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+img:hover {
+    color: #212121;
+}
+.card .text {
+    padding-left: 12px;
+    padding-top: 14px
+}
+.card .title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: rgba(0, 0, 0, .6)
+}
+
+.card .desc {
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, .6);
+    padding-top: 5px;
+}
