@@ -1,0 +1,25 @@
+.nav.page {
+    padding: 5px 10px;
+}
+
+.nav.page .link-group {
+    position: relative;
+    top:20px;
+}
+.nav.page .link-group a {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: black;
+    padding-right: 15px
+
+}
+
+.search-area button:hover{
+    background:#ff6700;
+}
+#search-area {
+    font-size: 0;
+    position: relative;
+    top: 12px;
+}
+
