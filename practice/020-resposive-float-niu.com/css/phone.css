@@ -1,0 +1,6 @@
+@media (max-width: 500px) {
+    .head {
+        max-height: 220px;
+        background-position: 40% top;
+    }
+}

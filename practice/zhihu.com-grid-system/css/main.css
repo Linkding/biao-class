@@ -1,3 +1,113 @@
 .ZhihuLogo {
     fill: #0084ff;
 }
+
+body {
+    background: rgba(0, 0, 0, .1);
+}
+.nav ,
+.main .head,
+.main .main-content .card
+{
+    background: #fff;
+    margin-bottom: 10px;
+}
+.nav.global .container  > * {
+    padding-top:  10px;
+    padding-bottom: 12px;
+}
+.nav .container .link-group a {
+    padding-left: 10px;
+    font-size: 1rem;
+    position: relative;
+    top: 4px;
+}
+
+a,
+.nav .container .link-group a:first-child,
+.main .head a {
+    color: black;
+}
+
+.nav .container .link-group a:nth-child(2),
+.nav .container .link-group a:nth-child(3),
+.main .head .right a,
+.main .main-content .text a
+ {
+
+    color: #77839c;
+}
+
+
+.nav .container .search-area  {
+    width: 21ppx;
+    height: 35px;
+    padding: 5px 1px;
+}
+.nav .container .search-area input {
+    width: 200px;
+    height: 16px
+}
+.nav button {
+    background:#0084ff;
+    color: #fff;
+    border-radius: 5px;
+    height: 35px;
+    width: 60px;
+    font-size: 0.9rem;
+}
+
+.nav .container .nav-icon {
+    padding-right: 10px;
+}
+
+.main .head {
+    padding: 15px 15px;
+    border-radius: 1px;
+}
+
+.main .head a {
+    padding-left: 15px;
+    font-size: 1.1rem;
+    /* font-weight: 600; */
+    
+}
+
+.main .main-content .card {
+    padding: 15px 27px;
+    min-height: 200px;
+}
+
+.main .main-content .card .first {
+    color: #8590a6;
+}
+
+.main .main-content .title a {
+    font-size: 1.3rem;
+    font-weight: 900;
+}
+
+.main .main-content .bottom .up,
+.main .main-content .bottom .down {
+    text-align: center;
+    color: #0084ff;
+    background: rgba(0,132,255,.1);
+    border-color: transparent;
+    border-radius: 3px;
+    width: 35px;
+    height: 35px;
+}
+
+.main .main-content .text {
+    margin-left: 45px;
+    position: relative;
+    top: 6px;
+}
+
+.main .main-content .text a {
+    padding-right: 15px;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #77839c;
+}
+
