@@ -3,7 +3,7 @@
 }
 
 .col-lg-9 > .col {
-    width: 12.5%;
+    width: 15.5%;
 }
 .footer .after-sale  {
     padding: 15px 10px;
@@ -11,6 +11,15 @@
 
 .footer .after-sale a {
     font-size: 1.1rem;
+    border-right: 1px solid #e0e0e0;
+    height: 20px;
+    padding-left: 35px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.footer .after-sale a:last-child {
+    border-right:none;
 }
 
 .footer a,
@@ -57,4 +66,13 @@
 .footer .desc {
     position: relative;
     left: 24px;
+}
+
+.footer .record-info .logo {
+    background-image: url(../..//img/logo-footer.png);
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center 0;
+    min-height: 60px;
+    margin-right: 10px
 }
