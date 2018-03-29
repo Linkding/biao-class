@@ -1,0 +1,23 @@
+.nav.page {
+    padding: 15px 10px;
+}
+
+.nav.page a {
+    color: black;
+    font-size: 1rem;
+    font-weight:  350;
+    padding-right: 15px;
+}
+#search-area {
+    font-size: 0;
+    display: block;
+}
+
+.nav.page button:hover {
+    background: #ff6700;
+}
+.nav.page a:hover
+{
+    color: #ff6700
+}
+

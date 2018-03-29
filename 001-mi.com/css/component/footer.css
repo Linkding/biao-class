@@ -1,0 +1,60 @@
+.row-5 > * {
+    width: 20%
+}
+
+.col-lg-9 > .col {
+    width: 12.5%;
+}
+.footer .after-sale  {
+    padding: 15px 10px;
+}
+
+.footer .after-sale a {
+    font-size: 1.1rem;
+}
+
+.footer a,
+.footer .server-time,
+.footer .desc
+ {
+    color: #424242;
+}
+
+.footer .after-sale a:hover {
+    color: #ff6700
+}
+
+.footer .meta {
+    padding: 35px 0;
+}
+
+.footer .meta .cat a {
+    display: block;
+}
+.footer .meta .cat .title {
+    font-size: 1rem;
+    /* font-weight: 600; */
+    margin-bottom: 15px;
+
+}
+
+.footer .meta .cat a {
+    padding-top: 15px;
+    color: #757575;
+
+}
+
+.footer .server-info {
+    line-height: 20px;
+    border-left: 1px solid #e0e0e0;
+    padding-left: 45px;
+    height: 124px;
+}
+.footer .call-num {
+    font-size: 1.5rem;
+    color: #ff6700;
+}
+.footer .desc {
+    position: relative;
+    left: 24px;
+}

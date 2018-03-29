@@ -1,0 +1,17 @@
+.nav {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: rgba(0, 0, 0, .7);
+
+}
+
+.nav a {
+    color: b0b0b0;
+    font-size: 1rem;
+    font-weight: 300;
+    padding-right: 15px;
+}
+
+.nav a:hover{
+    color: #fff;
+}
