@@ -1,5 +1,6 @@
 .nav.page {
     padding: 15px 10px;
+    /* margin: 15px 0;; */
 }
 
 .nav.page a {
@@ -8,6 +9,7 @@
     font-weight:  350;
     padding-right: 15px;
 }
+
 #search-area {
     font-size: 0;
     display: block;
@@ -19,5 +21,10 @@
 .nav.page a:hover
 {
     color: #ff6700
+}
+.nav.page .col-lg-7,
+.nav.page .col-lg-3{
+    position: relative;
+    top: 20px;
 }
 

@@ -1,0 +1,109 @@
+.body a {
+    color: black;
+}
+
+
+.nav.product {
+    padding: 10px 0;
+    border-top: 1px solid rgba(0, 0, 0, .1);
+    border-bottom: 1px solid rgba(0, 0, 0, .1)
+}
+.nav.product .title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-right: 20px    
+}
+
+.nav.product .right a{
+    padding-left: 8px;
+}
+
+.main-order > * {
+    margin: 20px 0;
+}
+
+.main-order .sub-title span:first-child,
+.main-order  .price,
+.address .status,
+.address .edit,
+.price-sub .sub {
+    color: #ff6700;
+}
+
+.main-order .sub-title span:nth-child(2),
+.next .others  {
+    color: #b0b0b0;
+}
+
+.main-order  .price {
+    font-weight: 500;
+}
+
+
+.main-order .complimentary .label,
+.next button {
+    background: #ff6700;
+    padding: 5px;
+    color: #fff;
+
+}
+
+.address {
+    background: rgba(0, 0, 0, .03);
+    min-height: 80px;
+    border: 1px solid rgba(0, 0, 0, .02);
+    padding: 20px 10px;
+}
+.address .status {
+    margin-top: 8px
+}
+
+[class^="product-"]
+ {
+    margin: 25px 0;
+}
+
+.pill {
+    min-height: 15px;
+    padding: 10px 10px;
+    border: 1px solid rgba(0, 0, 0, .15);
+    display: inline-block;
+    min-width:  150px;
+}
+.pill.disabled {
+    border-style: dashed;
+}
+
+.product-support .title {
+    margin: 10px 0;
+}
+.product-support .card {
+    border:1px solid rgba(0, 0, 0, .1);
+    padding: 30px 10px;
+}
+
+.price-sub {
+    min-height: 90px;
+    padding: 20px 20px;
+    background: rgba(0, 0, 0, .03);
+ }
+
+ .price-sub .check-choice .row > *
+ {
+     font-size: 0.5rem;
+ }
+
+ .price-sub .sub {
+     margin: 20px 0;
+     font-size: 1.5rem;
+     font-weight: 900;
+ }
+
+ .next button {
+     padding: 15px 10px;
+     min-width: 90px;
+ }
+
+ .next .others {
+     margin-top: 10px
+ }

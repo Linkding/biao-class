@@ -1,0 +1,73 @@
+.login .main {
+    background-image: url(../../img/login-main.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center ;
+    text-align: right;
+}
+
+
+#login-area {
+    background: #fff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 360px;
+    min-height: 500px;
+    padding: 20px;
+}
+
+.login .main .tab-head-group {
+    text-align: center;
+}
+
+.login .main .tab-head-group span {
+    font-size: 1.5rem;
+    font-weight: 900px;
+    padding: 5px 15px;
+}
+
+.login .main .tab-head-group .tab-head.active {
+    color: #ff6700;
+    /* border-right: 1px solid rgba(0, 0, 0, 0.3) */
+}
+
+.input-area {
+    margin-bottom: 150px;
+}
+input, button.block {
+    width: 100%;
+}
+
+input, button {
+    padding: 20px 0;
+    border: 1px solid rgba(0, 0, 0, .3);
+    /* color: inherit; */
+}
+
+.input-group {
+    margin: 15px 0;
+}
+
+.input-group .primary {
+    background: #ff6700;
+    color: #fff;
+    font-size: 0.9rem;   
+}
+
+.sign-type {
+    text-align: left;
+}
+
+
+.sign-other .title {
+    text-align: center;
+    display: inline-block;
+}
+
+.footer {
+    margin: 80px 50px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #aaa;
+}
