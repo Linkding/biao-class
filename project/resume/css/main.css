@@ -1,0 +1,65 @@
+.person-info,
+.person-info a {
+    background: rgb(57, 214, 235);
+    /* text-align: center; */
+    padding: 20px 40px;
+    color: #fff;
+}
+
+.person-info,
+.suffer {
+    height: 800px;
+
+}
+.logo {
+    padding: 40px;
+    /* border-radius: 50px; */
+}
+
+.skill-type {
+    margin-top: 20px;
+    /* text-align: left; */
+}
+
+.contact-info {
+    margin-top: 60px;
+}
+
+.skill {
+    height: 10px;
+    background: white;
+}
+
+.skill.linux{
+    width: 80px;
+}
+
+.skill.shell{
+    width: 75px;
+}
+
+.skill.py{
+    width: 60px;
+}
+
+.skill.js{
+    width: 50px;
+}
+.skill.html{
+    width: 80px;
+}
+
+/* ======= */
+.suffer {
+    padding: 40px;
+    background: #999;
+    color: white;
+}
+
+.suffer > * {
+    margin: 20px 0;
+}
+.suffer .title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
