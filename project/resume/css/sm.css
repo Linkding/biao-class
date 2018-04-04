@@ -1,0 +1,8 @@
+@media (max-width : 500px) {
+    .col-lg-9 {
+        width: 100%;
+    }
+    .person-info {
+        display: none;
+    }
+}
