@@ -1,3 +1,6 @@
+.suffer {
+    line-height: 2rem;
+}
 .person-info,
 .person-info a {
     /* background: rgb(57, 214, 235); */
@@ -9,7 +12,7 @@
 
 .person-info,
 .suffer {
-    height: 100%;
+    min-height: 100%;
 
 }
 .logo {
