@@ -1,0 +1,41 @@
+.nav.page {
+    padding: 15px 10px;
+    /* margin: 15px 0;; */
+}
+
+.nav.page a {
+    color: black;
+    font-size: 1.1rem;
+    font-weight:  350;
+    padding-right: 15px;
+}
+
+.nav.page .logo img {
+    max-height: 50px;
+}
+#search-area {
+    font-size: 0;
+    display: block;
+}
+
+#search-area input,
+#search-area button {
+    height: 35px;
+}
+
+.nav.page button:hover {
+    background: #ff6700;
+}
+.nav.page a:hover
+{
+    color: #ff6700
+}
+.nav.page .col-lg-7{
+    position: relative;
+    top: 20px;
+}
+
+.nav.page .col-lg-3 {
+    position: relative;
+    top: 10px
+}
