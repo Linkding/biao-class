@@ -1,0 +1,12 @@
+.header h1,
+.desc,
+.content .list a {
+    color: #BDBBAA;
+}
+
+
+.content .time,
+.footer .nav a,
+.footer .copyright{
+    color: #454445;
+}

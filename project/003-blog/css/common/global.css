@@ -5,8 +5,10 @@
 }
 
 html {
-    font-family: sans-serif;
+    font-family: monospace;
     font-size: 13px;
+    background-color: #001319;
+    color: #39AB94;
 }
 
 img {
@@ -23,7 +25,7 @@ a {
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
 }
