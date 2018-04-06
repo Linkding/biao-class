@@ -1,10 +1,14 @@
 .desc,
 .content {
-    font-size: 1rem;
+    font-size: 1.1rem;
     margin: 60px 0;
     line-height: 2rem;
 }
 
+.desc i:hover {
+    color: #FF5729;
+    
+}
 /* .content {
     margin-bottom: 60px;
 } */
@@ -20,3 +24,4 @@
 .content .link-group .list a{
     display: block;
 }
+
