@@ -1,5 +1,6 @@
 .header h1,
 .desc,
+.content .preview,
 .content .list a {
     color: #BDBBAA;
 }
@@ -9,4 +10,9 @@
 .footer .nav a,
 .footer .copyright{
     color: #454445;
+}
+
+.header .nav a,
+.content .title {
+    color: #39AB94;
 }

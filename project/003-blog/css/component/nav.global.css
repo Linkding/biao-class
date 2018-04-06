@@ -25,10 +25,16 @@
 
 .header .nav a {
     margin-right: 23px;
-    border-right: 1px dashed #39AB94;
-    color: #39AB94;
     padding-right: 15px;
     font-size: 0.9rem;
     padding-top: 5px;
     font-weight: 500;
+}
+
+.header .nav a::after {
+    content: "|";
+    display: inline-block;
+    position: relative;
+    left: 5px;
+
 }
