@@ -1,3 +1,4 @@
+.content .time,
 .header h1,
 .desc,
 .content .preview,
@@ -6,10 +7,9 @@
 }
 
 
-.content .time,
-.footer .nav a,
+a,
 .footer .copyright{
-    color: #454445;
+    color: #009494;
 }
 
 .header .nav a,
