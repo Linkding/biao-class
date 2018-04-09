@@ -11,6 +11,18 @@ html {
     color: #39AB94;
 }
 
+.nav span::after {
+    content: "|";
+    display: inline-block;
+    position: relative;
+    left: 10px;
+    padding-right: 5px;
+
+}
+.nav span:last-child::after {
+    display: none;
+}
+
 img {
     max-width: 100%;
     display: block;
@@ -22,6 +34,18 @@ span , a {
 a {
     text-decoration: none;
     display: inline-block;
+}
+
+.nav span::after {
+    content: "|";
+    display: inline-block;
+    position: relative;
+    left: 10px;
+    padding-right: 5px;
+
+}
+.nav span:last-child::after {
+    display: none;
 }
 
 .container {

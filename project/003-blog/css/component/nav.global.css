@@ -31,14 +31,3 @@
     font-weight: 500;
 }
 
-.header .nav span::after {
-    content: "|";
-    display: inline-block;
-    position: relative;
-    left: 10px;
-    padding-right: 5px;
-
-}
-.header .nav span:last-child::after {
-    display: none;
-}
