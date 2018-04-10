@@ -181,8 +181,8 @@ wife: {
 }
 
 // console.log(person.wife.dad.friends[0].averageScore);
-all = person.wife.dad.friends[0].averageScore + person.wife.dad.friends[1].averageScore + person.wife.dad.friends[2].averageScore
-// all = sum([person.wife.dad.friends[0].averageScore , person.wife.dad.friends[1].averageScore , person.wife.dad.friends[2].averageScore])
-averge = all / person.wife.dad.friends.length
+all = person.wife.dad.friends[0].averageScore * person.wife.dad.friends[0].children + person.wife.dad.friends[1].averageScore * person.wife.dad.friends[1].children + person.wife.dad.friends[2].averageScore * person.wife.dad.friends[2].children
+sum_child = person.wife.dad.friends[0].children + person.wife.dad.friends[1].children + person.wife.dad.friends[2].children
+averge = all / sum_child
 a = '我叫' + person.name +   '，我丈人朋友们的孩子们的平均分是'  + averge;
 console.log(a)
