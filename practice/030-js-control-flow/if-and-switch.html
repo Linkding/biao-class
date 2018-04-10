@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="name" placeholder="姓名">
+    <input type="text" id="age" placeholder="年龄">
+    <input type="text" id="phone" placeholder="手机号">
+    <script>
+        var phone_element = document.querySelector('#phone');
+        phone_element.addEventListener('change', function () {
+            phone = phone_element.value.trim();
+            if (!phone) {
+                console.log('电话不能为空');
+            }
+            else if (!phone.startsWith('1') ||
+                phone.length != 11 ||
+                !parseInt(phone)
+            ) {
+                console.log('电话格式错误');
+            }
+            else {
+                console.log(phone)
+            }
+        })
+
+        var name_element = document.querySelector('#name');
+        name_element.addEventListener('change',function(){
+            name = name_element.value.trim();
+            if ()
+        });
+    </script>
+</body>
+
+</html>
