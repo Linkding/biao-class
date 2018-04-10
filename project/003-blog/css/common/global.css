@@ -5,7 +5,8 @@
 }
 
 html {
-    font-family: monospace;
+    /* font-family: monospace; */
+    font-family: Chalkduster, fantasy;
     font-size: 13px;
     background-color: #001319;
     color: #39AB94;
@@ -31,6 +32,7 @@ img {
 span , a {
     display: inline-block;
 }
+
 a {
     text-decoration: none;
     display: inline-block;

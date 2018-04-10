@@ -1,0 +1,51 @@
+body {
+    background: #fff;
+}
+.nav.page {
+    height: 50px;
+    background: #001319;
+    padding: 10px 0;
+}
+
+.nav.page .row > * {
+    vertical-align: middle;
+}
+.container {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nav.page span {
+    padding-left: 20px;
+}
+.nav.page span::after {
+    display: none;
+}
+
+.nav.page .blog-name {
+    font-size: 2rem;
+    color: #B23D1D;
+}
+
+#search-area {
+    font-size: 0;
+    display: block;
+}
+
+#search-area input,
+#search-area .search-icon {
+    font-size: 1.4rem;
+    padding: 0px 8px;
+}
+
+
+#search-area .search-icon,
+.nav.page a {
+    color: #39AB94;
+}
+
+#search-area .search-icon:hover,
+.nav.page a:hover {
+    color: #BDBBAA;
+}

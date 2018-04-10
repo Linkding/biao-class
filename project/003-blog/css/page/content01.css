@@ -14,3 +14,12 @@
 .content  .content-area {
     margin-top: 50px;
 }
+
+.content .article-img {
+    background-image: url(http://upload-images.jianshu.io/upload_images/1477749-14d37a3d835b86d6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240);
+    background-repeat: no-repeat;
+    background-position: center 0;
+    background-size: cover;
+    min-height: 400px;
+    margin: 20px 15px 20px 0px ;
+}

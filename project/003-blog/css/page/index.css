@@ -2,7 +2,7 @@
 .content {
     font-size: 1.1rem;
     margin: 60px 0;
-    line-height: 2rem;
+    line-height: 3rem;
 }
 
 .desc i:hover {
@@ -17,12 +17,18 @@
     font-size: 1.4rem;
 }
 
+.content .link-group .row{
+    margin: 20px 0;
+}
 .content .link-group .time ,
 .content .link-group .list{
     font-size: 1.2rem;
     line-height: 1.8rem;
 }
 .content .link-group .list a{
-    display: block;
+    display: inline-block;
 }
 
+.content .link-group .title:hover {
+    border-bottom: 1px solid #FF5729;
+}
