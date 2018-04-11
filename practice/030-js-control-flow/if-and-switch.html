@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <input type="text" id="name" placeholder="姓名">
+    <input type="text" id="name" placeholder="姓名/看看我认识你不">
     <input type="text" id="age" placeholder="年龄">
     <input type="text" id="phone" placeholder="手机号">
     <script>
@@ -30,11 +30,40 @@
             }
         })
 
-        var name_element = document.querySelector('#name');
-        name_element.addEventListener('change',function(){
-            name = name_element.value.trim();
-            if ()
+        var age_element = document.querySelector('#age');
+        age_element.addEventListener('change', function () {
+            var age = age_element.value.trim();
+            age = parseInt(age);
+            if (!age) {
+                console.log('年龄不能为空');
+            } else if (age < 18) {
+                console.log('小鲜肉');
+            } else if (age >= 18 && age < 40) {
+                console.log('大好青年');
+            } else if (age > 40 && age < 60) {
+                console.log('大叔你好');
+            } else {
+                console.log('你好，大爷');
+            }
         });
+
+        var name_element = document.querySelector('#name');
+        name_element.addEventListener('change', function () {
+            var name = name_element.value.trim();
+            if (!name) {
+                console.log('名字不能为空')
+            } else if (name) {
+                switch (name) {
+                    case '林晓彬':
+                        console.log('你好，林晓彬');
+                        break
+                    case '表严肃':
+                        console.log('你好，表严肃')
+                }
+            } else {
+                console.log('我不认识你')
+            }
+        })
     </script>
 </body>
 

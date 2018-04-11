@@ -1,0 +1,18 @@
+.explorer-main {
+    padding: 7rem;
+}
+
+.explorer-main .main-photo {
+    background-image: url(../../img/explorer02.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 -139px;
+    min-height: 350px;
+    
+}
+.explorer-main .title {
+    
+    font-size: 2.5rem;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 1.2rem;
+}

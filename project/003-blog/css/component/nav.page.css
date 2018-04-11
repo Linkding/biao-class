@@ -5,8 +5,17 @@ body {
     height: 50px;
     background: #001319;
     padding: 10px 0;
+    /* border-bottom: 1px solid rgba(0, 0, 0, .1) */
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    z-index: 3;
 }
 
+.main {
+    margin-top: 15px;
+}
 .nav.page .row > * {
     vertical-align: middle;
 }
