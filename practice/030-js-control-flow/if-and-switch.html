@@ -36,14 +36,16 @@
             age = parseInt(age);
             if (!age) {
                 console.log('年龄不能为空');
+            } else if (age = 0) {
+                console.log('你是胚胎？？？')
             } else if (age < 18) {
-                console.log('小鲜肉');
+                console.log('小鲜肉' + age);
             } else if (age >= 18 && age < 40) {
-                console.log('大好青年');
+                console.log('大好青年' + age);
             } else if (age > 40 && age < 60) {
-                console.log('大叔你好');
+                console.log('大叔你好' + age);
             } else {
-                console.log('你好，大爷');
+                console.log('你好，大爷' + age);
             }
         });
 
@@ -60,8 +62,6 @@
                     case '表严肃':
                         console.log('你好，表严肃')
                 }
-            } else {
-                console.log('我不认识你')
             }
         })
     </script>

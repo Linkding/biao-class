@@ -1,0 +1,176 @@
+<script>
+    // var 花名册 = [
+    //     '王花花',
+    //     '李栓蛋',
+    //     '刘贝贝',
+    //     '王花花',
+    //     '李栓蛋',
+    //     '刘贝贝',
+    //     '王花花',
+    //     '李栓蛋',
+    //     '刘贝贝',
+    //     '王花花',
+    //     '李栓蛋',
+    //     '刘贝贝',
+    //     '王花花',
+    //     '李栓蛋',
+    //     '刘贝贝',
+    // ]
+
+    // for (i=0; i < 花名册.length; i ++) {
+
+    //     console.log(花名册[i])
+    // }
+
+    // var a = ['a', 'b', 'c', 'd']
+
+    // for (i = 0; i < a.length; i++){
+    //     var 字母 = a[i];
+    //     console.log(字母);
+    // }
+
+    // var f = { a:1, b:2, c:3, d:4}
+    // console.log(f[0].a)
+    // for (i = 0; i <f.length; i++){
+    //     console.log(f[i])
+    // }
+
+    // var num_list =[1,2,3,4,5,6,7,8]
+
+    // for (i=0; i<num_list.length; i++) {
+    //     res = num_list[i]
+    //     if ( res > 4) {
+    //         console.log(res)
+    //     }
+    // }
+
+    // var num_list = [11, 111, 1111, 11111]
+    // for (i=0; i < num_list.length; i++){
+    //     res = num_list[i];
+    //     if ( res > 1000 ){
+    //         console.log('你的收入破千了',res)
+    //     }
+    // }
+    // var num = [1,2,3,4,5,6,7,8,9,10]
+    // for (i=0; i<num.length; i++){
+    //     res = num[i];
+    //     if ( res % 2 == 0){
+    //         console.log('这是一个偶数' + res);
+    //     } else{
+    //         console.log('这是一个奇数' + res)
+    //     }
+    // }
+    // var num = [1,2,3,4,5,6,7,8,9,10]
+    // for (i=0; i<num.length; i++){
+    //     var res = num[i];
+
+    //     if ( res > 6) {
+    //         continue;
+    //     }
+    //     console.log(res)
+    // }
+
+    // var num = [1,2,3,4,5,6,7,8,9,10];
+    // for (i=0; i< num.length; i ++){
+    //     res = num[i];
+    //     console.log(res)
+    //     if( res == 3){
+    //         console.log('坏人' + res)
+    //         break;
+    //     }
+    // }
+    // console.log('拒绝放款')
+
+
+    // var num = [1,2,3,4,5,6,7,8,9,10];
+    // for(i=0; i<num.length;i++){
+    //     res = num[i];
+    //     if (res==4){
+    //         console.log(res +'征信有污点');
+    //         break
+    //     }
+    //     console.log(res + ',此条件吻合')
+    // }
+    // console.log('检查结束')
+
+
+    // var num = [
+    //     [1,2,3,4],
+    //     [1,2,3,4],
+    //     [1,2,3,4],
+    //     [1,2,3,4]
+    // ];
+    // for (i =0; i<num.length; i++){
+    //     num_i = num[i]
+    //     for(j=0; j<num_i.length; j++){
+    //         num_j = num_i[j]
+    //         console.log(num_j)
+    //     }
+    // }
+    // var list = [
+    //     [1,'s',3,4],
+    //     [1,2,3,4],
+    //     [1,2,3,4],
+    //     [1,2,3,4],
+    // ]
+
+    // for (i=0; i<list.length; i++){
+    //     num_i = list[i]
+    //     for (j=0; j < num_i.length; j++){
+    //         num_j=num_i[j]
+    //         console.log(num_j)
+    //     }
+    // }
+
+    // var exsample = [
+    //     ['a', 'b', 'c', 'd'],
+    //     ['a', 'b', 'c', 'd'],
+    //     ['a', 'b', 'c', 'd'],
+    //     ['a', 'b', 'c', 'd'],
+    //     ['a', 'b', 'c', 'd'],
+    //     ['a', 'b', 'c', 'd'],
+    //     ['a', 'b', 'c', 'd'],
+    // ]
+    // for (i = 0; i < exsample.length; i++) {
+    //     cut_i = exsample[i]
+
+    //     for (j = 0; j < cut_i.length; j++) {
+    //         cut_j = cut_i[j];
+    //         console.log(cut_j)
+    //     }
+    // }
+    var warer = [
+        [
+            [1, 11, 111],
+            [2, 22, 222],
+            [3, 33, 333],
+            [4, 44, 444]
+        ],
+        [
+            [1, 11, 111],
+            [2, 22, 222],
+            [3, 33, 333],
+            [4, 44, 444]
+        ]
+    ];
+
+    for_i: for (i = 0; i < warer.length; i++) {
+        pai = warer[i];
+
+        for_j: for (j = 0; j < pai.length; j++) {
+            ban = pai[j]
+            // console.log(ban)
+
+            for_k: for (k = 0; k < ban.length; k++) {
+                soldier = ban[k];
+                // console.log(soldier);
+
+                if (soldier == 3) {
+                    console.log(soldier + '没必要检查了');
+                    break;
+                }
+                console.log(soldier)
+            }
+        }
+    }
+</script>
