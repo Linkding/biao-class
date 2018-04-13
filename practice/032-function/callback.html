@@ -1,0 +1,18 @@
+<script>
+    ; (function () {
+        'use strict';
+        function make_meal (bdy){
+            console.log('买菜');
+            bdy();
+            console.log('洗菜');
+            console.log('炒菜');
+            console.log('吃菜');
+        }
+
+        function buy_pen(){
+            console.log('买支笔');
+        }
+
+        make_meal(buy_pen);
+    })();
+</script>

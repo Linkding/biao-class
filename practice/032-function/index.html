@@ -86,3 +86,44 @@
         make_arr(10)
     })();
 </script> -->
+
+<script>
+    ; (function () {
+        'use strict';
+        function array_table(arr) {
+            var a = [];
+            var b = [];
+            var c = [];
+
+            for (var i = 0; i < arr.length; i++) {
+                var item = arr[i]
+                if (typeof item == "string") {
+                    var header = item[0]
+                    console.log(item)
+                    // console.log(header)
+                    switch (header) {
+                        case 'a':
+                            a.push(item);
+                        // console.log(a)
+                        case 'b':
+                            b.push(item);
+                        case 'c':
+                            c.push(item);
+                    }
+
+                } else {
+                    array_table(item)
+                }
+
+            }
+            var result = []
+            result.push(a)
+            result.push(b)
+            result.push(c)
+            console.log(result)
+
+        }
+        array_table(['a1', 'a2', ['b1', 'b2', ['c1', 'c2', 'c3'], 'b3'], 'a3'])
+    })();
+
+</script>
