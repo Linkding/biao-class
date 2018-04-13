@@ -1,23 +1,29 @@
 <script>
     ; (function () {
         'use strict';
-        function make_meal (bdy,bdy_1,bdy_2){
+        function make_meal(bdy, bdy_1, bdy_2) {
             console.log('买菜');
-            bdy();
+            if (bdy) {
+                bdy();
+            }
             console.log('洗菜');
-            bdy_1()
+            if (bdy_1) {
+                bdy_1()
+            }
             console.log('炒菜');
-            bdy_2()
+            if (bdy_2) {
+                bdy_2()
+            }
             console.log('吃菜');
         }
 
-        function buy_pen(){
+        function buy_pen() {
             console.log('买支笔');
         }
 
         make_meal(buy_pen,
-        function (){console.log('买瓶可乐')},
-        function(){console.log('买包薯片')}
+            function () { console.log('买瓶可乐') },
+
         );
     })();
 </script>
