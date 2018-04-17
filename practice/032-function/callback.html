@@ -1,18 +1,18 @@
-<script>
+<!-- <script>
     ; (function () {
         'use strict';
-        function make_meal(bdy, bdy_1, bdy_2) {
+        function make_meal(bdw, bdw_1, bdw_2) {
             console.log('买菜');
-            if (bdy) {
-                bdy();
+            if (bdw) {
+                bdw();
             }
             console.log('洗菜');
-            if (bdy_1) {
-                bdy_1()
+            if (bdw_1) {
+                bdw_1()
             }
             console.log('炒菜');
-            if (bdy_2) {
-                bdy_2()
+            if (bdw_2) {
+                bdw_2()
             }
             console.log('吃菜');
         }
@@ -26,4 +26,73 @@
 
         );
     })();
+</script> -->
+
+<!-- <script>
+    function buy(money, success, fail) {
+        if (money) {
+            console.log('下单成功')
+            success()
+        } else {
+            fail()
+        }
+    }
+
+    function buy_game_success() {
+        console.log('卖家已经收到订单');
+        console.log('游戏币已经确认');
+        console.log('游戏币已到达您的账号');
+    }
+
+    function buy_tshirt_success() {
+        console.log('您的订单正在备货');
+        console.log('仓库已经发货');
+        console.log('快递单号生成');
+    }
+
+    function buy_game_fail() {
+        console.log('购买game失败，请支付款项')
+    }
+    function buy_tshirt_fail() {
+        console.log('购买tshirt失败，请支付款项')
+    }
+
+    buy(100, buy_game_success, buy_game_fail)
+    buy(0, buy_tshirt_success, buy_tshirt_fail)
+</script> -->
+
+<script>
+    
+    function buy(money,success,fail){
+        if(money){
+            console.log('购买成功');
+            success();
+        } else {
+            fail();
+        }
+    }
+
+    function buy_game_success (){
+        console.log('订单生成')
+        console.log('游戏币确认')
+        console.log('游戏币到账')
+    }
+
+    function buy_tshirt_success(){
+        console.log('订单生产');
+        console.log('仓库备货');
+        console.log('快递发送中');
+    }
+
+    function buy_game_fail (){
+        console.log('购买失败，请付款');
+    }
+
+    function buy_tshirt_fail (){
+        console.log('购买失败，请付款')
+    }
+
+    buy(0,buy_game_success,buy_game_fail);
+    buy(100,buy_tshirt_success,buy_tshirt_fail);
 </script>
+

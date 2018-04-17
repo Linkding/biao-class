@@ -1,0 +1,106 @@
+<style>
+    body {
+        margin: 0;
+    }
+
+    .row {
+        font-size: 0;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .col {
+        display: inline-block;
+        vertical-align: top;
+        font-size: 15px;
+    }
+
+    .nav,
+    #menu-content {
+        /* background: rgba(0, 0, 0, 0.6); */
+        background: #999;
+    }
+
+    .nav .container {
+        position: relative;
+    }
+
+    .nav a {
+        padding: 5px
+    }
+
+    .col.left,
+    .col.right {
+        width: 50%;
+    }
+
+    .right {
+        text-align: right;
+    }
+
+    .container {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* ========================= */
+
+    #menu-content {
+        display: none;
+        font-size: 15px;
+        position: absolute;
+        right: 0;
+        top: 20px;
+    }
+
+    #menu-content a {
+        display: block;
+    }
+</style>
+<div class="row nav">
+    <div class="container">
+        <div class="col left">
+            <a href="#">ITem</a>
+            <a href="#">ITem</a>
+            <a href="#">ITem</a>
+            <a href="#">ITem</a>
+        </div>
+        <div class="col right">
+            <a href="#">ITem</a>
+            <a href="#" class="menu-trigger">Menu</a>
+        </div>
+        <div id="menu-content">
+            <a href="#">ITem</a>
+            <a href="#">ITem</a>
+            <a href="#">ITem</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    var menu = document.querySelector('#menu-content'),
+        menu_trigger = document.querySelector('.menu-trigger')
+
+    menu_trigger.addEventListener('click', function (event) {
+        event.preventDefault();
+        // menu.style.display = 'inline-block';
+        menu_trigger.focus();
+
+        // 如果当菜单可见 
+        if (menu.style.display == 'inline-block'){ 
+            // 点击，菜单消失
+            menu.style.display = 'none';
+        } else {
+            // 否则，点击出现
+            menu.style.display = 'inline-block';
+        };
+    });
+
+    menu_trigger.addEventListener('blur', function(){
+        menu.style.display = 'none';
+    })
+
+</script>

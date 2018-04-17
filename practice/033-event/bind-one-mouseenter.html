@@ -1,0 +1,32 @@
+<a style="background: pink" class="trigger" href="http://baidu.com">lin</a>
+
+<input type="text" class="search">
+<script>
+    ; (function () {
+        'use strict';
+
+        var btn = document.querySelector('.trigger');
+        var search = document.querySelector('.search');
+
+        btn.addEventListener('mouseenter', function (event) {
+            event.preventDefault();
+            console.log('鼠标进入')
+        });
+
+        btn.addEventListener('mouseleave', function(){
+            event.preventDefault();
+            console.log('鼠标出去');
+        });
+
+        search.addEventListener('focus',  function(){
+            event.preventDefault();
+            console.log('已聚焦')
+        });
+
+        search.addEventListener('blur', function(){
+            event.preventDefault();
+            console.log('已失焦');
+        })
+
+    })();
+</script>

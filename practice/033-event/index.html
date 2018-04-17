@@ -1,0 +1,60 @@
+<a class="trigger" href="http://baidu.com">lin</a>
+<a class="trigger" href="http://baidu.com">lin</a>
+<a class="trigger" href="http://baidu.com">lin</a>
+<script>
+    ; (function () {
+        'use strict';
+
+        var btn = document.querySelectorAll('.trigger');
+
+        for (var i = 0; i < btn.length; i++) {
+            var trigger = btn[i]
+            trigger.addEventListener('click', function (event) {
+                event.preventDefault();
+                console.log('你好')
+            })
+        }
+    })();
+</script>
+
+<!-- <button>yo</button>
+<span>我是span</span>
+<a href="#">我是a</a>
+<div class="a">我是.a</div>
+<div class="a">我是.a的弟弟</div>
+<div id="id">我是#a</div>
+
+<script>
+    ; (function () {
+        'use strict';
+
+        var btn = document.querySelector('button');
+        var link = document.querySelector('a');
+        var span = document.querySelector('span');
+        var div_class = document.querySelector('.a');
+        var div_id = document.querySelector('#a');
+
+        var all_a = document.querySelectorAll('.a');
+
+        var div_class_2 = document.getElementsByClassName('a');
+        var div_id_2 = document.getElementById('a')
+
+
+        console.log(btn, link, span, div_class, div_id, all_a, div_class_2, div_id_2)
+    })();
+</script> -->
+
+<!-- <a class="trigger">yo</a >
+
+<script>
+    ; (function () {
+        'use strict';
+
+
+        var btn = document.querySelector('trigger');
+        
+        btn.addEventListener('click', function(){
+            console.log('1');
+        })
+    })();
+</script> -->
