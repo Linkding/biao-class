@@ -1,0 +1,17 @@
+<button class="btn">you</button>
+
+<script>
+    var btn = document.querySelector('.btn');
+
+    btn.addEventListener('click', btn_click);
+
+    btn.addEventListener('click',function(){
+        console.log('2')
+    });
+
+    btn.removeEventListener('click',btn_click)
+
+    function btn_click(){
+        console.log('1');
+    }
+</script>
