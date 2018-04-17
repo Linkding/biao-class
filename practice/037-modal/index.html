@@ -81,4 +81,10 @@ function hide (){
 login.addEventListener('click',show);
 mask.addEventListener('click',hide);
 close.addEventListener('click',hide);
+
+document.addEventListener('keyup', function(e){
+    if (e.code !== 'Escape')
+        return;
+    hide();
+})
 </script>
