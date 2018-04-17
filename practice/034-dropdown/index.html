@@ -81,26 +81,45 @@
 </div>
 
 <script>
-    var menu = document.querySelector('#menu-content'),
-        menu_trigger = document.querySelector('.menu-trigger')
+    var menu_content = document.querySelector('#menu-content'),
+        menu_trigger = document.querySelector('.menu-trigger');
+    console.log(menu_trigger);
 
-    menu_trigger.addEventListener('click', function (event) {
-        event.preventDefault();
-        // menu.style.display = 'inline-block';
-        menu_trigger.focus();
+    // 不能使用getElementsByClassName来获取元素，是因为它获取到的是一个数组
+    // document.getElementsByClassName('menu-trigger').addEventListener('click',function(){
+    //     console.log('a');
+    // });
 
-        // 如果当菜单可见 
-        if (menu.style.display == 'inline-block'){ 
-            // 点击，菜单消失
-            menu.style.display = 'none';
+
+    menu_trigger.addEventListener('click', function(e){
+        e.preventDefault();
+        
+        menu_content.focus();
+        if (is_visble()){
+            // menu_content.style.display = 'none';
+            hide();
         } else {
-            // 否则，点击出现
-            menu.style.display = 'inline-block';
-        };
+            // menu_content.style.display = 'inline-block';
+            show();
+        }
     });
 
-    menu_trigger.addEventListener('blur', function(){
-        menu.style.display = 'none';
-    })
+    menu_trigger.addEventListener('blur',function(){
+        // menu_content.style.display = 'none';
+        hide();
+    });
+
+    function show(){
+        menu_content.style.display = 'inline-block';
+    };
+
+    function hide(){
+        menu_content.style.display = 'none';
+    };
+
+    function is_visble(){
+        return menu_content.style.display == 'inline-block';
+    }
+
 
 </script>
