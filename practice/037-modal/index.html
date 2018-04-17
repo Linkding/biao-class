@@ -60,24 +60,24 @@
 </div>
 
 <script>
-    var login = document.querySelector('.login'),
-        mask = document.querySelector('.mask'),
-        modal = document.querySelector('.modal'),
-        close = document.querySelector('.close');
+//    控制弹屏元素以及它的样式
+var login = document.querySelector('.login'),
+    mask = document.querySelector('.mask'),
+    modal = document.querySelector('.modal'),
+    close = document.querySelector('.close');
 
-    function show (){
-        mask.classList.add('show');
-        modal.classList.add('show');
-    }
 
-    function hide (){
-        mask.classList.remove('show');
-        modal.classList.remove('show');
-    }
+function show (){
+    mask.classList.add('show');
+    modal.classList.add('show');
+}
 
-    login.addEventListener('click', show);
+function hide (){
+    mask.classList.remove('show');
+    modal.classList.remove('show');
+}
 
-    mask.addEventListener('click',hide);
-
-    close.addEventListener('click',hide)
+login.addEventListener('click',show);
+mask.addEventListener('click',hide);
+close.addEventListener('click',hide);
 </script>
