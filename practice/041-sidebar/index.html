@@ -1,0 +1,81 @@
+<style>
+    [hidden] {
+        display: none;
+    }
+
+    body {
+        font-size: 18px;
+        margin: 0;
+    }
+
+    nav {
+        background: #888;
+    }
+
+    nav span {
+        color: #fff;
+        padding-left: 20px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    #menu-content {
+        background: #555;
+        width: 200px;
+        position: fixed;
+        top: 0px;
+        left: 0;
+        bottom: 0;
+        transition: right 20s;
+        
+    }
+    
+    #menu-content > * {
+        display: block;
+        color: #fff;
+        padding: 15px 20px;
+    }
+
+    #menu-content > *:hover {
+        background: rgba(0, 0, 0, .5)
+    }
+
+    #menu-content[hidden]{
+        left: 100%;
+    }
+</style>
+<nav>
+    <span id="menu-trigger">Menu</span>
+</nav>
+
+<div id="menu-content" hidden>
+    <div class="close">close</div>
+     <div>item</div>
+     <div>item</div>
+     <div>item</div>
+     <div>item</div>
+     <div>item</div>
+     <div>item</div>
+</div>
+
+<script>
+    // 获取需要监听的元素
+    var menu_trigger = document.querySelector('#menu-trigger'),
+        menu_content = document.querySelector('#menu-content'),
+        menu_close = document.querySelector('.close');
+
+    menu_trigger.addEventListener('click', function (e) {
+        menu_content.hidden = !menu_content.hidden
+    })
+
+    menu_close.addEventListener('click', function () {
+        menu_content.hidden = true;
+    })
+
+    document.addEventListener('keyup',function(e){
+        if (e.code == 'Escape')
+        menu_content.hidden = true;
+    })
+</script>
