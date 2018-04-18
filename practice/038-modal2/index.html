@@ -65,14 +65,14 @@
     var login = document.querySelector('.login'),
         mask = document.querySelector('.mask'),
         modal = mask.querySelector('.modal'),
-        close = document.querySelector('.close');
+        close = modal.querySelector('.close');
 
     function show() {
-        mask.style.display = 'block';
+        mask.classList.add('show');
     }
 
     function hide() {
-        mask.style.display = 'none';
+        mask.classList.remove('show');
     }
 
     login.addEventListener('click', show);
