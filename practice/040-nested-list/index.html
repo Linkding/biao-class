@@ -73,23 +73,21 @@
 
 
 <script>
-    // 获取所有li元素
+    // 获取到所有的li元素
     var li_all = document.querySelectorAll('li');
 
-    // 遍历li元素，获取里面的ul元素
-    for (i = 0; i < li_all.length; i++) {
-        var li = li_all[i];
-
-        // 让每个li都监听click事件
-        li.addEventListener('click', function (e) {
-            // 当li被点击时选中下面的ul元素
+    // 遍历li元素
+    for (i = 0; i< li_all.length; i++){
+        var li = li_all[i]
+        // 给每个li监听click事件
+        li.addEventListener('click', function(e){
+            // 当点击后，选中每个li下的ul
             list = this.querySelector('ul');
-
+            // 如果没有ul，或者当前的事件源不是ul，则不操作
             if (!list || e.target !== this)
                 return;
-
-            list.hidden = !list.hidden;
+            // 转换ul的可见状态
+            list.hidden = !list.hidden
         })
     }
-
 </script>
