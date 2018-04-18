@@ -81,14 +81,12 @@
         // 当li元素被点击，选择其中ul元素
         li.addEventListener('click', function (e) {
             var list = this.querySelector('ul');
+            // 如果li下没有子元素，或者当前li不是点击源就直接返回
             if (!list || e.target !== this)
                 return;
+            // 将ul的显示状态进行切换
             list.hidden = !list.hidden
         })
-        // 如果li下没有子元素，或者当前li不是点击源就直接返回
 
-        // 将ul的显示状态进行切换
     }
 </script>
-
-      
