@@ -1,0 +1,109 @@
+<style>
+    label {
+        display: block;
+        line-height: 1.5;
+
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+</style>
+<div>
+    <button id="all">全选</button>
+    <button id="none">全不选</button>
+    <button id="invert">反选</button>
+</div>
+<label>
+    <input type="checkbox" name="" id=""> item
+</label>
+<label>
+    <input type="checkbox" name="" id=""> item
+</label>
+
+<label>
+    <input type="checkbox" name="" id=""> item
+</label>
+
+<label>
+    <input type="checkbox" name="" id=""> item
+</label>
+
+<label>
+    <input type="checkbox" name="" id=""> item
+</label>
+
+<label>
+    <input type="checkbox" name="" id=""> item
+</label>
+
+<label>
+    <input type="checkbox" name="" id=""> item
+</label>
+
+<!-- <script>
+    var all = document.querySelector('#all'),
+        check_list = document.querySelectorAll('[type=checkbox]');
+
+    all.addEventListener('click', function () {
+        check_list.forEach(function (item,index) {
+            item.checked = true;
+        })
+    })
+</script> -->
+
+<!-- <script>
+    var none = document.querySelector('#invert'),
+        list = document.querySelectorAll('[type=checkbox]');
+
+    none.addEventListener('click', function () {
+    //     list.forEach(function (item) {
+    //         item.checked = !item.checked;
+    //     })
+    // }
+        for (var item of list ) {
+            item.checked = !item.checked;
+        }
+    });
+
+</script> -->
+
+<!-- <script>
+    var list = document.querySelectorAll('[type=checkbox]');
+
+    function uncheck_list(except) {
+        list.forEach(function (item) {
+            if (item === except)
+                return;
+                // console.log(item)
+            item.checked = false;
+        })
+    };
+
+    list.forEach(function (item) {
+        item.addEventListener('click', function () {
+                uncheck_list(this);
+        })
+    })
+</script> -->
+
+<script>
+    // 效果：只能单选
+
+    // 获取所有的可选框
+    var list = document.querySelectorAll('[type=checkbox]');
+    // 建一个函数，功能：除了被点击的可选框，其他的都不选
+    function uncheck_all (except){
+        list.forEach(function(item){
+            if( item === except)
+                return;
+            item.checked = false;
+        })
+    };
+    // 遍历每个可选框，让其使用以上函数执行一次。没点击一次，该函数会遍历所有可选框。
+    list.forEach(function(item){
+        item.addEventListener('click',function(){
+            uncheck_all(this);
+        })
+    })
+</script>
