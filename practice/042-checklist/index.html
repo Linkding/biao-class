@@ -157,10 +157,14 @@
         })
     };
 
-    list.forEach(function(item){
+    list.forEach(function(item,i){
         item.addEventListener('click',function(e){
             if(e.shiftKey){
-                
+                end_index = i;
+                index_between();
+            } else {
+                star = this;
+                start_index = i;
             }
         })
     })
