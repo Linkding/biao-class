@@ -79,8 +79,10 @@
 </script>
 
 
+
 <!-- <script>
     // 效果：只能单选
+    // 方法1
 
     // 获取所有的可选框
     var list = document.querySelectorAll('[type=checkbox]');
@@ -102,7 +104,27 @@
     })
 </script> -->
 
-<script>
+<!-- <script>
+    // 效果：只能单选
+    // 方法2
+
+    var list = document.querySelectorAll('[type=checkbox]');
+
+    list.forEach(function(item){
+        item.addEventListener('click',function(e){
+            list.forEach(function(item2){
+                if (item === item2 || e.ctrlKey || e.metaKey)
+                    return;
+                item2.checked = false;
+            })
+        })
+    })
+</script> -->
+
+<!-- <script>
+    // 效果：按shift多选
+
+
     var list = document.querySelectorAll('[type=checkbox]');
     // console.log(list);
     var start,
@@ -134,7 +156,7 @@
             }
         })
     })
-</script>
+</script> -->
 
 <script>
     var list = document.querySelectorAll('[type=checkbox]');
@@ -143,27 +165,27 @@
         start_index,
         end_index;
 
-    function index_between (){
-        list.forEach(function(item,i){
-            if (i < end_index){
-                if (i >= start_index && i <= end_index){
+    function index_between() {
+        list.forEach(function (item, i) {
+            if ( start_index < end_index) {
+                if (i >= start_index && i <= end_index) {
                     item.checked = start.checked;
-                } 
+                }
             } else {
-                if ( i >= end_index && i <= start_index){
+                if (i >= end_index && i <= start_index) {
                     item.checked = start.checked;
                 }
             }
         })
     };
 
-    list.forEach(function(item,i){
-        item.addEventListener('click',function(e){
-            if(e.shiftKey){
+    list.forEach(function (item, i) {
+        item.addEventListener('click', function (e) {
+            if (e.shiftKey) {
                 end_index = i;
                 index_between();
             } else {
-                star = this;
+                start = this;
                 start_index = i;
             }
         })
