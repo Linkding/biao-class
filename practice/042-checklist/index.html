@@ -41,69 +41,127 @@
     <input type="checkbox" name="" id=""> item
 </label>
 
-<!-- <script>
+<script>
     var all = document.querySelector('#all'),
         check_list = document.querySelectorAll('[type=checkbox]');
 
     all.addEventListener('click', function () {
-        check_list.forEach(function (item,index) {
+        check_list.forEach(function (item, index) {
             item.checked = true;
         })
     })
-</script> -->
+</script>
 
-<!-- <script>
+<script>
+    var all = document.querySelector('#none'),
+        check_list = document.querySelectorAll('[type=checkbox]');
+
+    all.addEventListener('click', function () {
+        check_list.forEach(function (item, index) {
+            item.checked = false;
+        })
+    })
+</script>
+<script>
     var none = document.querySelector('#invert'),
         list = document.querySelectorAll('[type=checkbox]');
 
     none.addEventListener('click', function () {
-    //     list.forEach(function (item) {
-    //         item.checked = !item.checked;
-    //     })
-    // }
-        for (var item of list ) {
+        //     list.forEach(function (item) {
+        //         item.checked = !item.checked;
+        //     })
+        // }
+        for (var item of list) {
             item.checked = !item.checked;
         }
     });
 
-</script> -->
+</script>
+
 
 <!-- <script>
-    var list = document.querySelectorAll('[type=checkbox]');
-
-    function uncheck_list(except) {
-        list.forEach(function (item) {
-            if (item === except)
-                return;
-                // console.log(item)
-            item.checked = false;
-        })
-    };
-
-    list.forEach(function (item) {
-        item.addEventListener('click', function () {
-                uncheck_list(this);
-        })
-    })
-</script> -->
-
-<script>
     // 效果：只能单选
 
     // 获取所有的可选框
     var list = document.querySelectorAll('[type=checkbox]');
     // 建一个函数，功能：除了被点击的可选框，其他的都不选
-    function uncheck_all (except){
-        list.forEach(function(item){
-            if( item === except)
+    function uncheck_all(except) {
+        list.forEach(function (item) {
+            if (item === except)
                 return;
             item.checked = false;
         })
     };
     // 遍历每个可选框，让其使用以上函数执行一次。没点击一次，该函数会遍历所有可选框。
-    list.forEach(function(item){
-        item.addEventListener('click',function(){
+    list.forEach(function (item) {
+        item.addEventListener('click', function (e) {
+            if (e.code == 'crtlkey' || e.code == 'metakey')
+                return;
             uncheck_all(this);
+        })
+    })
+</script> -->
+
+<script>
+    var list = document.querySelectorAll('[type=checkbox]');
+    // console.log(list);
+    var start,
+        start_index,
+        end_index;
+
+    function item_between() {
+        list.forEach(function (item, i) {
+            if (start_index < end_index) {
+                if (i >= start_index && i <= end_index) {
+                    item.checked = start.checked;
+                }
+            } else {
+                if (i >= end_index && i <= start_index) {
+                    item.checked = start.checked;
+                }
+            }
+        })
+    };
+
+    list.forEach(function (item, i) {
+        item.addEventListener('click', function (e) {
+            if (e.shiftKey) {
+                end_index = i;
+                item_between();
+            } else {
+                start = this;
+                start_index = i;
+            }
+        })
+    })
+</script>
+
+<script>
+    var list = document.querySelectorAll('[type=checkbox]');
+
+    var start,
+        start_index,
+        end_index;
+
+    function index_between (){
+        list.forEach(function(item,i){
+            if (i < end_index){
+                if (i >= start_index && i <= end_index){
+                    item.checked = start.checked;
+                } 
+            } else {
+                if ( i >= end_index && i <= start_index){
+                    item.checked = start.checked;
+                }
+            }
+        })
+    };
+
+    list.forEach(function(item){
+        item.addEventListener('click',function(e){
+            if(e.shiftKey){
+                
+            }
         })
     })
 </script>
