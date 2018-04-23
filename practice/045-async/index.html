@@ -1,0 +1,53 @@
+<!-- 计时器 -->
+<!-- <script>
+    // 倒计时
+    var timer = setTimeout(function(){
+        console.log('yo')
+    },3 * 1000);
+
+    // 清除倒计时
+    clearTimeout(timer);
+
+    // 间隔多久计时一次
+    var count = 0;
+    var timer  = setInterval(function(){
+        console.log(count);
+        count++;
+
+        // 清除间隔
+        if (count >3){
+            clearInterval(timer);
+        }
+    },500)
+</script> -->
+<!-- 事件 -->
+<!-- <button id="x">yo</button>
+<script>
+    function on_click (){
+        console.log('yo');
+
+        x.removeEventListener('click',on_click)
+    }
+    x.addEventListener('click',on_click)
+</script> -->
+<!-- 异步请求 -->
+<!-- <script>
+    // fetch接口
+    fetch('https://api.github.com/users/linkding')
+        .then(function (res) {
+            res
+                .json()
+                .then(function (d) {
+                    console.log(d);
+                })
+        })
+    // XMLHttpRequest接口
+    var http =new XMLHttpRequest();
+    http.open('get','https://api.github.com/users/linkding')
+    http.send();
+
+    http.addEventListener('load',function(){
+        var res = JSON.parse(this.responseText);
+        console.log(res)
+    })
+</script> -->
