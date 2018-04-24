@@ -1,54 +1,58 @@
 <form id="form-search">
-    <input id="form-input" type="text" placeholder="请输入你的github名">
-    <button type="submit">提交</button>
+    <input type="text" id="input-search" placeholder="请输入github名称">
+    <button type="submit">search</button>
 </form>
-
-<div id="user"></div>
+<div id="info"></div>
 <script>
+    //本次的问题有：1、取值时候不注意id或者class  2、已定义的变量，无法再使用var
+    
     var form = document.querySelector('#form-search')
-        ,input = document.getElementById('form-input')
-        ,el_user = document.getElementById('user')
+        ,input = document.getElementById('input-search')
+        ,el_user = document.getElementById('info')
         ,user
+    //表单form一个监听事件submit
 
     init();
 
     function init(){
         form.addEventListener('submit',function(e){
             e.preventDefault();
-            var username = input.value
-            search(username);
+           var username = input.value;
+           search(username); 
         })
     }
 
-    function render_user(data){
-        html = 
-        `
-        id: ${user.login}<br>
-        头像：<img src="${user.avatar_url}">
-        `
-        el_user.innerHTML = html;
-    }
-    
+    //利用传入的name进行获取动作
     function search(username){
-        send('https://api.github.com/users/' + username ,function(data){
+        send('https://api.github.com/users/' + username, function(data){
             console.log(data);
             user = data;
             render_user();
+            
         })
     }
-
-
+    //异步获取动作
     function send(url,fn,method){
         method = method || 'get';
 
         var http = new XMLHttpRequest();
-        http.open(method,url); //method 和url的顺序不能乱
-        http.send();
+        http.open(method,url);
+        http.send()
 
         http.addEventListener('load',function(){
             var data = JSON.parse(this.responseText);
-            if(fn)
+            if (fn)
                 fn(data);
         })
+    }
+
+    //将获取回来的数据进行页面渲染
+    function render_user(){
+        var html = `
+        id: ${user.id}<br>
+        我的头像：<img src="${user.avatar_url}">
+        `
+
+        el_user.innerHTML = html;
     }
 </script>
