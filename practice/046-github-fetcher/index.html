@@ -1,41 +1,53 @@
 <form id="form-search">
-    <input id="search-input" type="text" placeholder="输入你的github名字">
-    <button type="submit">搜一个</button>
+    <input id="form-input" type="text" placeholder="请输入你的github名">
+    <button type="submit">提交</button>
 </form>
+
+<div id="user"></div>
 <script>
     var form = document.querySelector('#form-search')
-        ,input = document.getElementById('search-input')
+        ,input = document.getElementById('form-input')
+        ,el_user = document.getElementById('user')
+        ,user
 
     init();
 
-    //入口函数
-    function init (){
+    function init(){
         form.addEventListener('submit',function(e){
             e.preventDefault();
-            var username = input.value;
+            var username = input.value
             search(username);
         })
     }
 
-    function search (username){
-        send('https://api.github.com/users/' + username , function(){
+    function render_user(data){
+        html = 
+        `
+        id: ${user.login}<br>
+        头像：<img src="${user.avatar_url}">
+        `
+        el_user.innerHTML = html;
+    }
+    function search(username){
+        send('https://api.github.com/users/' + username ,function(data){
             console.log(data);
+            user = data;
+            render_user();
         })
     }
 
-    function send(url,fn,methed){
-        methed = methed || 'get'; //设置默认请求方法
+
+    function send(url,fn,method){
+        method = method || 'get';
 
         var http = new XMLHttpRequest();
-
-        http.open(methed,url); //提供方法和参数
-        http.send(); //开始网络请求
+        http.open(method,url); //method 和url的顺序不能乱
+        http.send();
 
         http.addEventListener('load',function(){
             var data = JSON.parse(this.responseText);
-            if(fn)   //如果存在这个回调，则执行
+            if(fn)
                 fn(data);
-            
         })
     }
 </script>
