@@ -28,6 +28,7 @@
         `
         el_user.innerHTML = html;
     }
+    
     function search(username){
         send('https://api.github.com/users/' + username ,function(data){
             console.log(data);
