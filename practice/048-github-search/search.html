@@ -18,36 +18,47 @@
 </style>
 <div id="user-list"></div>
 <script>
-    var el_user_list = document.getElementById('user-list')
+    // 获取增加html的元素
+    var el_user_list = document.querySelector('#user-list')
         ,key = 'lin'
         ,res
-
+    // 入口函数
     init();
+    
+    function init (){
+        send(key);
+    };
 
-    function init() {    
-        search(key)
-    }
-
-    function search (key){
-        var method =  'get';
-
+    // 通过关键字搜索github用户
+    // * @param  String key 关键字
+    function send(key,method){
+        // 默认方法 get
+        method = method ||'get'
+        // 准备发射
         var http = new XMLHttpRequest();
-        http.open(method,'https://api.github.com/search/users?q=' + key);
-        http.send();
-
+        http.open(method,'https://api.github.com/search/users?q='+ key);
+        // 发送请求
+        http.send()
+        
+        // 返回请求后
         http.addEventListener('load',function(){
+            // 将数据json化
             var data = JSON.parse(this.responseText);
+            // 将数据赋值预先定义的res
             res = data;
-            render()
+            // 渲染页面
+            render();
         })
     }
-    function render() {
-        if(!res)
-            return;
-
-        var html = '';
-        res.items.forEach(function (user) {
-            html = html + `
+    // 渲染动作函数
+    function render(){
+        // 定义一个空的字符串，用于插入html内容
+        var html = ''
+        // 遍历返回的json数据，获取需要的数据
+        res.items.forEach(function(user){
+            // 拼接html内容
+            html = html + 
+            `
             <div class="user">
                 <div class="logo">
                 <img src="${user.avatar_url}">
@@ -56,6 +67,10 @@
             </div>
             `
         })
-        el_user_list.innerHTML = html
+        // 插入对应的页面位置
+        el_user_list.innerHTML = html;
     }
+
+
 </script>
+
