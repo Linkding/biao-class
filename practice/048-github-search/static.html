@@ -1,0 +1,38 @@
+<div id="user"></div>
+
+<script>
+    var el_user_list = document.getElementById('user');
+
+    
+
+    var user_list = [
+        {
+            name: '林老板',
+            money: '1千万'
+        },
+        {
+            name: '林老板',
+            money: '1千万'
+        },
+        {
+            name: '林老板',
+            money: '1千万'
+        },
+
+    ]
+
+    init();
+    function render(){
+        var html = '';
+        user_list.forEach(function(item){
+            html = html + `<div>姓名：${item.name} 身价：${item.money}</div>`
+
+        });
+        el_user_list.innerHTML = html;
+
+    }
+
+    function init (){
+        render();
+    }
+</script>
