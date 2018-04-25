@@ -74,6 +74,10 @@
     };
 
     function render() {
+        if(!user){
+            el_user.innerHTML = `<div>查无此用户</div>`;
+            return
+        }
         var html =
             `
         <img src="${user.avatar_url}">
