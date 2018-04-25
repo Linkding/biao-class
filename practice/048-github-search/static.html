@@ -1,9 +1,6 @@
-<div id="user"></div>
-
+<div class="user"></div>
 <script>
-    var el_user_list = document.getElementById('user');
-
-    
+    var el_user_list = document.querySelector('.user');
 
     var user_list = [
         {
@@ -16,23 +13,22 @@
         },
         {
             name: '林老板',
-            money: '1千万'
-        },
-
+            money: '2千万'
+        }
     ]
 
     init();
-    function render(){
-        var html = '';
+
+    function render (){
+        var html = ''
         user_list.forEach(function(item){
             html = html + `<div>姓名：${item.name} 身价：${item.money}</div>`
-
         });
-        el_user_list.innerHTML = html;
 
+        el_user_list.innerHTML = html
     }
 
-    function init (){
+    function init(){
         render();
     }
-</script>
+    </script>
