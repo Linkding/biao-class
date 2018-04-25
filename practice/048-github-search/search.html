@@ -16,22 +16,35 @@
         display: inline-block;
     }
 </style>
+<h1>Github用户搜索</h1>
+<form id="form-search" autocomplete="off">
+    <input type="text" id="search-input" placeholder="请输入">
+    <button type="submit">搜一下</button>
+</form>
+<div class="count"></div>
 <div id="user-list"></div>
 <script>
     // 小结：注意render渲染放到请求函数回调，在返回数据后执行，如果单独执行会因为数据没有返回而无法渲染；
 
     // 获取增加html的元素
     var el_user_list = document.querySelector('#user-list')
-        ,key = 'lin'
+        ,form = document.querySelector('#form-search')
+        ,input = document.querySelector('#search-input')
         ,res
     // 入口函数
     init();
     
     function init (){
-        send(key);
-        render();
+        detect_user();
     };
-
+    // 监听用户输入查找事件
+    function detect_user(){
+        form.addEventListener('submit',function(e){
+            e.preventDefault();
+            var key = input.value
+            send(key)
+        })
+    }
     // 通过关键字搜索github用户
     // * @param  String key 关键字
     function send(key,method){
@@ -50,7 +63,7 @@
             // 将数据赋值预先定义的res
             res = data;
             // 渲染页面
-            // render();
+            render();
         })
     }
     // 渲染动作函数
