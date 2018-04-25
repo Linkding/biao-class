@@ -31,23 +31,21 @@
     x.addEventListener('click',on_click)
 </script> -->
 <!-- 异步请求 -->
-<!-- <script>
+<script>
     // fetch接口
     fetch('https://api.github.com/users/linkding')
-        .then(function (res) {
-            res
-                .json()
-                .then(function (d) {
-                    console.log(d);
-                })
+        .then(function(res){
+            res.json().then(function(d){
+                console.log(d)
+            })
         })
     // XMLHttpRequest接口
-    var http =new XMLHttpRequest();
-    http.open('get','https://api.github.com/users/linkding')
-    http.send();
+    // var http =new XMLHttpRequest();
+    // http.open('get','https://api.github.com/users/linkding')
+    // http.send();
 
-    http.addEventListener('load',function(){
-        var res = JSON.parse(this.responseText);
-        console.log(res)
-    })
-</script> -->
+    // http.addEventListener('load',function(){
+    //     var res = JSON.parse(this.responseText);
+    //     console.log(res)
+    // })
+</script>
