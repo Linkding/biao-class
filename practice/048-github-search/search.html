@@ -18,6 +18,8 @@
 </style>
 <div id="user-list"></div>
 <script>
+    // 小结：注意render渲染放到请求函数回调，在返回数据后执行，如果单独执行会因为数据没有返回而无法渲染；
+
     // 获取增加html的元素
     var el_user_list = document.querySelector('#user-list')
         ,key = 'lin'
@@ -27,6 +29,7 @@
     
     function init (){
         send(key);
+        render();
     };
 
     // 通过关键字搜索github用户
@@ -47,7 +50,7 @@
             // 将数据赋值预先定义的res
             res = data;
             // 渲染页面
-            render();
+            // render();
         })
     }
     // 渲染动作函数
