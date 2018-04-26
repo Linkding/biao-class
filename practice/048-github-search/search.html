@@ -1,45 +1,126 @@
 <style>
-    img {
-        max-width: 100px;
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
     }
 
-    #user-list {
-        padding: 200px;
+    body {
+        font-size: 17px;
+        font-family: sans-serif;
+    }
+
+    img {
+        max-width: 50px;
+    }
+
+    a {
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .container {
+        width: 500px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        margin-top: 100px;
+    }
+
+    #form-search,
+    h1 {
+        vertical-align: middle;
+        text-align: center;
     }
 
     .user {
-        padding: 5px;
-        background: rgba(0%, 0%, 0%, .3)
+        background: rgba(0%, 0%, 0%, .01);
+        margin: 8px 0;
+        box-shadow: 1px 1px 1px #757575;
+        /* border: 1px solid #999; */
     }
 
-    #user-list>* {
+    .user>* {
+        vertical-align: top;
         display: inline-block;
     }
+
+    .logo {
+        padding: 5px;
+    }
+
+    .info {
+        line-height: 1.3;
+        padding: 5px 0;
+    }
+
+    .name {
+        font-size: 1.2rem;
+        font-weight: 900;
+    }
+
+    .link {
+        font-size: 0.7rem;
+        font-weight: 400;
+    }
+
+    form {
+        font-size: 0;
+
+    }
+
+    form input {
+        width: 80%;
+    }
+
+
+    form button {
+        width: 20%;
+        border-left: 0;
+    }
+
+    form input,
+    form button {
+        border: 1px solid rgba(0%, 0%, 0%, .4);
+        padding: 10px;
+        font-size: 1rem;
+        color: #555;
+    }
+
+    #count {
+        margin: 20px 0;
+    }
 </style>
-<h1>Github用户搜索</h1>
-<form id="form-search" autocomplete="off">
-    <input type="text" id="search-input" placeholder="请输入">
-    <button type="submit">搜一下</button>
-</form>
-<div class="count"></div>
-<div id="user-list"></div>
+</style>
+<div class="container">
+    <h1>Github用户搜索</h1>
+    <form id="form-search" autocomplete="off">
+        <input type="text" id="search-input" placeholder="请输入">
+        <button type="submit">搜一下</button>
+    </form>
+    <div id="count"></div>
+    <div id="user-list">
+    </div>
+</div>
 <script>
     // 小结：注意render渲染放到请求函数回调，在返回数据后执行，如果单独执行会因为数据没有返回而无法渲染；
 
     // 获取增加html的元素
     var el_user_list = document.querySelector('#user-list')
-        ,form = document.querySelector('#form-search')
-        ,input = document.querySelector('#search-input')
-        ,res
+        , form = document.querySelector('#form-search')
+        , input = document.querySelector('#search-input')
+        , count = document.querySelector('#count')
+        , res
     // 入口函数
     init();
-    
-    function init (){
+
+    function init() {
         detect_user();
     };
     // 监听用户输入查找事件
-    function detect_user(){
-        form.addEventListener('submit',function(e){
+    function detect_user() {
+        form.addEventListener('submit', function (e) {
             e.preventDefault();
             var key = input.value
             send(key)
@@ -47,46 +128,50 @@
     }
     // 通过关键字搜索github用户
     // * @param  String key 关键字
-    function send(key,method){
+    function send(key, method) {
         // 默认方法 get
-        method = method ||'get'
+        method = method || 'get'
         // 准备发射
         var http = new XMLHttpRequest();
-        http.open(method,'https://api.github.com/search/users?q='+ key);
+        http.open(method, 'https://api.github.com/search/users?q=' + key);
         // 发送请求
         http.send()
-        
+
         // 返回请求后
-        http.addEventListener('load',function(){
+        http.addEventListener('load', function () {
             // 将数据json化
             var data = JSON.parse(this.responseText);
             // 将数据赋值预先定义的res
             res = data;
             // 渲染页面
+            console.log(res);
             render();
         })
     }
     // 渲染动作函数
-    function render(){
+    function render() {
         // 定义一个空的字符串，用于插入html内容
         var html = ''
         // 遍历返回的json数据，获取需要的数据
-        res.items.forEach(function(user){
+        res.items.forEach(function (user) {
             // 拼接html内容
-            html = html + 
-            `
+            html = html +
+                `
             <div class="user">
                 <div class="logo">
-                <img src="${user.avatar_url}">
+                    <img src="${user.avatar_url}">
                 </div>
-                <div class="info">${user.login}</div>
+                <div class="info">
+                    <div class="name">${user.login}</div>
+                    <a href="${user.html_url}" class="link">${user.html_url}</a>
+                </div>
             </div>
             `
         })
         // 插入对应的页面位置
         el_user_list.innerHTML = html;
+        count.innerHTML = `<div>查询共有${res.total_count}条</div>`
     }
 
 
 </script>
-
