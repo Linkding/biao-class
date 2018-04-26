@@ -5,6 +5,9 @@
         box-sizing: border-box;
     }
 
+    /* [hidden] {
+        display: none !important;
+    } */
     body {
         font-size: 17px;
         font-family: sans-serif;
@@ -93,12 +96,17 @@
         margin-top: 20px
     }
 
-    .load-more {
+    #load-more {
+        display: none;
         width: 100%;
     }
 
-    .load-more:hover {
+    #load-more:hover {
         background: rgba(0%, 0%, 0%, .1)
+    }
+
+    #load-more[hidden]{
+        display: inline-block;
     }
 </style>
 <div class="container">
@@ -128,7 +136,7 @@
             </div>
         </div> -->
     </div>
-    <button type="submit" class="load-more">加载更多</button>
+    <button type="submit" id="load-more">加载更多</button>
 </div>
 <script>
     // 小结：注意render渲染放到请求函数回调，在返回数据后执行，如果单独执行会因为数据没有返回而无法渲染；
@@ -138,7 +146,7 @@
         , form = document.querySelector('#form-search')
         , input = document.querySelector('#search-input')
         , count = document.querySelector('#count')
-        , get_more = document.querySelector('.load-more')
+        , get_more = document.querySelector('#load-more')
         , res
         , page = 1
     // 入口函数
@@ -187,7 +195,11 @@
             // 渲染页面
             console.log(res);
             render();
-        })
+        });
+        // 加载更多按钮
+        // get_more.hidden = true;
+        get_more.style.display = 'inline-block'
+        console.log('turel了')
     }
     // 渲染动作函数
     function render() {
