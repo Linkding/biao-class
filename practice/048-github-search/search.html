@@ -24,6 +24,7 @@
         margin: 0 auto;
     }
 
+
     h1 {
         margin-top: 100px;
     }
@@ -61,8 +62,8 @@
     }
 
     .link {
-        font-size: 0.7rem;
-        font-weight: 400;
+        font-size: 0.4rem;
+        font-weight: 200;
     }
 
     form {
@@ -80,18 +81,25 @@
         border-left: 0;
     }
 
-    form input,
-    form button {
+    input,
+    button {
         border: 1px solid rgba(0%, 0%, 0%, .4);
         padding: 10px;
         font-size: 1rem;
         color: #555;
     }
 
-    #count {
-        margin: 20px 0;
+    .count {
+        margin-top: 20px
     }
-</style>
+
+    .load-more {
+        width: 100%;
+    }
+
+    .load-more:hover {
+        background: rgba(0%, 0%, 0%, .1)
+    }
 </style>
 <div class="container">
     <h1>Github用户搜索</h1>
@@ -101,7 +109,26 @@
     </form>
     <div id="count"></div>
     <div id="user-list">
+        <!-- <div class="user">
+            <div class="logo">
+                <img src="https://avatars0.githubusercontent.com/u/2541208?v=4">
+            </div>
+            <div class="info">
+                <div class="name">link</div>
+                <a href="http://linkding.github.com" class="link">http://linkding.github.com</a>
+            </div>
+        </div>
+        <div class="user">
+            <div class="logo">
+                <img src="https://avatars0.githubusercontent.com/u/2541208?v=4">
+            </div>
+            <div class="info">
+                <div class="name">link</div>
+                <a href="http://linkding.github.com" class="link">http://linkding.github.com</a>
+            </div>
+        </div> -->
     </div>
+    <button type="submit" class="load-more">加载更多</button>
 </div>
 <script>
     // 小结：注意render渲染放到请求函数回调，在返回数据后执行，如果单独执行会因为数据没有返回而无法渲染；
@@ -111,29 +138,43 @@
         , form = document.querySelector('#form-search')
         , input = document.querySelector('#search-input')
         , count = document.querySelector('#count')
+        , get_more = document.querySelector('.load-more')
         , res
+        , page = 1
     // 入口函数
     init();
 
     function init() {
         detect_user();
+        next_page();
     };
     // 监听用户输入查找事件
     function detect_user() {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             var key = input.value
-            send(key)
+            send(key, page)
+        })
+    }
+    // 监听获取更多事件
+    function next_page() {
+        get_more.addEventListener('click', function (e) {
+            e.preventDefault();
+            // console.log('1');
+            page = page + 1;
+            // console.log(page)
+            var key = input.value;
+            send(key, page);
         })
     }
     // 通过关键字搜索github用户
     // * @param  String key 关键字
-    function send(key, method) {
+    function send(key, page, method) {
         // 默认方法 get
         method = method || 'get'
         // 准备发射
         var http = new XMLHttpRequest();
-        http.open(method, 'https://api.github.com/search/users?q=' + key);
+        http.open(method, 'https://api.github.com/search/users?q=' + key + '&page=' + page + '&per_page=8');
         // 发送请求
         http.send()
 
@@ -173,5 +214,8 @@
         count.innerHTML = `<div>查询共有${res.total_count}条</div>`
     }
 
+    function get_more() {
+
+    }
 
 </script>
