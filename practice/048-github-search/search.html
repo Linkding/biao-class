@@ -203,8 +203,8 @@
     }
     // 渲染动作函数
     function render() {
-        // 定义一个空的字符串，用于插入html内容
-        var html = ''
+        // 将目前插入文字的html内容保留,innerHTML方法可以将html内容转换成str
+        var html = el_user_list.innerHTML
         // 遍历返回的json数据，获取需要的数据
         res.items.forEach(function (user) {
             // 拼接html内容
@@ -226,8 +226,5 @@
         count.innerHTML = `<div>查询共有${res.total_count}条</div>`
     }
 
-    function get_more() {
-
-    }
 
 </script>
