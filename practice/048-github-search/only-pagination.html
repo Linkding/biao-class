@@ -1,0 +1,50 @@
+<div class="pagination"></div>
+
+<script>
+    var page_amount = 15
+        , max_btn_length = 5
+        , current_page = 1
+        , el_pagination = document.querySelector('.pagination')
+
+    render();
+
+    function render() {
+        el_pagination.innerHTML = '';
+
+
+        var star
+            , end
+            , middle = Math.ceil(max_btn_length / 2) //这是个固定值
+            , reach_left = current_page <= middle //这是一个布尔值
+            , reach_right = current_page >= page_amount - middle //这是一个布尔值
+
+        if (reach_left) {
+            star = 1
+            end = max_btn_length
+        } else if (reach_right) {
+            star = page_amount - ( max_btn_length -1)
+            end = page_amount
+        } else {
+            star = current_page - (middle - 1)
+            end = current_page + (middle - 1)
+        };
+
+        for(var i=star; i <= end; i++ ){
+            // 创建页码按钮元素
+            var btn = document.createElement('button');
+            btn.innerText = i;
+            btn.dataset.page = i;
+
+            if(i == current_page)
+                btn.style.background = 'pink';
+
+           el_pagination.appendChild(btn);
+            
+            btn.addEventListener('click',function(e){
+                current_page = parseInt(e.currentTarget.dataset.page)
+                render();
+            })
+
+        }
+    }
+</script>

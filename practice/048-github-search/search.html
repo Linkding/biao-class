@@ -108,6 +108,9 @@
     #load-more[hidden]{
         display: inline-block;
     }
+    .page {
+        text-align: center;
+    }
 </style>
 <div class="container">
     <h1>Github用户搜索</h1>
@@ -136,7 +139,17 @@
             </div>
         </div> -->
     </div>
-    <button type="submit" id="load-more">加载更多</button>
+    <button type="submit" id="load-more" hidden>加载更多</button>
+    <div class="page" >
+        <button id="last-page">上一页</button>
+        <span>1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+        <span>6</span>
+        <button id="next-page">下一页</button>
+    </div>
 </div>
 <script>
     // 小结：注意render渲染放到请求函数回调，在返回数据后执行，如果单独执行会因为数据没有返回而无法渲染；
@@ -149,12 +162,14 @@
         , get_more = document.querySelector('#load-more')
         , res
         , page = 1
+        , page_num = document.querySelector('span')
     // 入口函数
     init();
 
     function init() {
         detect_user();
         next_page();
+        choice_page_num();
     };
     // 监听用户输入查找事件
     function detect_user() {
@@ -226,5 +241,13 @@
         count.innerHTML = `<div>查询共有${res.total_count}条</div>`
     }
 
-
+    function choice_page_num(){
+        console.log(page_num.firstChild.nodeValue)
+        // page_num.addEventListener('click',function(e){
+        //     e.preventDefault();
+        //     page = page_num.value;
+        //     var key = input.value;
+        //     send(key,page);
+        // })
+    }
 </script>

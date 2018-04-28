@@ -1,29 +1,15 @@
 <style>
-    
-    .test {
-        background: #444;
-        color: #fff;
-    }
-
-    .test[hidden]{
-        display: block;
-    }
-    [hidden]{
-        display: none !important;
+    .page >* {
+        /* display: inline-block; */
     }
 </style>
-
-<div class="aa">
-    <h4>nihao</h4>
-    <button>按钮</button>
-    <div class="test" hidden>我隐藏了</div>
+<div class="page">
+    <button>上一页</button>
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+    <span>4</span>
+    <span>5</span>
+    <span>6</span>
+    <button>下一页</button>
 </div>
-
-<script>
-    var btn = document.querySelector('button')
-        ,test = document.querySelector('test');
-
-    btn.addEventListener('click',function(e){
-        test.hidden = true;
-    })
-</script>
