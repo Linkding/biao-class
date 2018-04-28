@@ -1,0 +1,11 @@
+<script>
+    var json = ['whh','adfa','ndx']
+    var json = JSON.stringify(json)
+    localStorage.setItem('history', json)
+</script>
+
+<script>
+    var json = localStorage.getItem('history')
+    var data = JSON.parse(json)
+    console.log(data)
+</script>
