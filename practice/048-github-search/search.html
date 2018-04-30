@@ -8,6 +8,7 @@
     /* [hidden] {
         display: none !important;
     } */
+
     body {
         font-size: 17px;
         font-family: sans-serif;
@@ -105,11 +106,21 @@
         background: rgba(0%, 0%, 0%, .1)
     }
 
-    #load-more[hidden]{
+    #load-more[hidden] {
         display: inline-block;
     }
+
     .page {
         text-align: center;
+    }
+
+    .pagination-container {
+        text-align: center;
+    }
+
+    .pagination-container>* {
+        display: inline-block;
+        margin-top: 15px;
     }
 </style>
 <div class="container">
@@ -140,19 +151,16 @@
         </div> -->
     </div>
     <button type="submit" id="load-more" hidden>加载更多</button>
-    <div class="page" >
-        <button id="last-page">上一页</button>
-        <span>1</span>
-        <span>2</span>
-        <span>3</span>
-        <span>4</span>
-        <span>5</span>
-        <span>6</span>
-        <button id="next-page">下一页</button>
+    <div class="pagination-container">
+        <button id="first-page" class="pager">首页</button>
+        <div class="pagination">
+        </div>
+        <button id="last-page" class="pager">尾页</button>
     </div>
 </div>
 <script>
     // 小结：注意render渲染放到请求函数回调，在返回数据后执行，如果单独执行会因为数据没有返回而无法渲染；
+    // 小结：测试太长函数时候，加console断点日志来查看；
 
     // 获取增加html的元素
     var el_user_list = document.querySelector('#user-list')
@@ -160,44 +168,146 @@
         , input = document.querySelector('#search-input')
         , count = document.querySelector('#count')
         , get_more = document.querySelector('#load-more')
+        , limit = 8
         , res
-        , page = 1
-        , page_num = document.querySelector('span')
+        , keyword
+        , page = 1 // 代表当前渲染的页数
+        , current_page = 1  //代码页码选择的页数
+        , el_pagination = document.querySelector('.pagination')
+        , el_first_page = document.querySelector('#first-page')
+        , el_last_page = document.querySelector('#last-page')
+        , amount
+        , page_amount
+        , max_btn_length = 5
+        , MAX_LIMIT = 999
+        ;
     // 入口函数
     init();
 
     function init() {
         detect_user();
-        next_page();
-        choice_page_num();
+        load_more();
+        render_pagination();
     };
+
+    //渲染页码功能的函数
+    function render_pagination() {
+        get_page_amount();
+        // console.log('到达这里')
+        el_pagination.innerHTML = ''
+
+        var start
+            , end
+            , middle = Math.ceil(max_btn_length / 2) // 这是一个固定值 3
+            , reaching_left = current_page <= middle // 这是一个布尔值
+            , reaching_right = current_page >= page_amount - middle // 这是一个布尔值
+            ;
+
+        //if函数用于判断页码切换变化时，起止号码
+        if (reaching_left) {
+            start = 1;
+            end = max_btn_length;
+        } else if (reaching_right) {
+            start = page_amount - max_btn_length;
+            end = page_amount
+        } else {
+            start = current_page - (middle - 1)
+            end = current_page + (middle - 1)
+        }
+
+
+        for (var i = start; i <= end; i++) {
+            var btn = document.createElement('button')
+            btn.innerText = i;
+            btn.dataset.page = i;
+
+            if (current_page == i)
+                btn.style.background = 'pink'
+
+            el_pagination.appendChild(btn)
+            btn.addEventListener('click', make_funcation_on_page_change(i))
+        }
+    };
+
+    function make_funcation_on_page_change(num){
+        //使当前页变量变为点击的页码
+        page = num;
+        //回调搜索渲染页面函数
+        send();
+    }
+
+    //监听首页，尾页的点击事件
+    function detect_click_pagination(){
+        el_first_page.addEventListener('click',go_to_page(1));
+        el_last_page.addEventListener('click',go_to_page())
+    }
+
+    function go_to_page(num){
+        var max_reach_page = num * limit > MAX_LIMIT
+
+        if (max_reach_page){
+            current_page = Math.floor( max_reach_page / limit)
+        } else {
+            current_page = num
+        }
+
+        search();     
+        
+    }
+    //存入数据到localstore
+    function store_set(key, val) {
+        //json化，加保鲜膜
+        var json = JSON.stringify(val)
+        //状态稳定，不容易改变
+        localStorage.setItem(key, json)
+
+    }
+
+    // 提取localstore中数据
+    function store_get(key) {
+        var json = localStorage.getItem(key)
+        return JSON.parse(json);
+    }
+
+
     // 监听用户输入查找事件
     function detect_user() {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            var key = input.value
-            send(key, page)
+            //获取输入的关键字
+            keyword= input.value
+            //如果输入关键字为空时
+            if(!keyword)
+                alert('别闹了')
+            
+            search()
         })
     }
+
     // 监听获取更多事件
-    function next_page() {
+    function load_more() {
         get_more.addEventListener('click', function (e) {
             e.preventDefault();
             // console.log('1');
-            page = page + 1;
+            current_page = current_page + 1;
             // console.log(page)
             var key = input.value;
-            send(key, page);
+            send(key);
         })
+    }
+
+    function set_key_word(kwt){
+        input.value =  kwt;
+        keyword = kwt
     }
     // 通过关键字搜索github用户
     // * @param  String key 关键字
-    function send(key, page, method) {
+    function send() {
         // 默认方法 get
-        method = method || 'get'
+        var method = method || 'get'
         // 准备发射
         var http = new XMLHttpRequest();
-        http.open(method, 'https://api.github.com/search/users?q=' + key + '&page=' + page + '&per_page=8');
+        http.open(method, 'https://api.github.com/search/users?q=' + keyword + '&page=' + current_page + '&per_page=' + limit);
         // 发送请求
         http.send()
 
@@ -207,16 +317,18 @@
             var data = JSON.parse(this.responseText);
             // 将数据赋值预先定义的res
             res = data;
-            // 渲染页面
+            // 有了数据，就开始渲染页面和页码组件
             console.log(res);
             render();
+            render_pagination();
         });
         // 加载更多按钮
         // get_more.hidden = true;
         get_more.style.display = 'inline-block'
-        console.log('turel了')
+        // console.log('turel了')
     }
-    // 渲染动作函数
+
+    // 渲染搜索到的用户
     function render() {
         // 将目前插入文字的html内容保留,innerHTML方法可以将html内容转换成str
         var html = el_user_list.innerHTML
@@ -239,15 +351,19 @@
         // 插入对应的页面位置
         el_user_list.innerHTML = html;
         count.innerHTML = `<div>查询共有${res.total_count}条</div>`
+        // 从结果中得到总条目数
+        amount = res.total_count
+
     }
 
-    function choice_page_num(){
-        console.log(page_num.firstChild.nodeValue)
-        // page_num.addEventListener('click',function(e){
-        //     e.preventDefault();
-        //     page = page_num.value;
-        //     var key = input.value;
-        //     send(key,page);
-        // })
+    function search(){
+        send();
+        render();
     }
+    //获取总页数
+    function get_page_amount() {
+        page_amount = amount / limit
+    }
+
+
 </script>

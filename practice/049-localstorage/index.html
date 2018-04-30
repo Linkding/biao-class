@@ -1,11 +1,14 @@
+<button class="btn">yo</button>
 <script>
-    var json = ['whh','adfa','ndx']
-    var json = JSON.stringify(json)
-    localStorage.setItem('history', json)
-</script>
 
-<script>
-    var json = localStorage.getItem('history')
-    var data = JSON.parse(json)
-    console.log(data)
+    var btn = document.querySelector('.btn')
+
+    btn.addEventListener('click', b())
+
+    function b() {
+        return function () {
+            console.log('c')
+        }
+    }
+
 </script>
