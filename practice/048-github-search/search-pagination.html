@@ -6,8 +6,8 @@
     }
 
     /* [hidden] {
-            display: none !important;
-        } */
+                    display: none !important;
+                } */
 
     body {
         font-size: 17px;
@@ -26,6 +26,7 @@
     .container {
         width: 500px;
         margin: 0 auto;
+        position: relative;
     }
 
 
@@ -75,7 +76,8 @@
 
     }
 
-    form input {
+    form input,
+    .history-list {
         width: 80%;
     }
 
@@ -119,9 +121,58 @@
         font-size: 1rem;
     }
 
-    .pagination-container >* {
+    .pagination-container>* {
         display: inline-block;
         margin-top: 15px;
+    }
+
+    .history-list {
+        z-index: 1;
+        max-height: 300px;
+        position: absolute;
+        background: #fff;
+        border: 1px solid rgba(0%, 0%, 0%, .4);
+        border-top: 0;
+        font-size: 1rem;
+        -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+        -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+        cursor: default;
+    }
+
+    .history {
+        font-size: 0;
+        padding: 5px 10px;
+    }
+
+    .history:hover {
+        background: rgba(0, 0, 200, .1)
+    }
+
+    .history .text,
+    .history .tool {
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .history .text {
+        width: 70%;
+        font-size: 0.9rem
+    }
+
+    .history .tool {
+        width: 30%;
+        font-size: 0.4rem;
+        color: #aaa;
+        text-align: right;
+    }
+
+    .history:hover .tool {
+        display: inline-block;
+    }
+
+    .history .tool>* {
+        cursor: pointer;
     }
 </style>
 <div class="container">
@@ -130,26 +181,34 @@
         <input type="text" id="search-input" placeholder="请输入">
         <button type="submit">搜一下</button>
     </form>
+    <div class="history-list" hidden>
+        <!-- <div class="history">
+            <div class="text">lin</div>
+            <div class="tool">
+                <span class="delete">删除</span>
+            </div>
+        </div> -->
+    </div>
     <div id="count"></div>
     <div id="user-list">
         <!-- <div class="user">
-                <div class="logo">
-                    <img src="https://avatars0.githubusercontent.com/u/2541208?v=4">
-                </div>
-                <div class="info">
-                    <div class="name">link</div>
-                    <a href="http://linkding.github.com" class="link">http://linkding.github.com</a>
-                </div>
-            </div>
-            <div class="user">
-                <div class="logo">
-                    <img src="https://avatars0.githubusercontent.com/u/2541208?v=4">
-                </div>
-                <div class="info">
-                    <div class="name">link</div>
-                    <a href="http://linkding.github.com" class="link">http://linkding.github.com</a>
-                </div>
-            </div> -->
+                        <div class="logo">
+                            <img src="https://avatars0.githubusercontent.com/u/2541208?v=4">
+                        </div>
+                        <div class="info">
+                            <div class="name">link</div>
+                            <a href="http://linkding.github.com" class="link">http://linkding.github.com</a>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="logo">
+                            <img src="https://avatars0.githubusercontent.com/u/2541208?v=4">
+                        </div>
+                        <div class="info">
+                            <div class="name">link</div>
+                            <a href="http://linkding.github.com" class="link">http://linkding.github.com</a>
+                        </div>
+                    </div> -->
     </div>
     <!-- <button type="submit" id="load-more" hidden>加载更多</button> -->
     <div class="pagination-container" hidden>
@@ -169,6 +228,7 @@
             , el_user_list = document.querySelector('#user-list')
             , el_pagination = document.querySelector('.pagination')
             , el_pagination_container = document.querySelector('.pagination-container')
+            , el_history_list = document.querySelector('.history-list')
             , res //获取回来的数据
             , keyword
             , amount
@@ -177,23 +237,76 @@
             , max_btn_length = 5
             , current_page = 1
             , page_amount
+            , history_list
 
         //入口函数
         init();
 
 
         function init() {
-            detect_user_list();
+            detect_submit();
+            reload_history_list();
+            render_history();
+            detect_click_input();
+            detect_click_document();
+            // localStorage.setItem('history_list',['lxb','whh','abc'])
         }
 
-        //绑定表单提交事件
-        function detect_user_list() {
+        //侦测表单提交事件
+        function detect_submit() {
             form_search.addEventListener('submit', function (e) {
                 e.preventDefault();
                 keyword = input.value
+
+                if(!keyword)
+                    alert('别闹了')
+                
+                //提交表单后，重置当前页为首页
+                reset_page();
+
+                //清空已渲染内容
+                reset_user_list();
+
+                //隐藏部分组件【谋了。。】
+
+
                 search();
+                
             })
         }
+        //侦测输入框点击事件
+        function detect_click_input(){
+            input.addEventListener('click',function(){
+                render_history();
+                show_history_list();
+                console.log('点击了input')
+            })
+        }
+        //侦测主页面被点击事件
+        function detect_click_document(){
+            document.body.addEventListener('click',function(e){
+                // console.log('点击了主页面')
+                
+                var target = e.target
+                
+                // console.log(target)
+                var in_search_input = target.closest('#search-input')
+                    , in_history_list = target.closest('.history-list')
+
+                if(in_history_list || in_search_input)
+                    return;
+
+                hidden_history_list();
+            })
+        }
+        function reset_page(){
+            current_page = 1;
+        }
+
+        function reset_user_list(){
+            el_user_list.innerHTML = ''
+        }
+
         function search() {
             //准备发射
             var http = new XMLHttpRequest();
@@ -206,14 +319,18 @@
             http.addEventListener('load', function () {
                 //解析返回的数据 将Json格式的字符串，转换为JSON数据
                 res = JSON.parse(http.responseText);
-                
+
                 //拿到搜索结果总数据
                 amount = res.total_count
                 //有了数据，开始渲染用户列表&页码
                 render_user();
                 render_pagination();
             })
+
+            //将关键字存入localstore
+            append_history(keyword);
         }
+
         //渲染 用户数据
         function render_user() {
             var html = ``
@@ -239,22 +356,8 @@
 
 
         }
-        
-        //计算总共多少页
-        function get_page_amount (){
-            page_amount = Math.floor( amount / limit);
-        }
-        function clear_pagination(){
-            el_pagination.innerHTML = ''
-        }
-        
-        function hidden_pagination(){
-            el_pagination_container.hidden = true;
-        }
 
-        function show_pagination(){
-            el_pagination_container.hidden = false;
-        }
+        //渲染 页码
         function render_pagination() {
             show_pagination();
             clear_pagination();
@@ -265,7 +368,7 @@
                 , middle = Math.ceil(max_btn_length / 2)
                 , reaching_left = current_page <= middle
                 , reaching_right = current_page >= page_amount - middle
-            
+
             //三分法，区分三个情况下，max_btn_length数内，第一和最后一个按钮数字
             if (reaching_left) {
                 start = 1
@@ -281,24 +384,162 @@
             console.log('test1')
             for (var i = start; i <= end; i++) {
                 var num = i;
-                
+
                 var btn = document.createElement('button');
                 btn.innerText = num;
                 btn.dataset.page = num;
-                
+
                 //为当前页码着色
-                if(current_page == num)
+                if (current_page == num)
                     btn.style.background = 'pink'
 
                 //追加到指定页码位置
                 el_pagination.appendChild(btn);
-                console.log('test2')
-                btn.addEventListener('click',make_funcation_on_page_change(num))
+                // console.log('test2')
+                btn.addEventListener('click', make_funcation_on_page_change(num))
             };
         }
 
-        function make_funcation_on_page_change(num){
-            return function(e){
+        //渲染 历史记录
+        function render_history(){
+            el_history_list.innerHTML = '';
+            
+            // console.log(typeof history_list)
+            history_list.forEach(function(history){
+                var el_delete
+                    , el_history = document.createElement('div')
+                
+                el_history.classList.add('history')
+                el_history.dataset.history = history
+                el_history.innerHTML = `
+                <div class="text">${history}</div>
+                <div class="tool">
+                    <span class="delete">删除</span>
+                </div>
+                `
+                el_history_list.appendChild(el_history)
+                el_delete = document.querySelector('.delete')
+                
+                //当点击历史记录时
+                el_history.addEventListener('click',function(e){
+                    //如果点击的区域是删除按钮，则关键字不搜索，也不上屏，直接返回
+                    if(e.target.classList.contains('delete'))
+                        return;
+                    
+                    //上屏
+                    set_keyword(this.dataset.history);
+                    //搜索
+                    search();
+                })
+                
+                //当点击删除历史记录时
+                el_delete.addEventListener('click',function(e){
+                    //先找到history的元素，获取存放的关键词
+                    var el_history = this.closest('.history')
+                        , kwd = el_history.dataset.history
+                    
+                    //如果删除失败，即不存在这个关键字在列表，则返回
+                    if(!find_and_delete(history_list,kwd))
+                        return;
+
+                    //否则用（删减过）新数据覆盖关键字列表
+                    console.log('history_list:'+history_list)
+                    over_wirte_history(history_list)
+                    //重新渲染历史记录
+                    setTimeout(function(){
+                        render_history();
+                    },0);
+
+                    //如果历史记录没有，或者删除光了，就隐藏历史列表
+                    if(!history_list.length)
+                        el_history_list.hidden = true;
+                })
+            })
+        }
+        
+        function append_history(kwd){
+            //先进行检查是否存在这个关键字
+            find_and_delete(history_list,kwd);
+            //将新关键字加入炒瓢
+            history_list.unshift(kwd);
+
+            //重写入localstore
+            over_wirte_history(history_list)
+        }
+
+        function show_history_list(){
+            if(!history_list.length)
+                return;
+            el_history_list.hidden = false;
+            console.log('完成显示历史列表')
+        }
+
+        function hidden_history_list(){
+            el_history_list.hidden= true;
+        }
+
+        function over_wirte_history(data){
+            store_set('history_list',data)
+        }
+
+        function find_and_delete(arr,element){
+            var shit_index = arr.indexOf(element)
+            
+            //如果不存在，返回 否
+            if(shit_index == -1)
+                return false;
+            
+            arr.splice(shit_index,1)
+            return true;
+
+        }
+        //重新获取历史记录
+        function reload_history_list(){
+            history_list = store_get('history_list')|| [];
+            console.log('完成reload history')
+        }
+
+        //作用，在选择历史记录时，重新设定搜索关键字，并显示在搜索栏
+        function set_keyword (kwd){
+            input.value = kwd;
+            keyword = kwd;
+        }
+
+
+        //存入数据到localStorag
+        function store_set(key,val){
+            //加保鲜膜，JSON化
+            var json = JSON.stringify(val)
+            //存入冰箱
+            localStorage.setItem(key,json)
+        }
+        
+         //取出数据到localStorag
+        function store_get(key){
+            //从冰箱取带保鲜膜数据；
+            var data = localStorage.getItem(key);
+            //去掉保鲜膜
+            return JSON.parse(data);
+        }
+        //计算总共多少页
+        function get_page_amount() {
+            page_amount = Math.floor(amount / limit);
+        }
+
+        function clear_pagination() {
+            el_pagination.innerHTML = ''
+        }
+
+        function hidden_pagination() {
+            el_pagination_container.hidden = true;
+        }
+
+        function show_pagination() {
+            el_pagination_container.hidden = false;
+        }
+
+        function make_funcation_on_page_change(num) {
+            return function (e) {
                 current_page = num;
                 search();
             }
