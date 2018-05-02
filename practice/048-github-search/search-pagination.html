@@ -284,7 +284,7 @@
         }
         //侦测主页面被点击事件
         function detect_click_document(){
-            document.body.addEventListener('click',function(e){
+            document.documentElement.addEventListener('click',function(e){
                 // console.log('点击了主页面')
                 
                 var target = e.target
@@ -418,7 +418,7 @@
                 </div>
                 `
                 el_history_list.appendChild(el_history)
-                el_delete = document.querySelector('.delete')
+                el_delete = el_history.querySelector('.delete')
                 
                 //当点击历史记录时
                 el_history.addEventListener('click',function(e){
@@ -434,6 +434,7 @@
                 
                 //当点击删除历史记录时
                 el_delete.addEventListener('click',function(e){
+                    console.log('删除历史记录')
                     //先找到history的元素，获取存放的关键词
                     var el_history = this.closest('.history')
                         , kwd = el_history.dataset.history
