@@ -14,7 +14,7 @@
     }
 
     function search_repositories(kwd){
-        send.post('https://api.github.com/search/repositories?q=' + kwd ,function(data){
+        send.get('https://api.github.com/search/repositories?q=' + kwd ,function(data){
             console.log(data);
         });
     }
