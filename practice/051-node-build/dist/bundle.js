@@ -66,19 +66,30 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./webpack.config.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./js/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./webpack.config.js":
-/*!***************************!*\
-  !*** ./webpack.config.js ***!
-  \***************************/
+/***/ "./js/a.js":
+/*!*****************!*\
+  !*** ./js/a.js ***!
+  \*****************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = {\n    entry:'./js/index.js',\n    output:{\n        filename: 'bundle.js'\n    }\n}//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi93ZWJwYWNrLmNvbmZpZy5qcy5qcyIsInNvdXJjZXMiOlsid2VicGFjazovLy8uL3dlYnBhY2suY29uZmlnLmpzP2JhNjYiXSwic291cmNlc0NvbnRlbnQiOlsibW9kdWxlLmV4cG9ydHMgPSB7XG4gICAgZW50cnk6Jy4vanMvaW5kZXguanMnLFxuICAgIG91dHB1dDp7XG4gICAgICAgIGZpbGVuYW1lOiAnYnVuZGxlLmpzJ1xuICAgIH1cbn0iXSwibWFwcGluZ3MiOiJBQUFBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSIsInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./webpack.config.js\n");
+eval("// var a = '1';\n\n// module.exports = a;\n\nvar a = 1;\n\n/*暴露模块*/\nmodule.exports = a;\n// export default a;\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9qcy9hLmpzLmpzIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vanMvYS5qcz82YTY1Il0sInNvdXJjZXNDb250ZW50IjpbIi8vIHZhciBhID0gJzEnO1xuXG4vLyBtb2R1bGUuZXhwb3J0cyA9IGE7XG5cbnZhciBhID0gMTtcblxuLyrmmrTpnLLmqKHlnZcqL1xubW9kdWxlLmV4cG9ydHMgPSBhO1xuLy8gZXhwb3J0IGRlZmF1bHQgYTtcbiJdLCJtYXBwaW5ncyI6IkFBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBOyIsInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./js/a.js\n");
+
+/***/ }),
+
+/***/ "./js/index.js":
+/*!*********************!*\
+  !*** ./js/index.js ***!
+  \*********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("/*导入模块*/\nvar a = __webpack_require__(/*! ./a */ \"./js/a.js\");\n\nconsole.log(a);\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9qcy9pbmRleC5qcy5qcyIsInNvdXJjZXMiOlsid2VicGFjazovLy8uL2pzL2luZGV4LmpzP2VlMWMiXSwic291cmNlc0NvbnRlbnQiOlsiLyrlr7zlhaXmqKHlnZcqL1xudmFyIGEgPSByZXF1aXJlKCcuL2EnKTtcblxuY29uc29sZS5sb2coYSk7XG4iXSwibWFwcGluZ3MiOiJBQUFBO0FBQ0E7QUFDQTtBQUNBOyIsInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./js/index.js\n");
 
 /***/ })
 
