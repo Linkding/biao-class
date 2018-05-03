@@ -1,9 +1,14 @@
-var ele = require('./element');
+var ele = require('./element')
+    , search = require('./search')
 
 function detect_submit (){
     ele.form.addEventListener('submit',function(e){
        e.preventDefault();
-        console.log('1')
+        var keyword = ele.input.value;
+
+        search.user(keyword,function(data){
+            ele.render_user(data);
+        })
     })
 }
 
