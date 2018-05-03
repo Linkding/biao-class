@@ -1,6 +1,7 @@
 var form = document.querySelector('#form-search')
     , input = document.querySelector('#search-input')
     , user_list = document.querySelector('#user-list')
+    , load_more = document.querySelector('#load-more')
 
 
 function render_user(data) {
@@ -24,11 +25,24 @@ function render_user(data) {
 
     //渲染搜索结果
     // document.querySelector('#count').innerHTML = `共有${res.total_count}条结果`
+}
 
+function render_load_more() {
+
+}
+
+function hide_load_more() {
+    load_more.hidden = true;
+}
+function show_load_more() {
+    load_more.hidden = false;
 }
 
 module.exports = {
     form: form,
     input: input,
-    render_user:render_user
+    load_more: load_more,
+    render_user: render_user,
+    hide_load_more: hide_load_more,
+    show_load_more: show_load_more
 }
