@@ -2,6 +2,8 @@ var form = document.getElementById('form-search')
     , input = document.getElementById('search-input')
     , user_list = document.getElementById('user-list')
     , load_more = document.getElementById('load-more')
+    , history_list = document.querySelector('history-list')
+    , history_list_store
     ;
 
 function render_user_list(data) {
@@ -28,6 +30,69 @@ function render_user_list(data) {
 
 }
 
+function render_history() {
+    history_list.innerHTML = '';
+
+    // console.log(typeof history_list)
+    history_list.forEach(function (history) {
+        var el_delete
+            , el_history = document.createElement('div')
+
+        el_history.classList.add('history')
+        el_history.dataset.history = history
+        el_history.innerHTML = `
+        <div class="text">${history}</div>
+        <div class="tool">
+            <span class="delete">删除</span>
+        </div>
+        `
+        history_list.appendChild(el_history)
+        el_delete = el_history.querySelector('.delete')
+
+        //当点击历史记录时
+        el_history.addEventListener('click', function (e) {
+            //如果点击的区域是删除按钮，则关键字不搜索，也不上屏，直接返回
+            if (e.target.classList.contains('delete'))
+                return;
+
+            //上屏
+            set_keyword(this.dataset.history);
+            //搜索
+            search();
+        })
+
+        //当点击删除历史记录时
+        el_delete.addEventListener('click', function (e) {
+            //先找到history的元素，获取存放的关键词
+            var el_history = this.closest('.history')
+                , kwd = el_history.dataset.history
+
+            //如果删除失败，即不存在这个关键字在列表，则返回
+            if (!find_and_delete(history_list, kwd))
+                return;
+
+            //否则用（删减过）新数据覆盖关键字列表
+            console.log('history_list:' + history_list)
+            over_wirte_history(history_list)
+            //重新渲染历史记录
+            setTimeout(function () {
+                render_history();
+            }, 0);
+
+            //如果历史记录没有，或者删除光了，就隐藏历史列表
+            if (!history_list_store.length)
+                history_list.hidden = true;
+        })
+    })
+}
+
+function show_history_list() {
+    history_list.hidden = false;
+}
+
+function hide_history_list() {
+    history_list.hidden = true;
+}
 
 function show_load_more() {
     load_more.hidden = false;
@@ -38,8 +103,12 @@ function hide_load_more() {
 module.exports = {
     form: form,
     input: input,
+    pagination: pagination,
     load_more: load_more,
     render_user_list: render_user_list,
+    render_history_list: render_history_list,
+    show_history_list: show_history_list,
+    hide_history_list: hide_history_list,
     show_load_more: show_load_more,
     hide_load_more: hide_load_more,
 }

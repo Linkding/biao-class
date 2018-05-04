@@ -34,6 +34,12 @@ function detect_load_more(){
     })
 }
 
+function detect_click_input(){
+    el.input.addEventListener('click',function(e){
+        el.render_history_list();
+        el.show_history_list();
+    })
+}
 function add_event(){
     detect_submit();
     detect_load_more();
