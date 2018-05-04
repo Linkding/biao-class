@@ -1,8 +1,10 @@
+var kwd = require('./pub_param');
+
 function user(keyword,on_succeed,config) {
     var def = {
         page : 1,
         limit : 2,
-        keyword : 'yo',
+        keyword : kwd.get_keyword(),
     };
 
     config = Object.assign({},def,config);

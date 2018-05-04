@@ -1,6 +1,7 @@
 var el = require('./element')
     , search = require('./search')
-    , keyword
+    , localstore = require('./localstore')
+    , pub_param = require('./pub_param')
     , page = 1
     , limit = 4
     ;
@@ -8,13 +9,19 @@ var el = require('./element')
 function detect_submit(){
     el.form.addEventListener('submit',function(e){
         e.preventDefault();
-        keyword = el.input.value;
+        keyword = pub_param.set_keyword(el.input.value);
+        if(!keyword)
+            return;
+
+        // 按关键字搜索用户
         search.user(keyword,function(data){
             console.log(data);
             el.render_user_list(data);
             el.show_load_more();
             console.log('show more')
         });
+        // 记录关键字
+        localstore.append_history(keyword);
 
     });
 }
@@ -40,9 +47,11 @@ function detect_click_input(){
         el.show_history_list();
     })
 }
+
 function add_event(){
     detect_submit();
     detect_load_more();
+    detect_click_input();
 
 }
 
