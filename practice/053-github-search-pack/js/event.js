@@ -4,12 +4,14 @@ var el = require('./element')
     , pub_param = require('./pub_param')
     , page = 1
     , limit = 4
+    , user_list = document.getElementById('user-list')
     ;
 
 function detect_submit(){
     el.form.addEventListener('submit',function(e){
         e.preventDefault();
         keyword = pub_param.set_keyword(el.input.value);
+        console.log('提交submit')
         if(!keyword)
             return;
 
@@ -18,9 +20,10 @@ function detect_submit(){
             console.log(data);
             el.render_user_list(data);
             el.show_load_more();
-            console.log('show more')
+            // console.log('show more')
         });
         // 记录关键字
+        console.log('提交后，录入关键字列表')
         localstore.append_history(keyword);
 
     });
@@ -35,8 +38,8 @@ function detect_load_more(){
             limit: limit,
         }
         console.log('准备发射page=' + page)
-        search.user(keyword,function(data){
-            el.render_user_list(data);
+        search.user(pub_param.get_keyword(),function(data){
+            el.render_user_list(data, user_list.innerHTML);
         },config)
     })
 }
@@ -48,10 +51,28 @@ function detect_click_input(){
     })
 }
 
+function detect_click_document(){
+    document.documentElement.addEventListener('click',function(e){
+        // console.log('点击了主页面')
+        
+        var target = e.target
+        
+        // console.log(target)
+        var in_search_input = target.closest('#search-input')
+            , in_history_list = target.closest('.history-list')
+
+        if(in_history_list || in_search_input)
+            return;
+
+        el.hide_history_list();
+    })
+}
+
 function add_event(){
     detect_submit();
     detect_load_more();
     detect_click_input();
+    detect_click_document();
 
 }
 
