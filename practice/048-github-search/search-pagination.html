@@ -527,7 +527,12 @@
         }
         //计算总共多少页
         function get_page_amount() {
-            page_amount = Math.floor(amount / limit);
+            if (amount < limit){
+                page_amount = 1;
+                max_btn_length = 1;
+            }else{
+                page_amount = Math.ceil(amount / limit);
+            }
         }
 
         function clear_pagination() {

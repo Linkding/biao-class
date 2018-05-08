@@ -1,16 +1,18 @@
-var kwd = require('./pub_param');
+var pub_param = require('./pub_param')
+    , amount
+    ;
 
-function user(keyword,on_succeed,config) {
+function user(config,on_succeed) {
     var def = {
-        page : 1,
-        limit : 2,
-        keyword : kwd.get_keyword(),
+        page: 1,
+        limit: 5,
+        keyword: pub_param.get_keyword(),
     };
 
-    config = Object.assign({},def,config);
-    console.log('发射出去的page=' + config.page+  '  limit='+config.limit)
+    config = Object.assign({}, def, config);
+    console.log('发射出去的page=' + config.page + '  limit=' + config.limit)
     var http = new XMLHttpRequest();
-    http.open('get', 'https://api.github.com/search/users?q=' + keyword + '&page=' + config.page + '&per_page=' + config.limit);
+    http.open('get', 'https://api.github.com/search/users?q=' + config.keyword + '&page=' + config.page + '&per_page=' + config.limit);
     http.send();
 
     http.addEventListener('load', function (data) {
@@ -19,6 +21,13 @@ function user(keyword,on_succeed,config) {
     });
 }
 
+function search_amount(){
+    user('',function(data){
+        return amount = data.total_count;
+        console.log(amount)
+    })
+}
 module.exports = {
-    user:user,
+    user: user,
+    search_amount:search_amount,
 }

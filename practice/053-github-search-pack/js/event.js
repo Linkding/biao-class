@@ -2,6 +2,7 @@ var el = require('./element')
     , search = require('./search')
     , localstore = require('./localstore')
     , pub_param = require('./pub_param')
+    , pagination = require('./pagination')
     , page = 1
     , limit = 4
     , user_list = document.getElementById('user-list')
@@ -11,19 +12,20 @@ function detect_submit(){
     el.form.addEventListener('submit',function(e){
         e.preventDefault();
         keyword = pub_param.set_keyword(el.input.value);
-        console.log('提交submit')
         if(!keyword)
             return;
 
         // 按关键字搜索用户
-        search.user(keyword,function(data){
+        search.user('',function(data){
             console.log(data);
             el.render_user_list(data);
-            el.show_load_more();
-            // console.log('show more')
+            el.hide_load_more();
+
+            // 渲染页码
+            amount = data.total_count;
+            pagination.render_pagination(amount);
         });
         // 记录关键字
-        console.log('提交后，录入关键字列表')
         localstore.append_history(keyword);
 
     });
@@ -38,9 +40,12 @@ function detect_load_more(){
             limit: limit,
         }
         console.log('准备发射page=' + page)
-        search.user(pub_param.get_keyword(),function(data){
+        search.user(config,function(data){
             el.render_user_list(data, user_list.innerHTML);
-        },config)
+            // 渲染页码
+            amount = data.total_count;
+            pagination.render_pagination(amount);
+        })
     })
 }
 

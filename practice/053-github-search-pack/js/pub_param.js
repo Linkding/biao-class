@@ -1,6 +1,6 @@
-var keyword = 'yo'
+var keyword
 , localstore = require('./localstore')
-
+, amount
 // function get_history_list(){
 //     return history_list;
 // }
@@ -22,10 +22,12 @@ function set_keyword(kwd){
     return keyword = kwd;
 }
 
+function set_amount(kwd){
+  return amount = kwd;  
+}
 module.exports = {
     get_keyword:get_keyword,
     set_keyword:set_keyword,
-    // get_history_list:get_history_list,
-    // set_history_list:set_history_list,
+    set_amount:set_amount,
     test:test
 }

@@ -10,14 +10,8 @@
 
 // var keyword = kwd.get_keyword();
 // console.log(keyword)
-var localstore = require('./localstore')
-    , pub_param = require('./pub_param')
-    ;
+var search = require('./search')
 
-var a = localstore.get_store('history_list')
-console.log('获取初始history_list ' +  a);
-localstore.append_history('niaho');
-console.log('获取更改后history_list ' + a);
-
+search.search_amount();
 
 

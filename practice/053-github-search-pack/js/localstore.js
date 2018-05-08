@@ -2,7 +2,7 @@
 var pub_param = require('./pub_param')
     , keyword = pub_param.get_keyword()
     , history_list
-    ,  a = ['lll','aaa']
+    ,  a = ['lll','aaa'] //测试
     ;
 
 function reload_history_list() {
@@ -10,6 +10,8 @@ function reload_history_list() {
 }
 
 function get_history_list(){
+    if(!history_list)
+        reload_history_list();
     return history_list;
     // return a;
 }
