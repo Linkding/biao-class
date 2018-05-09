@@ -1,84 +1,97 @@
-var store = require('../util/store')
-    , helper = require('../util/helper')
+var helper = require('../util/helper')
+    , store = require('../util/store')
     ;
 
-var list = ['lxb', 'xxx', 'bbb']
+var list = ['aaa','sss','xxx']
     , el
     , on_click
     , on_delete
     ;
 
+// 供外部使用接口
 var output = {
-    init: init,
-    remove: remove,
-    add: add,
-
+    init:init,
+    remove:remove,
+    add:add,
 }
+
+// 初始化，从外部传入参数，变量，函数
 function init(config) {
-    el = document.querySelector(config.el);
-    on_click = config.on_click;
-    on_delete = config.on_delete;
+    el = document.querySelector(config.el)
+    on_click = config.on_click
+    on_delete = config.on_delete
 
-    sync_to_store(list);
-
+    sync_to_store(); //将初始记录传入localstore
     render();
 }
 
-// =========render start=======
+// =========render start======
+// 渲染历史记录
 function render() {
-    // 清空根元素
+    // 根元素清空
     el.innerHTML = '';
-    // 将历史记录逐个渲染
+    // 给每个历史记录渲染
     list.forEach(function (keyword) {
-        // 添加新元素
+        // 创建一个新元素
         var el_keyword = document.createElement('div');
-        // 为新元素添加内容
+        // 新元素添加内容
         el_keyword.innerHTML = `
         <div class="text">${keyword}</div>
             <div class="tool">
                 <span class="delete">删除</span>
             </div>
         `
-        // 添加类
+        ;
+        // 新元素添加类
         el_keyword.classList.add('history')
-        // 根元素追加新内容
+        // 添加序列数据
+        el_keyword.dataset.history = keyword;
+        // 追加到根元素
         el.appendChild(el_keyword);
-        // 新元素添加监听事件
-        el_keyword.addEventListener('click', function (e) {
-            on_click(keyword, e)
-        })
-        // 子元素添加监听事件
-        var el_delete = el_keyword.querySelector('.delete')
-        el_delete.addEventListener('click', function (e) {
-            e.stopPropagation() //避免冒泡
-            on_delete(keyword, e)
+        // 新元素添加点击事件
+        el_keyword.addEventListener('click',function(e){
+            if(on_click)
+                on_click(keyword,e);
+        });
+        // 新元素子元素添加点击事件
+        el_keyword.querySelector('.delete').addEventListener('click',function(e){
+            e.stopPropagation() // 停止冒泡
+            if(on_delete)
+                on_delete(keyword,e)
 
             remove(keyword)
         })
+
+        
     })
 }
+// =========render end========
 
-// ===========data start=========
-// 添加一条记录
+// ==========data start=========
+// 增加历史记录
 function add(kwd) {
     helper.find_and_delete(list, kwd);
     list.unshift(kwd)
-    sync_to_store(list)
-    render();
+    sync_to_store()
+    render()
+
 }
-// 删除记录
+// 删除历史记录
 function remove(kwd) {
     helper.find_and_delete(list, kwd);
-    sync_to_store(list);
-    render();
+    console.log(list)
+    sync_to_store()
+    render()
 }
-// 同步炒瓢数据到localstore
-function sync_to_store(kwd) {
-    store.set('history_list', kwd)
+
+// 同步最新历史数据到localstore
+function sync_to_store() {
+    store.set('history_list',list)
 }
-// 更新炒瓢
+// 同步localstore到炒瓢
 function sync_to_ladle() {
     list = store.get('history_list') || []
 }
-// ============data end=========
-module.exports = output
+// ========data end=============
+
+module.exports = output;

@@ -1,6 +1,6 @@
-function find_and_delete(arr, kwd) {
+function find_and_delete(arr,kwd){
     var index_shit = arr.indexOf(kwd);
-    if (index_shit == -1)
+    if(index_shit == -1)
         return false;
     arr.splice(kwd,1);
     return true;

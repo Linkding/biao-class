@@ -1,7 +1,7 @@
 var history = require('../history')
 
 history.init({
-    el:'.history-list',
+    el: '.history-list',
     on_click: function(kwd,e){
         console.log(kwd,e)
     },
@@ -9,8 +9,10 @@ history.init({
         console.log(kwd,e)
     }
 
+})
 
-});
-
-history.add('yo')
-// history.remove('yo')
+history.add('yo1')
+history.add('yo2')
+history.add('yo3')
+history.add('yo4')
+history.remove('aaa')
