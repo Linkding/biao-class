@@ -49,7 +49,11 @@ function render_pagination(amount) {
         start = 1;
 
     console.log('current_page: ' + current_page + '   start: ' + start + '   end:' + end + '  middle:' + middle)
+    
+    
 
+    
+    
     for (var i = start; i <= end; i++) {
         var num = i;
 
@@ -80,36 +84,41 @@ function render_pagination(amount) {
             })
         });
 
-        first_page.addEventListener('click', function () {
-            console.log('click first page')
-            current_page = 1;
-            render_pagination(amount);
-
-            var config = {
-                page: 1,
-                limit: limit,
-            }
-            search.user(config, function (data) {
-                element.render_user_list(data);
-            })
-        });
-
-        last_page.addEventListener('click', function () {
-            console.log('click 最后 page')
-            current_page = page_amount;
-            render_pagination(amount);
-
-            var config = {
-                page: page_amount,
-                limit: limit,
-            }
-            search.user(config, function (data) {
-                element.render_user_list(data);
-            })
-        })
+        
     };
 }
 
+function click_first_page(amount){
+    first_page.addEventListener('click', function () {
+        console.log('click first page')
+        // current_page = 1;
+        render_pagination(amount);
+
+        var config = {
+            page: 1,
+            limit: limit,
+        }
+        search.user(config, function (data) {
+            element.render_user_list(data);
+        })
+    });
+}
+
+function click_last_page(amount){
+    last_page.addEventListener('click', function () {
+        console.log('click 最后 page')
+        // current_page = page_amount;
+        render_pagination(amount);
+
+        var config = {
+            page: page_amount,
+            limit: limit,
+        }
+        search.user(config, function (data) {
+            element.render_user_list(data);
+        })
+    });
+}
 function show_pagination(ele) {
     ele.hidden = false;
 }
@@ -133,4 +142,6 @@ function get_page_amount(amount) {
 
 module.exports = {
     render_pagination: render_pagination,
+    click_first_page:click_first_page,
+    click_last_page:click_last_page,
 }

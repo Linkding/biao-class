@@ -13,6 +13,7 @@ function user(config,on_succeed) {
     console.log('发射出去的page=' + config.page + '  limit=' + config.limit)
     var http = new XMLHttpRequest();
     http.open('get', 'https://api.github.com/search/users?q=' + config.keyword + '&page=' + config.page + '&per_page=' + config.limit);
+    http.setRequestHeader('Authorization', 'Basic ' + btoa('linkding:0e2af1765ccb10d1021de3dec9cb5c1f3d3ffe78'));
     http.send();
 
     http.addEventListener('load', function (data) {

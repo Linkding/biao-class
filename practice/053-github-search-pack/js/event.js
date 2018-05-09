@@ -24,6 +24,8 @@ function detect_submit(){
             // 渲染页码
             amount = data.total_count;
             pagination.render_pagination(amount);
+            pagination.click_first_page(amount);
+            pagination.click_last_page(amount);
         });
         // 记录关键字
         localstore.append_history(keyword);
