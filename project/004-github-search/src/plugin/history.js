@@ -1,89 +1,84 @@
-var help = require('../util/help')
-    , store = require('../util/store')
+var store = require('../util/store')
+    , helper = require('../util/helper')
     ;
 
-var list = ['you','bbb','lxx']
+var list = ['lxb', 'xxx', 'bbb']
     , el
     , on_click
     , on_delete
     ;
 
-
-// 提供外部使用接口
 var output = {
-    init:init,
-    add:add,
-    remove:remove,
-}
+    init: init,
+    remove: remove,
+    add: add,
 
-function init(config){
+}
+function init(config) {
     el = document.querySelector(config.el);
     on_click = config.on_click;
     on_delete = config.on_delete;
 
-    sync_to_store();
-    sync_to_ladle();
+    sync_to_store(list);
+
     render();
-    
 }
 
-// =======render start===========
-function render(){
+// =========render start=======
+function render() {
+    // 清空根元素
     el.innerHTML = '';
-
-    list.forEach(function(keyword){
-        console.log(keyword)
-        // 创建元素
+    // 将历史记录逐个渲染
+    list.forEach(function (keyword) {
+        // 添加新元素
         var el_keyword = document.createElement('div');
-        // 插入内容
+        // 为新元素添加内容
         el_keyword.innerHTML = `
         <div class="text">${keyword}</div>
-        <div class="tool">
-            <span class="delete">删除</span>
-        </div>
+            <div class="tool">
+                <span class="delete">删除</span>
+            </div>
         `
         // 添加类
-        el_keyword.classList.add('history');
-        // 追加到根元素后面
+        el_keyword.classList.add('history')
+        // 根元素追加新内容
         el.appendChild(el_keyword);
-
-        // 为history类添加事件
-        el_keyword.addEventListener('click',function(e){
-            if(on_click)
-                on_click(keyword,e)
+        // 新元素添加监听事件
+        el_keyword.addEventListener('click', function (e) {
+            on_click(keyword, e)
         })
-        el_delete = el_keyword.querySelector('.delete');
-        el_delete.addEventListener('click',function(e){
-            e.stopPropagation();
-            if(on_delete)
-                on_delete(keyword,e);
-            
-            remove(keyword);
-                
-        })
+        // 子元素添加监听事件
+        var el_delete = el_keyword.querySelector('.delete')
+        el_delete.addEventListener('click', function (e) {
+            e.stopPropagation() //避免冒泡
+            on_delete(keyword, e)
 
+            remove(keyword)
+        })
     })
 }
-// ========data start==========
-function add(kwd){
-    help.find_and_delete(list,kwd) //检查是否有重复
-    list.unshift(kwd) // 更新到炒瓢中
-    sync_to_store() // 更新到冰箱
-}
 
-function remove(kwd){
-    help.find_and_delete(list,kwd);
-    console.log(help.find_and_delete(list,kwd))
-    sync_to_store();
+// ===========data start=========
+// 添加一条记录
+function add(kwd) {
+    helper.find_and_delete(list, kwd);
+    list.unshift(kwd)
+    sync_to_store(list)
     render();
-
 }
-
-function sync_to_store(){
-    store.set('history_list',list)
+// 删除记录
+function remove(kwd) {
+    helper.find_and_delete(list, kwd);
+    sync_to_store(list);
+    render();
 }
-
-function sync_to_ladle(){
-    list = store.get('history_list') || [];
+// 同步炒瓢数据到localstore
+function sync_to_store(kwd) {
+    store.set('history_list', kwd)
 }
-module.exports = output;
+// 更新炒瓢
+function sync_to_ladle() {
+    list = store.get('history_list') || []
+}
+// ============data end=========
+module.exports = output

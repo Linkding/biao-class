@@ -1,15 +1,16 @@
-function set(name,data){
-    var json = JSON.stringify(data);
-    localStorage.setItem(name,json);
+// * @param String key 保存localstore中的键名
+// * @param list val 保存的数据
+function set(key,val){
+    var json = JSON.stringify(val);
+    localStorage.setItem(key,json)
 }
 
-function get(name){
-    var data = localStorage.getItem(name);
+function get(key){
+    var data = localStorage.getItem(key);
     return data = JSON.parse(data);
-
 }
 
 module.exports = {
-    get:get,
     set:set,
+    get:get,
 }

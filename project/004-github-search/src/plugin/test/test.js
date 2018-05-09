@@ -1,16 +1,16 @@
-var history = require('../history');
+var history = require('../history')
 
 history.init({
-    el: '.history-list',
+    el:'.history-list',
     on_click: function(kwd,e){
         console.log(kwd,e)
     },
     on_delete: function(kwd,e){
-        console.log('删除：'+ kwd,e)
+        console.log(kwd,e)
     }
-    
-})
 
-// history.add('you');
-// history.add('yo');
-// history.remove('u')
+
+});
+
+history.add('yo')
+// history.remove('yo')
