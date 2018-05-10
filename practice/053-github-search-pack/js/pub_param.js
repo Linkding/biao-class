@@ -19,7 +19,8 @@ function get_keyword() {
 }
 
 function set_keyword(kwd){
-    return keyword = kwd;
+   keyword = kwd;
+   return keyword;
 }
 
 function set_amount(kwd){

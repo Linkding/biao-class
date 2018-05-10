@@ -3,9 +3,12 @@ var el = require('./element')
     , localstore = require('./localstore')
     , pub_param = require('./pub_param')
     , pagination = require('./pagination')
+    , first_page = document.getElementById('first-page')
+    , last_page = document.getElementById('last-page')
     , page = 1
     , limit = 4
     , user_list = document.getElementById('user-list')
+    , input = document.getElementById('search-input')
     ;
 
 function detect_submit(){
@@ -24,8 +27,8 @@ function detect_submit(){
             // 渲染页码
             amount = data.total_count;
             pagination.render_pagination(amount);
-            pagination.click_first_page(amount);
-            pagination.click_last_page(amount);
+            // pagination.click_first_page(amount);
+            // pagination.click_last_page(amount);
         });
         // 记录关键字
         localstore.append_history(keyword);
@@ -33,15 +36,31 @@ function detect_submit(){
     });
 }
 
+function detect_first_page(){
+    first_page.addEventListener('click',function(e){
+        console.log('此时的关键字' + input.value)
+        keyword = input.value
+        pagination.click_first_page(keyword)
+
+    })
+}
+
+function detect_last_page(){
+    last_page.addEventListener('click',function(){
+        console.log('此时的关键字' + input.value)
+        keyword = input.value
+        pagination.click_last_page(keyword)
+    })
+}
 function detect_load_more(){
     el.load_more.addEventListener('click',function(){
-        console.log('click load more')
-        console.log('发射之前page='+ page)
+        // console.log('click load more')
+        // console.log('发射之前page='+ page)
         var config = {
             page : ++page,
             limit: limit,
         }
-        console.log('准备发射page=' + page)
+        // console.log('准备发射page=' + page)
         search.user(config,function(data){
             el.render_user_list(data, user_list.innerHTML);
             // 渲染页码
@@ -80,6 +99,8 @@ function add_event(){
     detect_load_more();
     detect_click_input();
     detect_click_document();
+    detect_first_page();
+    detect_last_page();
 
 }
 

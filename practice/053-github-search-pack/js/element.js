@@ -68,7 +68,10 @@ function render_history_list() {
                 return;
 
             //上屏
+            input.value = this.dataset.history;
+            // 在公共变量变更最新关键字
             pub_param.set_keyword(this.dataset.history)
+
             // set_keyword(this.dataset.history);
             //搜索
             search.user(pub_param.get_keyword(), function (data) {

@@ -12,6 +12,7 @@ function reload_history_list() {
 function get_history_list(){
     if(!history_list)
         reload_history_list();
+        console.log('获取历史记录'+ history_list)
     return history_list;
     // return a;
 }

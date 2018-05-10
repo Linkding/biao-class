@@ -7,8 +7,7 @@ var element = require('./element')
 
 var pagination_container = document.querySelector('.pagination-container')
     , pagination = document.querySelector('.pagination')
-    , first_page = document.getElementById('first-page')
-    , last_page = document.getElementById('last-page')
+
     , limit = 5
     , max_btn_length = 5
     , current_page = 1
@@ -17,6 +16,7 @@ var pagination_container = document.querySelector('.pagination-container')
 
 // 渲染pagination
 function render_pagination(amount) {
+    element = require('./element')
     show_pagination(pagination_container);
     clear_pagination(pagination);
     get_page_amount(amount);
@@ -49,11 +49,8 @@ function render_pagination(amount) {
         start = 1;
 
     console.log('current_page: ' + current_page + '   start: ' + start + '   end:' + end + '  middle:' + middle)
-    
-    
 
-    
-    
+
     for (var i = start; i <= end; i++) {
         var num = i;
 
@@ -84,40 +81,38 @@ function render_pagination(amount) {
             })
         });
 
-        
+
     };
 }
 
-function click_first_page(amount){
-    first_page.addEventListener('click', function () {
-        console.log('click first page')
-        // current_page = 1;
+function click_first_page(kwd) {
+    current_page = 1;
+    var config = {
+        page: 1,
+        limit: limit,
+        keyword:kwd
+    }
+    search.user(config, function (data) {
+        element.render_user_list(data);
+        amount = data.total_count;
         render_pagination(amount);
-
-        var config = {
-            page: 1,
-            limit: limit,
-        }
-        search.user(config, function (data) {
-            element.render_user_list(data);
-        })
-    });
+    })
 }
 
-function click_last_page(amount){
-    last_page.addEventListener('click', function () {
-        console.log('click 最后 page')
-        // current_page = page_amount;
+function click_last_page(kwd) {
+    var config = {
+        page: page_amount,
+        limit: limit,
+        keyword:kwd
+    }
+    search.user(config, function (data) {
+        element.render_user_list(data);
+        amount = data.total_count;
+        get_page_amount(amount);
+        current_page = page_amount;
+        console.log('最后一页：' + page_amount)
         render_pagination(amount);
-
-        var config = {
-            page: page_amount,
-            limit: limit,
-        }
-        search.user(config, function (data) {
-            element.render_user_list(data);
-        })
-    });
+    })
 }
 function show_pagination(ele) {
     ele.hidden = false;
@@ -131,17 +126,17 @@ function get_page_amount(amount) {
     if (amount < limit) {
         page_amount = 1;
         max_btn_length = 1;
-        console.log('到达1')
+        // console.log('到达1')
     } else {
         page_amount = Math.ceil(amount / limit);
         max_btn_length = 5;
-        console.log('到达2')
+        // console.log('到达2')
 
     }
 }
 
 module.exports = {
     render_pagination: render_pagination,
-    click_first_page:click_first_page,
-    click_last_page:click_last_page,
+    click_first_page: click_first_page,
+    click_last_page: click_last_page,
 }
