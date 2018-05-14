@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="./src/plugin/pagination/pagination.css">
     <style>
         * {
             -webkit-box-sizing: border-box;
@@ -85,10 +81,6 @@
 
         }
 
-        /* form:hover {
-            box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2)
-        } */
-
         form input,
         .history-list {
             width: 80%;
@@ -108,8 +100,8 @@
             color: #555;
         }
 
-        #count {
-            margin-top: 30px;
+        .count {
+            margin-top: 20px
         }
 
         #load-more {
@@ -155,14 +147,7 @@
             padding: 5px 10px;
         }
 
-        .clean {
-            font-size: 0.8rem;
-            text-align: center;
-            padding: 5px 10px;
-        }
-
-        .history:hover,
-        .clean:hover {
+        .history:hover {
             background: rgba(0, 0, 200, .1)
         }
 
@@ -191,66 +176,8 @@
         .history .tool>* {
             cursor: pointer;
         }
-
-        .loading {
-            position: fixed;
-            padding: 5px 10px;
-            background: rgba(0%, 0%, 0%, .4);
-            color: #fff;
-            top: 30px;
-            right: 50px;
-            font-size: 0.8rem;
-        }
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <h1>Github用户搜索</h1>
-        <form id="form-search" autocomplete="off">
-            <input type="text" id="search-input" placeholder="请输入">
-            <button type="submit">搜一下</button>
-        </form>
-        <div class="history-list" hidden>
-            <!-- <div class="history">
-                        <div class="text">lin</div>
-                        <div class="tool">
-                            <span class="delete">删除</span>
-                        </div>
-                    </div> -->
-        </div>
-        <div id="count"></div>
-        <div id="user-list">
-            <!-- <div class="user">
-                                    <div class="logo">
-                                        <img src="https://avatars0.githubusercontent.com/u/2541208?v=4">
-                                    </div>
-                                    <div class="info">
-                                        <div class="name">link</div>
-                                        <a href="http://linkding.github.com" class="link">http://linkding.github.com</a>
-                                    </div>
-                                </div>
-                                <div class="user">
-                                    <div class="logo">
-                                        <img src="https://avatars0.githubusercontent.com/u/2541208?v=4">
-                                    </div>
-                                    <div class="info">
-                                        <div class="name">link</div>
-                                        <a href="http://linkding.github.com" class="link">http://linkding.github.com</a>
-                                    </div>
-                                </div> -->
-        </div>
-
-        <button type="submit" id="load-more" hidden>加载更多</button>
-        <div class="pagination-container" hidden>
-            <button id="first-page" class="pager">首页</button>
-            <div class="pagination">
-            </div>
-            <button id="last-page" class="pager">尾页</button>
-        </div>
-    </div>
-    <div class="loading" hidden>正在加载...</div>
-    <script src="dist/bundle.js"></script>
-</body>
-
-</html>
+<div class="history-list"></div>
+<script src="./bundle.js"></script>
