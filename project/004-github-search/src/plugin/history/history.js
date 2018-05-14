@@ -1,5 +1,5 @@
-var helper = require('../util/helper')
-    , store = require('../util/store')
+var helper = require('../../util/helper')
+    , store = require('../../util/store')
     ;
 
 var list = ['aaa', 'sss', 'xxx']
@@ -30,7 +30,6 @@ function init(config) {
     // sync_to_store();
     sync_to_ladle(); //将初始记录传入localstore
     render();
-    show_history();
 }
 
 // =========render start======

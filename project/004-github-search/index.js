@@ -1,5 +1,4 @@
 var event = require('./event')
-    ,history = require('./src/plugin/history')
 
 init();
 

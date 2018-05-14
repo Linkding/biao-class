@@ -1,23 +1,68 @@
-var history = require('./src/plugin/history')
+var el = require('./element')
+    , search = require('./search')
+    , pub_param = require('./pub_param')
+    , history = require('./src/plugin/history/history')
+    , pagination = require('./src/plugin/pagination/pagination')
+    ;
 
-var el_input = document.querySelector('#search-input')
-    , el_form = document.querySelector('#form-search')
-    ; 
+function plugins_init(){
+    pagination.init({
+        el:'.pagination-container',
+        amount: pub_param.get_amount(),
+        limit: pub_param.get_limit(),
+        // 对于需要跨组件调用情况，不建议将代码写入组件，而通过回调函数方式注入。
+        on_page_change: function(page){
+            if(page == pub_param.get_current_page()){
+                return;
+            };
+            pub_param.set_current_page(page);
+            search.search(on_search_succeed);
+        }
+    });
 
-    
-function detect_submit(){
-    el_form.addEventListener('submit',function(e){
-        var keyword = el_input.value;
-        console.log(keyword)
-        history.add(keyword)
+    history.init({
+        el: '.history-list'
+    })
+}
+function detect_submit() {
+    el.form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var keyword = pub_param.set_keyword(el.input.value);
+        // console.log(keyword)
+        // if(!keyword)
+        //     console.log('空即是空')
+        //     return;
+
+        history.add(keyword);
+
+        // 隐藏只有得到结果的组件
+        // el.placeholer.hidden = true;
+
+        // 发起搜索用户
+        search.search(on_search_succeed);
     })
 }
 
+function on_search_succeed(data) {
+    //拿到数据后，开始存一存
+    pub_param.set_user_lisr(data.items);
+    pub_param.set_amount(data.total_count);
+
+    // pagination组件
+    console.log('amount: '+pub_param.get_amount(),'limit: '+pub_param.get_limit())
+    pagination.set_amount_limit(pub_param.get_amount(),pub_param.get_limit())
+    pagination.show();
+
+    el.reset_user_list();//这里待测试
+
+    //有数据了，渲染用户
+    el.render();
+}
+
 function detect_input_click() {
-    el_input.addEventListener('click', function () {
-        history.init({
-            el: '.history-list'
-        })
+    el.input.addEventListener('click', function () {
+        history.show_history();
     })
 }
 
@@ -36,6 +81,7 @@ function add_event() {
     detect_input_click();
     detect_document_click();
     detect_submit();
+    plugins_init();
 }
 
 module.exports = {
