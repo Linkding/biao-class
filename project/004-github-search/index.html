@@ -151,7 +151,14 @@
             padding: 5px 10px;
         }
 
-        .history:hover {
+        .clean {
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 5px 10px;
+        }
+
+        .history:hover,
+        .clean:hover {
             background: rgba(0, 0, 200, .1)
         }
 
@@ -179,6 +186,15 @@
 
         .history .tool>* {
             cursor: pointer;
+        }
+        .loading {
+            position: fixed;
+            padding: 5px 10px;
+            background: rgba(0%, 0%, 0%, .4);
+            color: #fff;
+            top: 30px;
+            right: 50px;
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -228,7 +244,7 @@
             <button id="last-page" class="pager">尾页</button>
         </div>
     </div>
-
+    <div class="loading" hidden>加载更多...</div>
     <script src="dist/bundle.js"></script>
 </body>
 

@@ -1,6 +1,7 @@
 var send = require('./src/util/send')
     , pub_param = require('./pub_param')
     , pagination = require('./src/plugin/pagination/pagination')
+    , el = require('./element')
     ;
 
 function search(on_succeed,on_fail){
@@ -9,12 +10,12 @@ function search(on_succeed,on_fail){
 
 function on_before(){
     pagination.disabled();
-    console.log('before的时候')
+    el.show_loading();
 }
 
 function on_after(){
     pagination.enabled();
-    console.log('after的时候')
+    el.hide_loading();
 }
 
 function search_user(on_succeed,on_fail,before,after){

@@ -48,7 +48,7 @@ function render() {
                 <span class="delete">删除</span>
             </div>
         `
-            ;
+        ;
         // 新元素添加类
         el_keyword.classList.add('history')
         // 添加序列数据
@@ -70,10 +70,22 @@ function render() {
         })
 
     })
+    // 添加清除历史记录元素
+    var el_clean = document.createElement('div');
+    el_clean.innerHTML = `<div class="clean">清除所有</div>`;
+    el.appendChild(el_clean);
+    el_clean.addEventListener('click',function(e){
+        clean_all();
+    })
+
 }
 
 function show_history() {
-    el.hidden = false;
+    if(list.length == 0) {
+        el.hidden = true;
+    } else {
+        el.hidden = false;
+    }
 }
 
 function hide_history() {
@@ -84,13 +96,17 @@ function hide_history() {
 // ==========data start=========
 // 增加历史记录
 function add(kwd) {
+    kwd = kwd.trim();
+    if(kwd.length == 0){
+        return
+    }
     helper.find_and_delete(list, kwd);
     list.unshift(kwd)
     sync_to_store()
     render()
 
 }
-// 删除历史记录
+// 删除单个历史记录
 function remove(kwd) {
     helper.find_and_delete(list, kwd);
     console.log(list)
@@ -100,6 +116,14 @@ function remove(kwd) {
     render()    
 }
 
+//清除所有历史记录
+function clean_all(){
+    list = [];
+    sync_to_store();
+    render();
+    // sync_to_ladle();
+    // console.log(list)
+}
 // 同步最新历史数据到localstore
 function sync_to_store() {
     store.set('history_list', list)

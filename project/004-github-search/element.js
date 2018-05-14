@@ -8,7 +8,10 @@ var output = {
     user_list: document.querySelector('#user-list'),
     count: document.querySelector('#count'),
     form : document.querySelector('#form-search'),
-    input : document.querySelector('#search-input')
+    input : document.querySelector('#search-input'),
+    loading: document.querySelector('.loading'),
+    show_loading:show_loading,
+    hide_loading:hide_loading,
 
 }
 
@@ -38,4 +41,14 @@ function render() {
     output.user_list.innerHTML = html;
     output.count.innerHTML = `共有${pub_param.get_amount()}条结果`;
 }
+
+function show_loading(){
+    output.loading.hidden = false;
+}
+
+function hide_loading(){
+    output.loading.hidden = true;
+}
+
+
 module.exports = output;
