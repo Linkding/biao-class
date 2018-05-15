@@ -12,6 +12,7 @@ var output = {
     loading: document.querySelector('.loading'),
     show_loading:show_loading,
     hide_loading:hide_loading,
+    top: document.querySelector('.top')
 
 }
 

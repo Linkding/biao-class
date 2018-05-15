@@ -51,7 +51,7 @@ function detect_submit() {
 
 function on_search_succeed(data) {
     //拿到数据后，开始存一存
-    pub_param.set_user_lisr(data.items);
+    pub_param.set_user_list(data.items);
     pub_param.set_amount(data.total_count);
 
     // pagination组件
@@ -82,11 +82,18 @@ function detect_document_click() {
     })
 }
 
+function detect_top_click(){
+    el.top.addEventListener('click',function(){
+        window.scrollTo(0,0);
+    })
+}
+
 function add_event() {
     detect_input_click();
     detect_document_click();
     detect_submit();
     plugins_init();
+    detect_top_click();
 }
 
 module.exports = {

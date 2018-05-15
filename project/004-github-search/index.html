@@ -25,6 +25,7 @@
 
         img {
             max-width: 50px;
+            border: 1px solid rgba(33,0,0,0.3);
         }
 
         a {
@@ -189,7 +190,7 @@
 
         .history .tool {
             width: 30%;
-            font-size: 0.4rem;
+            font-size: 0.7rem;
             color: #aaa;
             text-align: right;
         }
@@ -210,6 +211,17 @@
             top: 30px;
             right: 50px;
             font-size: 0.8rem;
+        }
+
+        .top {
+            position: fixed;
+            bottom: 0;
+            right: 20px;
+            background: rgba(0%, 0%, 0%, .3);
+            color: #fff;
+            padding: 3px 5px;
+            font-size: 1rem;
+            display: inline-block;
         }
     </style>
 </head>
@@ -260,6 +272,7 @@
         </div>
     </div>
     <div class="loading" hidden>正在加载...</div>
+    <div class="top">TOP</div>
     <script src="dist/bundle.js"></script>
 </body>
 

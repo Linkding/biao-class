@@ -10,7 +10,7 @@ function get_user_list() {
     return user_list
 }
 
-function set_user_lisr(list){
+function set_user_list(list){
     user_list = list;
     return user_list;
 }
@@ -55,7 +55,7 @@ module.exports = {
     set_amount: set_amount,
     get_amount:get_amount,
     get_user_list:get_user_list,
-    set_user_lisr:set_user_lisr,
+    set_user_list:set_user_list,
     get_current_page:get_current_page,
     set_current_page:set_current_page,
     get_limit:get_limit,
