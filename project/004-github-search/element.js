@@ -19,7 +19,13 @@ var output = {
 function reset_user_list() {
     output.user_list.innerHTML = '';
 }
-
+function search_user_name_list(){
+    var list = pub_param.get_user_list();
+    list.forEach(function(list){
+        list.login
+    })
+    
+}
 function render() {
     var html = '';
 

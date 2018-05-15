@@ -1,4 +1,5 @@
 var user_list = []
+    , user_info_list = []
     , keyword
     , amount
     , current = 1
@@ -6,11 +7,19 @@ var user_list = []
     ;
 
 
+function get_user_info_list() {
+    return user_info_list;
+}
+
+function set_user_info_list(list) {
+    user_info_list = list;
+    return user_info_list;
+}
 function get_user_list() {
     return user_list
 }
 
-function set_user_list(list){
+function set_user_list(list) {
     user_list = list;
     return user_list;
 }
@@ -27,24 +36,24 @@ function set_amount(kwd) {
     return amount = kwd;
 }
 
-function get_amount(){
+function get_amount() {
     return amount;
 }
 
-function get_current_page(){
+function get_current_page() {
     return current;
 }
 
-function set_current_page(kwd){
+function set_current_page(kwd) {
     current = kwd;
     return current;
 }
 
-function get_limit(){
+function get_limit() {
     return limit;
 }
 
-function set_limit(kwd){
+function set_limit(kwd) {
     limit = kwd;
     return limit;
 }
@@ -53,11 +62,13 @@ module.exports = {
     get_keyword: get_keyword,
     set_keyword: set_keyword,
     set_amount: set_amount,
-    get_amount:get_amount,
-    get_user_list:get_user_list,
-    set_user_list:set_user_list,
-    get_current_page:get_current_page,
-    set_current_page:set_current_page,
-    get_limit:get_limit,
-    set_limit:set_limit,
+    get_amount: get_amount,
+    get_user_list: get_user_list,
+    set_user_list: set_user_list,
+    get_current_page: get_current_page,
+    set_current_page: set_current_page,
+    get_limit: get_limit,
+    set_limit: set_limit,
+    set_user_info_list:set_user_info_list,
+    get_user_info_list:get_user_info_list,
 }
