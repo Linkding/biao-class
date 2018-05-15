@@ -21,7 +21,11 @@ function plugins_init(){
     });
 
     history.init({
-        el: '.history-list'
+        el: '.history-list',
+        on_click: function(keyword,e){
+            pub_param.set_keyword(keyword);
+            search.search(on_search_succeed);
+        }
     })
 }
 function detect_submit() {
@@ -30,9 +34,10 @@ function detect_submit() {
 
         var keyword = pub_param.set_keyword(el.input.value);
         // console.log(keyword)
-        // if(!keyword)
-        //     console.log('空即是空')
-        //     return;
+        if(!keyword){
+            console.log('空即是空')
+            return;
+        }
 
         history.add(keyword);
 

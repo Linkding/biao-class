@@ -100,16 +100,25 @@
             border-left: 0;
         }
 
-        input,
-        button {
-            border: 1px solid rgba(0%, 0%, 0%, .4);
+        #search-input,
+        #search-btn {
+            vertical-align: top;
+            border: 1.2px solid rgba(0%, 0%, 0%, .4);
             padding: 10px;
             font-size: 1rem;
             color: #555;
+            height: 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+        }
+
+        #search-btn {
+            border-left: 0;
         }
 
         #count {
             margin-top: 30px;
+            font-weight: 400;
+            color: rgba(0%, 0%, 0%, .4)
         }
 
         #load-more {
@@ -209,7 +218,7 @@
         <h1>Github用户搜索</h1>
         <form id="form-search" autocomplete="off">
             <input type="text" id="search-input" placeholder="请输入">
-            <button type="submit">搜一下</button>
+            <button type="submit" id="search-btn">搜一下</button>
         </form>
         <div class="history-list" hidden>
             <!-- <div class="history">

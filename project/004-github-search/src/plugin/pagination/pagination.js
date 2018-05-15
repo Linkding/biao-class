@@ -181,12 +181,10 @@ function set_amount_limit(amount,limit){
 }
 
 function disabled(){
-    console.log(el_pagination_fieldset)
     el_pagination_fieldset.disabled = true;
 }
 
 function enabled(){
-    console.log(el_pagination_fieldset)
     el_pagination_fieldset.disabled = false;
 }
 
