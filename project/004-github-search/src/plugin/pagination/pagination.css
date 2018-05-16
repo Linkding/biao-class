@@ -7,7 +7,7 @@
 .pagination button {
     display: inline-block;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.4);
 }
 
 button.active {
