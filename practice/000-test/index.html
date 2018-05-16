@@ -22,6 +22,7 @@
 
     img {
       max-width: 50px;
+      border: 1px solid rgba(33, 0, 0, 0.3);
     }
 
     a {
@@ -82,8 +83,12 @@
 
     }
 
+    /* form:hover {
+          box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2)
+      } */
+
     form input,
-    .history-container {
+    .history-list {
       width: 80%;
     }
 
@@ -93,21 +98,26 @@
       border-left: 0;
     }
 
-    input,
-    button {
-      border: 1px solid rgba(0%, 0%, 0%, .4);
+    #search-input,
+    #search-btn {
+      vertical-align: top;
+      border: 1.2px solid rgba(0%, 0%, 0%, .4);
       padding: 10px;
       font-size: 1rem;
       color: #555;
+      height: 40px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+
     }
 
-    .clean {
-      font-size: 0.8rem;
-      text-align: center;
+    #search-btn {
+      border-left: 0;
     }
 
-    .count {
-      margin-top: 20px
+    #count {
+      margin-top: 30px;
+      font-weight: 400;
+      color: rgba(0%, 0%, 0%, .4)
     }
 
     #load-more {
@@ -134,7 +144,7 @@
       margin-top: 15px;
     }
 
-    .history-container {
+    .history-list {
       z-index: 1;
       max-height: 300px;
       position: absolute;
@@ -147,15 +157,18 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
       cursor: default;
     }
-    
-    .history-list {
-      font-size: 0;
-    }
 
     .history {
+      font-size: 0;
       padding: 5px 10px;
     }
-    
+
+    .clean {
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 5px 10px;
+    }
+
     .history:hover,
     .clean:hover {
       background: rgba(0, 0, 200, .1)
@@ -174,7 +187,7 @@
 
     .history .tool {
       width: 30%;
-      font-size: 0.4rem;
+      font-size: 0.7rem;
       color: #aaa;
       text-align: right;
     }
@@ -189,11 +202,23 @@
 
     .loading {
       position: fixed;
-      background: rgba(0%, 0%, 0%, .3);
-      padding: 5px;
+      padding: 5px 10px;
+      background: rgba(0%, 0%, 0%, .4);
       color: #fff;
       top: 30px;
       right: 50px;
+      font-size: 0.8rem;
+    }
+
+    .top {
+      position: fixed;
+      bottom: 0;
+      right: 20px;
+      background: rgba(0%, 0%, 0%, .3);
+      color: #fff;
+      padding: 3px 5px;
+      font-size: 1rem;
+      display: inline-block;
     }
   </style>
 </head>
@@ -203,55 +228,152 @@
     <h1>Github用户搜索</h1>
     <form id="form-search" autocomplete="off">
       <input type="text" id="search-input" placeholder="请输入">
-      <button type="submit">搜一下</button>
+      <button type="submit" id="search-btn">搜一下</button>
     </form>
-    <div class="history-container">
-      <div class="history-list">
-        <div class="history">
-          <div class="text">lin</div>
-          <div class="tool">
-            <span class="delete">删除</span>
-          </div>
-        </div>
-        <div class="history">
-          <div class="text">lin</div>
-          <div class="tool">
-            <span class="delete">删除</span>
-          </div>
+    <div class="history-list" hidden="">
+      <div class="history" data-history="linshan">
+        <div class="text">linshan</div>
+        <div class="tool">
+          <span class="delete">删除</span>
         </div>
       </div>
-      <div class="clean">清除所有</div>
+      <div class="history" data-history="10999">
+        <div class="text">10999</div>
+        <div class="tool">
+          <span class="delete">删除</span>
+        </div>
+      </div>
+      <div>
+        <div class="clean">清除所有</div>
+      </div>
     </div>
-    <div id="count"></div>
+    <div id="count">共有45条结果</div>
     <div id="user-list">
-      <!-- <div class="user">
-                                  <div class="logo">
-                                      <img src="https://avatars0.githubusercontent.com/u/2541208?v=4">
-                                  </div>
-                                  <div class="info">
-                                      <div class="name">link</div>
-                                      <a href="http://linkding.github.com" class="link">http://linkding.github.com</a>
-                                  </div>
-                              </div>
-                              <div class="user">
-                                  <div class="logo">
-                                      <img src="https://avatars0.githubusercontent.com/u/2541208?v=4">
-                                  </div>
-                                  <div class="info">
-                                      <div class="name">link</div>
-                                      <a href="http://linkding.github.com" class="link">http://linkding.github.com</a>
-                                  </div>
-                              </div> -->
+      <div class="user">
+        <div class="logo">
+          <img src="https://avatars3.githubusercontent.com/u/8446954?v=4">
+        </div>
+        <div class="info">
+          <div class="name">boylinshan</div>
+          <a href="https://github.com/boylinshan" class="link">https://github.com/boylinshan</a>
+        </div>
+      </div>
+
+      <div class="user">
+        <div class="logo">
+          <img src="https://avatars2.githubusercontent.com/u/3484379?v=4">
+        </div>
+        <div class="info">
+          <div class="name">linshan003</div>
+          <a href="https://github.com/linshan003" class="link">https://github.com/linshan003</a>
+        </div>
+      </div>
+
+      <div class="user">
+        <div class="logo">
+          <img src="https://avatars0.githubusercontent.com/u/12580511?v=4">
+        </div>
+        <div class="info">
+          <div class="name">LindsayJiang</div>
+          <a href="https://github.com/LindsayJiang" class="link">https://github.com/LindsayJiang</a>
+        </div>
+      </div>
+
+      <div class="user">
+        <div class="logo">
+          <img src="https://avatars3.githubusercontent.com/u/2188618?v=4">
+        </div>
+        <div class="info">
+          <div class="name">jlstmac</div>
+          <a href="https://github.com/jlstmac" class="link">https://github.com/jlstmac</a>
+        </div>
+      </div>
+
+      <div class="user">
+        <div class="logo">
+          <img src="https://avatars2.githubusercontent.com/u/889860?v=4">
+        </div>
+        <div class="info">
+          <div class="name">linshan</div>
+          <a href="https://github.com/linshan" class="link">https://github.com/linshan</a>
+        </div>
+      </div>
+
+      <div class="user">
+        <div class="logo">
+          <img src="https://avatars1.githubusercontent.com/u/6819434?v=4">
+        </div>
+        <div class="info">
+          <div class="name">LinShanify</div>
+          <a href="https://github.com/LinShanify" class="link">https://github.com/LinShanify</a>
+        </div>
+      </div>
+
+      <div class="user">
+        <div class="logo">
+          <img src="https://avatars3.githubusercontent.com/u/19930462?v=4">
+        </div>
+        <div class="info">
+          <div class="name">linshanhu</div>
+          <a href="https://github.com/linshanhu" class="link">https://github.com/linshanhu</a>
+        </div>
+      </div>
+
+      <div class="user">
+        <div class="logo">
+          <img src="https://avatars2.githubusercontent.com/u/26127798?v=4">
+        </div>
+        <div class="info">
+          <div class="name">LinShangRu</div>
+          <a href="https://github.com/LinShangRu" class="link">https://github.com/LinShangRu</a>
+        </div>
+      </div>
+
+      <div class="user">
+        <div class="logo">
+          <img src="https://avatars2.githubusercontent.com/u/4133242?v=4">
+        </div>
+        <div class="info">
+          <div class="name">linshanqing</div>
+          <a href="https://github.com/linshanqing" class="link">https://github.com/linshanqing</a>
+        </div>
+      </div>
+
+      <div class="user">
+        <div class="logo">
+          <img src="https://avatars2.githubusercontent.com/u/10880431?v=4">
+        </div>
+        <div class="info">
+          <div class="name">linshan-gary</div>
+          <a href="https://github.com/linshan-gary" class="link">https://github.com/linshan-gary</a>
+        </div>
+      </div>
     </div>
 
-    <button type="submit" id="load-more" hidden>加载更多</button>
-    <div class="pagination-container" hidden>
-      <button id="first-page" class="pager">首页</button>
-      <div class="pagination">
-      </div>
-      <button id="last-page" class="pager">尾页</button>
+    <button type="submit" id="load-more" hidden="">加载更多</button>
+    <div class="pagination-container pagination">
+      <fieldset class="pagination-fieldset">
+        <div class="pagination-pre">
+          <button class="pagination-first">First</button>
+          <button class="pagination-prev">Prev</button>
+        </div>
+        <div class="pagination-list">
+          <button class="pagination-item active" data-page="1">1</button>
+          <button class="pagination-item" data-page="2">2</button>
+          <button class="pagination-item" data-page="3">3</button>
+          <button class="pagination-item" data-page="4">4</button>
+          <button class="pagination-item" data-page="5">5</button>
+        </div>
+        <div class="pagination-post">
+          <button class="pagination-next">Next</button>
+          <button class="pagination-last">Last</button>
+        </div>
+      </fieldset>
     </div>
   </div>
-  <div class="loading" hidden>加载中...</div>
+  <div class="loading" hidden="">正在加载...</div>
+  <div class="top">TOP</div>
   <script src="dist/bundle.js"></script>
+
+
 </body>
