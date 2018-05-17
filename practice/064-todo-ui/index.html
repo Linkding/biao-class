@@ -8,24 +8,30 @@
     <input type="text" name="des" value="我是谁">
     <button type="submit">添加任务</button>
 </form>
-<script>
-    ; (function () {
-        'use strict';
-        
 
-        function find_of_data(form_seletor){
-            var data = {};
-            var form = document.querySelector(form_seletor)
-                , input = form.querySelectorAll('[name]')
-                ;
+<form id="form2">
+    <input type="text" name="name" value="lxb">
+    <input type="text" name="age" value="29">
+    <input type="text" name="dec" value="hi">
+</form>
+<script>
+    ;(function(){ 
+    'use strict';
+        function get_form_data(form_selector){
+            var data  = {};
+            var form = document.querySelector(form_selector);
+            var input = form.querySelectorAll('[name]');
 
             input.forEach(function(item){
-                data[item.name] = item.value;                
-            });
+                data[item.name] = item.value;
+            })
             return data;
         }
-       
-        var row = find_of_data('#todo-form')
+
+        var row = get_form_data('#todo-form');
         console.log(row)
+
+        var row2 =get_form_data('#form2')
+        console.log(row2)
     })();
 </script>
