@@ -5,7 +5,10 @@
         <input type="checkbox" name="completed">完成
     </label>
     <br>
-    <input type="text" name="des" value="我是谁">
+    <input type="text" name="ask" value="我是谁">
+    <textarea name="desc" id="" cols="30" rows="10">
+        描述一下自己
+    </textarea>
     <button type="submit">添加任务</button>
 </form>
 
@@ -20,10 +23,28 @@
         function get_form_data(form_selector){
             var data  = {};
             var form = document.querySelector(form_selector);
-            var input = form.querySelectorAll('[name]');
+            var list = form.querySelectorAll('[name]');
 
-            input.forEach(function(item){
-                data[item.name] = item.value;
+            list.forEach(function(input){
+                switch (input.nodeName){
+                    case 'INPUT':
+                        switch (input.type){
+                            case 'text':
+                            case 'search':
+                            case 'password':
+                            case 'input':
+                                data[input.name] = input.value;
+                                break;
+                            case 'radio':
+                            case 'checkbox':
+                                data[input.name] = input.checked;
+                                break;
+                        }
+                        break;
+                    case 'TEXTAREA':
+                        data[input.name] = input.value;
+                        break;
+                }
             })
             return data;
         }
