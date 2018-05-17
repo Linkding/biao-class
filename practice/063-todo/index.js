@@ -1,22 +1,23 @@
-var max_id = 2;
-var todo_list = [
-    {
-        id : 1,
-        name: 'lxx',
-        age:110
-    },
-    {
-        id:2,
-        name:'whh',
-        age:119
-    }
-];
+function Todo(name,age){
+    this.max_id = 1;
+    this.todo_list = [
+        {
+            id : 1,
+            name: name,
+            age: age
+        }
+    ];
+
+    this.prototype.add = add;
+    this.prototype.remove = remove;
+}
+
 
 // ==========增========
 function add(row){
     var id = max_id + 1;
     row.id = id;
-    todo_list.push(row);
+    Todo.todo_list.push(row);
 }
 
 // =========删=========
