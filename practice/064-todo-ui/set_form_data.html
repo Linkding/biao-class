@@ -19,44 +19,39 @@
     ; (function () {
         'use strict';
         function set_form_data(form_selector, data) {
-            //选中需要插入数据的表单
             var form = document.querySelector(form_selector);
 
-            //遍历数据对象
-            for (var key in data) {
+            for (var key in data) { //data类型为对象时，遍历的key为键
                 var value = data[key];
 
-                // 找到表单中对应键名的元素
-                var input = document.querySelector(`[name=${key}]`);
-
+                var input = form.querySelector(`[name=${key}]`);
+                // 如果不存在指定这个元素name，跳过继续下一个
                 if (!input)
                     continue;
 
-                var data_type = typeof value;
-
+                var data_type = typeof value; //获取值的类型
                 switch (data_type) {
-                    //如果是字符串，就默认为input[type=number|text|url|...]
+                    // 如果是字符串或者数字，就默认为input[type=text|password|...]
                     case 'string':
                     case 'number':
                         input.value = value;
                         break;
-                    // 如果是布尔值，就默认为input[type=radio|checkbox]
+                    // 如果是布尔值，默认input[type=radio|checkbox|...]
                     case 'boolean':
                         input.checked = value;
                         break;
 
                 }
-                // 将传入的值插入到表单对应的元素中
-                // input.value = value;
             }
 
+
+        }
+        var row = {
+            title: 'lxb',
+            completed: true,
+            ask: '你谁啊'
         }
 
-        var row = {
-            title: '睡美人',
-            completed: true,
-            ask: '你是谁'
-        }
         set_form_data('#todo-form', row)
     })();
 </script>
