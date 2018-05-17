@@ -1,0 +1,31 @@
+<form id="todo-form">
+    <input type="text" name="title" value="yo">
+    <br>
+    <label>
+        <input type="checkbox" name="completed">完成
+    </label>
+    <br>
+    <input type="text" name="des" value="我是谁">
+    <button type="submit">添加任务</button>
+</form>
+<script>
+    ; (function () {
+        'use strict';
+        
+
+        function find_of_data(form_seletor){
+            var data = {};
+            var form = document.querySelector(form_seletor)
+                , input = form.querySelectorAll('[name]')
+                ;
+
+            input.forEach(function(item){
+                data[item.name] = item.value;                
+            });
+            return data;
+        }
+       
+        var row = find_of_data('#todo-form')
+        console.log(row)
+    })();
+</script>
