@@ -19,24 +19,30 @@
     <input type="text" name="dec" value="hi">
 </form>
 <script>
-    ;(function(){ 
-    'use strict';
-        function get_form_data(form_selector){
-            var data  = {};
+    ; (function () {
+        'use strict';
+        function get_form_data(form_selector) {
+            var data = {};
             var form = document.querySelector(form_selector);
             var list = form.querySelectorAll('[name]');
 
-            list.forEach(function(input){
-                switch (input.nodeName){
+            list.forEach(function (input) {
+                var value = input.value
+                    , name = input.name
+
+                switch (input.nodeName) {
                     case 'INPUT':
-                        switch (input.type){
+                        switch (input.type) {
                             case 'text':
+                                break;
                             case 'search':
+                                break;
                             case 'number':
+                                value = parseFloat(value)
                             case 'password':
                             case 'input':
                             case 'hidden':
-                                data[input.name] = input.value;
+                                data[input.name] = value;
                                 break;
                             case 'radio':
                             case 'checkbox':
@@ -45,7 +51,7 @@
                         }
                         break;
                     case 'TEXTAREA':
-                        data[input.name] = input.value;
+                        data[input.name] = value;
                         break;
                 }
             })
@@ -55,7 +61,7 @@
         var row = get_form_data('#todo-form');
         console.log(row)
 
-        var row2 =get_form_data('#form2')
+        var row2 = get_form_data('#form2')
         console.log(row2)
     })();
 </script>
