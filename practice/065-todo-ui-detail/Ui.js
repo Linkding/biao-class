@@ -1,60 +1,112 @@
-Window.Ui = Ui;
+window.Ui = Ui;
 
-function Ui(form_selector, list_selector) {
+function Ui(form_selector, list_selector, input_selector) {
     this.form = document.querySelector(form_selector);
     this.list = document.querySelector(list_selector);
+    this.input = document.querySelector(input_selector);
     this._api = new Api();
+    this.init = init;
 }
 
 Ui.prototype.get_form_data = get_form_data;
 Ui.prototype.set_form_data = set_form_data;
 Ui.prototype.render = render;
+Ui.prototype.detect_add = detect_add;
+Ui.prototype.detect_click_list = detect_click_list;
+Ui.prototype.clear_form = clear_form;
+
+function init() {
+    this.render();
+    this.detect_add();
+    this.detect_click_list();
+}
+
+function detect_add() {
+    var me = this;
+    this.form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var row = get_form_data(me.form);
+        console.log(row);
+
+        if(row.id){
+            me._api.update(row.id,row)
+        } else{
+            me._api.add(row);
+            // console.log(me._api.read())
+        }
+        me.render();
+        // me.clear_form();
+        me.input.value = '';
+    });
+}
+
+function clear_form(){
+    console.log('清楚id')
+    var id = document.querySelector('[name=id]')
+    id.value = ''
+}
+function detect_click_list() {
+    var me = this;
+    this.list.addEventListener('click', function (e) {
+        var target = e.target
+            , todo_item = target.closest('.todo-item')
+            // , id = parseInt(todo_item.dataset.id)
+            , id = todo_item.dataset.id
+            , is_update_btn = target.classList.contains('update')
+            , is_remove_btn = target.classList.contains('remove')
+            ;
+
+        if (is_update_btn) {
+            var row = me._api.read(id);
+            me.set_form_data(me.form,row);
+        } else if (is_remove_btn) {
+            console.log('点击删除')
+            me._api.remove(id);
+            me.render();
+        }
+    })
+}
 
 function render() {
-    var list = this._api.read();
+    var todo_list = this._api.read();
     var me = this;
-    list.forEach(function (item) {
+
+    this.list.innerHTML = '';
+    todo_list.forEach(function (item) {
         var el = document.createElement('div');
+        el.classList.add('row', 'todo-item')
+        el.dataset.id = item.id;
 
         el.innerHTML = `
-        <div class="row todo-item">
-      <div class="col checkbox">
-        <input type="checkbox">
-      </div>
-      <div class="col detail">
-        <div class="title">${item.title}</div>
-      </div>
-      <div class="col tool-set">
-        <button>更新</button>
-        <button>删除</button>
-      </div>
-    </div>
+        <div class="col checkbox">
+            <input type="checkbox">
+        </div>
+        <div class="col detail">
+            <div class="title">${item.title}</div>
+        </div>
+        <div class="col tool-set">
+            <button class="update">更新</button>
+            <button class="remove">删除</button>
+        </div>
         `
+            ;
         me.list.appendChild(el);
     })
 }
-function get_form_data(form_selector) {
+function get_form_data(form) {
     var data = {};
-    var form = document.querySelector(form_selector);
     var list = form.querySelectorAll('[name]');
 
     list.forEach(function (input) {
-        var value = input.value
-            , name = input.name
-
         switch (input.nodeName) {
             case 'INPUT':
                 switch (input.type) {
                     case 'text':
-                        break;
                     case 'search':
-                        break;
                     case 'number':
-                        value = parseFloat(value)
                     case 'password':
-                    case 'input':
                     case 'hidden':
-                        data[input.name] = value;
+                        data[input.name] = input.value;
                         break;
                     case 'radio':
                     case 'checkbox':
@@ -63,16 +115,14 @@ function get_form_data(form_selector) {
                 }
                 break;
             case 'TEXTAREA':
-                data[input.name] = value;
+                data[input.name] = input.value;
                 break;
         }
     })
     return data;
 }
 
-function set_form_data(form_selector, data) {
-    var form = document.querySelector(form_selector);
-
+function set_form_data(form, data) {
     for (var key in data) { //data类型为对象时，遍历的key为键
         var value = data[key];
 
@@ -98,5 +148,3 @@ function set_form_data(form_selector, data) {
 
 }
 
-var ui = new Ui('#todo-form', '#todo-list');
-console.log(ui);

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 function Todo(name,age){
     this.max_id = 1;
     this.todo_list = [
@@ -34,13 +33,6 @@ function update(id,new_row){
         return
     var old_row = todo_list[index];
     todo_list[index] = Object.assign({},old_row,new_row)
-=======
-function Todo(name) {
-    this.name = name;
-    this.yo = function () {
-        console.log(`yo  我是${this.name}`)
-    }
->>>>>>> 31ef39437e940ffa5bfcfb8c942295ee3f062c0e
 }
 
 var todo1 = new Todo('whh');

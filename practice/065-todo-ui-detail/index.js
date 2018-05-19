@@ -1,2 +1,3 @@
-var ui = new Ui('#todo-form', '#todo-list');
-ui.render();
+var ui = new Ui('#todo-form','#todo-list','#todo-input');
+
+ui.init();

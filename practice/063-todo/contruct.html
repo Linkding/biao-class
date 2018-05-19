@@ -41,8 +41,9 @@
 
     //========查========
     function read(id) {
-        var index = find_index_by_id(this.todo_list, id)
-        return this.todo_list[index];
+        if(id)
+            return find_by_id(this.todo_list,id);
+        return this.todo_list;
     }
 
     // =======功能方法====
