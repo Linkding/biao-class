@@ -1,71 +1,40 @@
-window.Api = Todo;
+function api(max_id){
+  this.max_id = max_id || 101;
+  this.todo_list = [
+    {
 
-function Todo(list, max_id) {
-    this.max_id = max_id || 1;
-    this.todo_list = [
-        { // 0
-            id: 100,
-            title: '买菜',
-            remind_at: '2020...',
-            completed: false,
-        },
-        { // 1
-            id: 101,
-            title: '洗菜',
-            remind_at: '2020-10-01 20:20:02',
-            completed: false,
-        },
-    ];
-}
-
-Todo.prototype.add = add;
-Todo.prototype.remove = remove;
-Todo.prototype.update = update;
-Todo.prototype.read = read;
-
-
-
-// ==========增========
-function add(row) {
-    this.max_id = this.max_id + 1;
-    row.id = this.max_id;
-    this.todo_list.push(row)
-}
-
-// =========删=========
-function remove(id) {
-    var index = find_index_by_id(this.todo_list, id);
-    this.todo_list.splice(index, 1)
-}
-
-// =========改=======
-function update(id, new_row) {
-    var index = find_index_by_id(this.todo_list, id);
-    if (index < 0)
-        return
-    var old_row = this.todo_list[index];
-    this.todo_list[index] = Object.assign({}, old_row, new_row)
-}
-
-//========查========
-function read(id) {
-    if (id){
-        return find_by_id(this.todo_list, id);
-        console.log(find_by_id(this.todo_list, id))
     }
-    return this.todo_list;
+  ]
+  
+};
+
+api.prototype.add = add;
+api.prototype.remove = remove;
+api.prototype.update = update;
+api.prototype.read = read;
+
+function add(row,id){
+  var id = this.max_id + 1;
+  row.id = id;
+  this.todo_list.push(row);
 }
 
-// =======功能方法====
-// 通过id找到元素索引
-function find_index_by_id(arr, id) {
-    return arr.findIndex(function (item) {
-        return item.id == id;
-    })
+function remove(id){
+  
 }
-// 通过id找到元素
-function find_by_id(arr, id) {
-    return arr.find(function (item) {
-        return item.id == id;
-    })
+
+function update(){
+
+}
+
+function read(){
+
+}
+
+function find_index_by_id(arr,id){
+  arr.forEach(function(item){
+    if(item.id == id){
+      return  arr.findIndex(item.id);
+    }
+  })
 }
