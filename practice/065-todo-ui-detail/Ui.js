@@ -28,23 +28,26 @@ function detect_add() {
         var row = get_form_data(me.form);
         console.log(row);
 
+        if(!row.title)
+            return;
+
         if(row.id){
             me._api.update(row.id,row)
-        } else{
+        } else {
             me._api.add(row);
             // console.log(me._api.read())
-        }
+        };
         me.render();
-        // me.clear_form();
-        me.input.value = '';
+        me.clear_form();
+        // me.input.value = '';
     });
 }
 
 function clear_form(){
-    console.log('清楚id')
-    var id = document.querySelector('[name=id]')
-    id.value = ''
+   this.form.reset();
+   document.querySelector('')
 }
+
 function detect_click_list() {
     var me = this;
     this.list.addEventListener('click', function (e) {
