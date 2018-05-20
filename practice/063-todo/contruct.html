@@ -1,38 +1,43 @@
 <script>
+    function api(max_id){
+        this.max_id = max_id || 1;
+        this.todo_list = [
+            {
+                id: 1,
+                name: 'lxb',
+                completed: false
+            }
+        ]
+    }
 
-    var max_id = 1;
-    var todo_list = [
-        {
-            id: 1,
-            name: 'lxb',
-            completed: false
-        }
-    ]
-
+    api.prototype.add = add;
+    api.prototype.remove = remove;
+    api.prototype.update = update;
+    api.prototype.read = read;
 
     function add(row) {
-        var id = max_id + 1;
+        var id = this.max_id + 1;
         row.id = id;
-        todo_list.push(row);
+        this.todo_list.push(row);
     }
 
     function remove(id) {
-        var index_num = find_index_by_id(todo_list, id);
-        todo_list.splice(index_num, 1);
+        var index_num = find_index_by_id(this.todo_list, id);
+        this.todo_list.splice(index_num, 1);
     }
 
     function update(id, new_row) {
-        var index_num = find_index_by_id(todo_list, id);
+        var index_num = find_index_by_id(this.todo_list, id);
         if (index_num < 0)
             return;
-        var old_row = todo_list[index_num];
-        todo_list[index_num] = Object.assign({}, old_row, new_row);
+        var old_row = this.todo_list[index_num];
+        this.todo_list[index_num] = Object.assign({}, old_row, new_row);
     }
 
     function read(id) {
         if (id)
-            return find_by_id(id);
-        return todo_list
+            return find_by_id(this.todo_list,id);
+        return this.todo_list
     }
     // 功能函数
     function find_index_by_id(arr, id) {
@@ -41,20 +46,29 @@
         });
     }
 
-    function find_by_id(id) {
-        var index = find_index_by_id(todo_list, id);
-        return todo_list[index];
+    function find_by_id(arr,id) {
+        var index = find_index_by_id(arr, id);
+        return arr[index];
     }
 
     // =======测试区=======
-    add({ name: 'hbb', completed: false })
-    update(1,{name:'lxx',completed: true})
+    // add({ name: 'hbb', completed: false })
+    // update(1,{name:'lxx',completed: true})
 
-    console.log(todo_list)
+    // console.log(todo_list)
     // console.log(remove(2))
     // console.log(todo_list)
-    console.log(read(2))
+    // console.log(read(2))
     // console.log(find_by_id(2))
-    
+    var test = new api();
+
+    test.add({ name: 'hbb', completed: false })
+    // test.remove(2)
+    test.update(1,{name:'lxx',completed: true})
+    // console.log(find_index_by_id(test.todo_list,2))
+    // console.log(find_by_id(test.todo_list,1))
+    console.log(test.read(1))
+    console.log(test.todo_list)
+
 
 </script>
