@@ -77,7 +77,7 @@ function detect_click() {
             , is_update_btn = target.classList.contains('update')
             , is_remove_btn = target.classList.contains('remove')
             ;
-            
+
         if (is_update_btn) {
             var row = me._api.read(id);
             me.set_form_data(me.form, row);
@@ -88,7 +88,7 @@ function detect_click() {
     })
 }
 
-function remve(id) {
+function remove(id) {
     this._api.remove(id);
     this.render();
 }
