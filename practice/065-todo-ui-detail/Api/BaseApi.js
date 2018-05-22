@@ -1,27 +1,15 @@
-window.Api = api;
+window.BaseApi = BaseApi;
 
-function api(todo,max_id){
-  this.max_id = max_id || 1;
-  this.todo_list = [
-    { // 0
-      id: 100,
-      title: '买菜',
-      remind_at: '2020...',
-      completed: false,
-    },
-    { // 1
-      id: 101,
-      title: '洗菜',
-      remind_at: '2020-10-01 20:20:02',
-      completed: false,
-    },
-  ]
+function BaseApi(list){
+  if(!list)
+    throw "Invaild: list"  
+  this.list = list;
 }
 
-api.prototype.add = add;
-api.prototype.remove = remove;
-api.prototype.update = update;
-api.prototype.read = read;
+BaseApi.prototype.add = add;
+BaseApi.prototype.remove = remove;
+BaseApi.prototype.update = update;
+BaseApi.prototype.read = read;
 
 function add(row) {
   var id = this.max_id + 1;
