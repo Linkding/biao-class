@@ -40,7 +40,6 @@ function read(id) {
 }
 // 功能函数
 function find_index_by_id(arr, id) {
-  console.log('arr    ' + arr)
   return arr.findIndex(function (item) {
       return item.id == id;
   });

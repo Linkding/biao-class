@@ -25,22 +25,27 @@ function TaskUi(form_selector, list_selector, input_selector) {
     this.list = document.querySelector(list_selector);
     this.input = document.querySelector(input_selector);
     this._api = new TaskApi(test_list);
-    this.init = init;
 }
 
+TaskUi.prototype.init = init;
 TaskUi.prototype.get_form_data = get_form_data;
 TaskUi.prototype.set_form_data = set_form_data;
 TaskUi.prototype.render = render;
 TaskUi.prototype.detect_add = detect_add;
 TaskUi.prototype.detect_click = detect_click;
 TaskUi.prototype.remove = remove;
+TaskUi.prototype.test = test;
 
 function init() {
     this.render();
     this.detect_add();
     this.detect_click();
+    // this.test();
 }
 
+function test(){
+    console.log('TaskUi test')
+}
 function render() {
     var me = this;
     //从api获取数据

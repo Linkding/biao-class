@@ -20,7 +20,7 @@ function CatApi(list,max_id) {
             title: '天天向上',
         },
     ];
-    max_id = max_id || 1;
+    max_id = max_id || 3;
     /*继承显性属性（也就是原型prototype）*/
     BaseApi.call(this, list, max_id);
 }
