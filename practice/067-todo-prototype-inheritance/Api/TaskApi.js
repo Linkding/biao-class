@@ -15,6 +15,8 @@ TaskApi.prototype.add = add;
 TaskApi.prototype.remove = remove;
 TaskApi.prototype.update = update;
 TaskApi.prototype.read = read;
+TaskApi.prototype.find = find;
+
 
 function add(row) {
     if (!row.title)
@@ -30,6 +32,10 @@ function update(id, new_row) {
     return this.$update(id, new_row)
 }
 
-function read(id) {
-    return this.$read(id);
+function read() {
+    return this.$read();
+}
+
+function find(id){
+    return this.$find(id)
 }

@@ -9,6 +9,7 @@ BaseApi.prototype.$add = add;
 BaseApi.prototype.$remove = remove;
 BaseApi.prototype.$update = update;
 BaseApi.prototype.$read = read;
+BaseApi.prototype.$find = find;
 
 function add(row) {
   this.max_id = this.max_id + 1; //@ 注意这里写法，每次add后，都要更新max_id；
@@ -33,12 +34,15 @@ function update(id, new_row) {
   this.todo_list[index_num] = Object.assign({}, old_row, new_row);
 }
 
-function read(id) {
-  if (id)
-      return find_by_id(this.todo_list,id);
+function read() {
   return this.todo_list
 }
-// 功能函数
+// 查找其中一条数据 
+function find(id){
+  return find_by_id(this.todo_list,id)
+}
+
+// =========功能函数=========
 function find_index_by_id(arr, id) {
   return arr.findIndex(function (item) {
       return item.id == id;

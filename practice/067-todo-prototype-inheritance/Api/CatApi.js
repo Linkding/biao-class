@@ -33,6 +33,7 @@ CatApi.prototype.add = add;
 CatApi.prototype.remove = remove;
 CatApi.prototype.update = update;
 CatApi.prototype.read = read;
+CatApi.prototype.find = find;
 
 function add(row) {
     if (!row.title)
@@ -48,6 +49,10 @@ function update(id, new_row) {
     return this.$update(id, new_row)
 }
 
-function read(id) {
-    return this.$read(id);
+function read() {
+    return this.$read();
+}
+
+function find(id){
+    return this.$find(id)
 }

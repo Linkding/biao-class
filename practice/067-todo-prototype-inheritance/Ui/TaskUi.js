@@ -28,8 +28,8 @@ function TaskUi(form_selector, list_selector, input_selector) {
 }
 
 TaskUi.prototype.init = init;
-TaskUi.prototype.get_form_data = get_form_data;
-TaskUi.prototype.set_form_data = set_form_data;
+TaskUi.prototype.get_form_data = helper.get_form_data;
+TaskUi.prototype.set_form_data = helper.set_form_data;
 TaskUi.prototype.render = render;
 TaskUi.prototype.detect_add = detect_add;
 TaskUi.prototype.detect_click = detect_click;
@@ -103,7 +103,7 @@ function detect_click() {
             ;
 
         if (is_update_btn) {
-            var row = me._api.read(id);
+            var row = me._api.find(id);
             me.set_form_data(me.form, row);
         } else if (is_remove_btn) {
             console.log('id:' + id)
@@ -116,61 +116,64 @@ function remove(id) {
     this._api.remove(id);
     this.render();
 }
-function get_form_data(form) {
-    var data = {};
-    // 获取表单内所有拥有name的元素
-    var list = form.querySelectorAll('[name]');
-    // 遍历name元素
-    list.forEach(function (input) {
-        // 按name元素中的节点名分类筛选
-        switch (input.nodeName) {
-            case 'INPUT':
-                switch (input.type) {
-                    case 'text':
-                    case 'search':
-                    case 'password':
-                    case 'hidden':
-                    case 'number':
-                        //如果是用户输入类型，请直接用用户输入的值
-                        data[input.name] = input.value;
-                        break;
-                    case 'radio':
-                    case 'checkbox':
-                        // 如果是打钩类数据，使用打钩状态
-                        data[input.name] = input.checked;
-                        break;
-                }
-                break;
-            case 'TEXTAREA':
-                data[input.name] = input.value;
-                break;
-        }
-    })
-    return data;
-}
 
-// * @param element form 元素
-// * @param Object data 类{}
-function set_form_data(form, data) {
-    // 遍历对象
-    for (var key in data) {
-        var value = data[key];
-        //找到当前属性在表单中的位置
-        var input = document.querySelector(`[name=${key}]`)
-        //如果不存在，则继续下一个
-        if (!input)
-            continue;
-        var input_type = typeof value;
-        switch (input_type) {
-            /*如果是字符串或者数字，就默认其为input[type=number|text|url|...]*/
-            case 'string':
-            case 'number':
-                input.value = value;
-                break;
-            /*如果是布尔值，就默认其为input[type=radio|checkbox]*/
-            case 'boolean':
-                input.checked = value;
-                break;
-        }
-    }
-}
+// function get_form_data(form) {
+//     var data = {};
+//     // 获取表单内所有拥有name的元素
+//     var list = form.querySelectorAll('[name]');
+//     // 遍历name元素
+//     list.forEach(function (input) {
+//         // 按name元素中的节点名分类筛选
+//         switch (input.nodeName) {
+//             case 'INPUT':
+//                 switch (input.type) {
+//                     case 'text':
+//                     case 'search':
+//                     case 'password':
+//                     case 'hidden':
+//                     case 'number':
+//                         //如果是用户输入类型，请直接用用户输入的值
+//                         data[input.name] = input.value;
+//                         break;
+//                     case 'radio':
+//                     case 'checkbox':
+//                         // 如果是打钩类数据，使用打钩状态
+//                         data[input.name] = input.checked;
+//                         break;
+//                 }
+//                 break;
+//             case 'TEXTAREA':
+//                 data[input.name] = input.value;
+//                 break;
+//         }
+//     })
+//     return data;
+// }
+
+// // * @param element form 元素
+// // * @param Object data 类{}
+// function set_form_data(form, data) {
+//     // 遍历对象
+//     for (var key in data) {
+//         var value = data[key];
+//         //找到当前属性在表单中的位置
+//         var input = document.querySelector(`[name=${key}]`)
+//         //如果不存在，则继续下一个
+//         console.log(input)
+//         if (!input)
+//             continue;
+//             // console.log(input)
+//         var input_type = typeof value;
+//         switch (input_type) {
+//             /*如果是字符串或者数字，就默认其为input[type=number|text|url|...]*/
+//             case 'string':
+//             case 'number':
+//                 input.value = value;
+//                 break;
+//             /*如果是布尔值，就默认其为input[type=radio|checkbox]*/
+//             case 'boolean':
+//                 input.checked = value;
+//                 break;
+//         }
+//     }
+// }

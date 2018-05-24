@@ -48,7 +48,7 @@ function render() {
 
         el.innerHTML = `
         <div class="input">
-        <input type="text" value="${item.title}" disabled>
+        <input class="item" type="text" value="${item.title}" disabled>
         </div>
         <div class="tool-set">
         ${
@@ -77,7 +77,6 @@ function detect_submit_form() {
             me._api.update(row.id, row)
             me.hide_cat_input();
         } else {
-            console.log('add row')
             me._api.add(row);
         }
 
@@ -117,12 +116,15 @@ function detcet_click_list() {
         var target = e.target
             , is_update_btn = target.classList.contains('update')
             , is_delete_btn = target.classList.contains('delete')
+            , is_item = target.classList.contains('item')
             , cat_item = target.closest('.cat-item')
             // , id = cat_item.dataset.id
             ;
         //判断点击的元素是否是insert移动过来的
         if(cat_item){
             var id = cat_item.dataset.id
+                , title = me._api.find(id).title
+                ;
         }
         // 如果是默认的id1，就返回，不删除，永远保留
         if (id == 1) 
@@ -135,13 +137,15 @@ function detcet_click_list() {
             if (me.updating_cat_item)
             me.updating_cat_item.hidden = false;
 
-            var row = me._api.read(id)
+            var row = me._api.find(id)
             me.set_form_data(me.cat_form, row);//将点击的对应数据写入输入框
             me.show_cat_input();//显示输入框
             cat_item.hidden = true;//隐藏锁点击的对应数据元素
             cat_item.insertAdjacentElement('afterend',me.cat_form)//将输入框移动到点击元素位置
 
             me.updating_cat_item = cat_item; //将目前编辑这个list存入预设的一个，用于恢复时候的变量
+        } else if(is_item){
+            
         }
     })
 }
@@ -157,4 +161,8 @@ function hide_cat_input() {
 function show_updating_cat_item(){
     if(this.updating_cat_item)
         this.updating_cat_item.hidden = false;
+}
+
+function toggle_group(){
+
 }
