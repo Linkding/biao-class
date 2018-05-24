@@ -10,6 +10,10 @@
       font-family: sans-serif;
     }
   
+    form {
+      margin: 0;
+    }
+  
     hr {
       display: block;
       height: 1px;
@@ -130,6 +134,15 @@
       user-select: none;
     }
   
+    .cat-item .tool-set > * {
+      display: inline-block;
+      padding: 0 2px;
+    }
+  
+    .cat-item .title {
+      font-size: .9rem;
+    }
+  
     .cat-item:hover {
       background: rgba(0, 0, 0, .06);
     }
@@ -139,46 +152,46 @@
     }
   
   </style>
-  <div class="container">
-    <h1>Biao Todo</h1>
-    <div class="row">
-      <div class="col sidebar">
-        <div class="sidebar-title">分组</div>
-        <hr>
-        <div id="cat-list" class="cat-list">
-          <!--<div class="cat-item">-->
-          <!--<input type="text" value="默认" disabled>-->
-          <!--</div>-->
-        </div>
-  
-        <form id="cat-form" hidden>
-          <input type="text" value="yo" class="block" name="title" autocomplete="off">
-          <button type="submit">完成</button>
-          <button type="button" data-action="cancel">取消</button>
-        </form>
-  
-        <div>
-          <button id="add-cat" class="block">+</button>
-        </div>
+<div class="container">
+  <h1>Biao Todo</h1>
+  <div class="row">
+    <div class="col sidebar">
+      <div class="sidebar-title">分组</div>
+      <hr>
+      <div id="cat-list" class="cat-list">
+        <!--<div class="cat-item">-->
+        <!--<input type="text" value="默认" disabled>-->
+        <!--</div>-->
       </div>
-      <div class="col main">
-        <form id="todo-form" class="row">
-          <input type="hidden" name="id">
-          <input id="todo-input" type="text" name="title" class="col" autocomplete="off">
-          <button class="col">添加</button>
-        </form>
-        <div id="todo-list">
-        </div>
+
+      <form id="cat-form" hidden>
+        <input type="hidden" name="id">
+        <input type="text" value="yo" class="block" name="title" autocomplete="off">
+        <button type="submit">完成</button>
+        <button type="button" data-action="cancel">取消</button>
+      </form>
+
+      <div>
+        <button id="add-cat" class="block">+</button>
+      </div>
+    </div>
+    <div class="col main">
+      <form id="todo-form" class="row">
+        <input type="hidden" name="id">
+        <input id="todo-input" type="text" name="title" class="col" autocomplete="off">
+        <button class="col">添加</button>
+      </form>
+      <div id="todo-list">
       </div>
     </div>
   </div>
-  
-  <script src="Utils/helper.js"></script>
-  <script src="Api/BaseApi.js"></script>
-  <script src="Api/TaskApi.js"></script>
-  <script src="Api/CatApi.js"></script>
-  <script src="Ui/TaskUi.js"></script>
-  <script src="Ui/CatUi.js"></script>
-  
-  <script src="index.js"></script>
-  
+</div>
+
+<script src="Utils/helper.js"></script>
+<script src="Api/BaseApi.js"></script>
+<script src="Api/TaskApi.js"></script>
+<script src="Api/CatApi.js"></script>
+<script src="Ui/TaskUi.js"></script>
+<script src="Ui/CatUi.js"></script>
+
+<script src="index.js"></script>

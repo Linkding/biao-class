@@ -11,8 +11,8 @@ BaseApi.prototype.$update = update;
 BaseApi.prototype.$read = read;
 
 function add(row) {
-  var id = this.max_id + 1;
-  row.id = id;
+  this.max_id = this.max_id + 1; //@ 注意这里写法，每次add后，都要更新max_id；
+  row.id = this.max_id;
   this.todo_list.push(row);
 }
 
