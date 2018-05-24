@@ -15,12 +15,14 @@ TaskApi.prototype.add = add;
 TaskApi.prototype.remove = remove;
 TaskApi.prototype.update = update;
 TaskApi.prototype.read = read;
-TaskApi.prototype.find = find;
+TaskApi.prototype.read_by_cat = read_by_cat;
 
 
 function add(row) {
     if (!row.title)
         return;
+    if(!row.cat_id)
+        row.cat_id = 1;
     return this.$add(row)
 }
 
@@ -36,6 +38,8 @@ function read() {
     return this.$read();
 }
 
-function find(id){
-    return this.$find(id)
+function read_by_cat(cat_id){
+    return this.read().filter(function(item){
+        return item.cat_id == cat_id;
+    })
 }

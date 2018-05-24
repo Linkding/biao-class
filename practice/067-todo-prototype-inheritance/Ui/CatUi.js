@@ -1,9 +1,18 @@
 window.CatUi = CatUi;
 
-function CatUi() {
-    this.list = document.querySelector('#cat-list');
-    this.add_cat = document.querySelector('#add-cat');
-    this.cat_form = document.querySelector('#cat-form');
+function CatUi(config) {
+    var default_config = {
+        cat_list : '#cat-list',
+        add_cat:'#add-cat',
+        cat_form:'#cat-form',
+        on_item_click: null,
+    }
+
+    var c = this.config = Object.assign({},default_config,config);
+
+    this.list = document.querySelector(c.cat_list);
+    this.add_cat = document.querySelector(c.add_cat);
+    this.cat_form = document.querySelector(c.cat_form);
     this._api = new CatApi();
     this.updating_cat_item = null;//默认为空，用于保存点击更新的那个list，独立保存一份，方便取消时候，恢复回去
 }
@@ -116,19 +125,13 @@ function detcet_click_list() {
         var target = e.target
             , is_update_btn = target.classList.contains('update')
             , is_delete_btn = target.classList.contains('delete')
-            , is_item = target.classList.contains('item')
             , cat_item = target.closest('.cat-item')
             // , id = cat_item.dataset.id
             ;
         //判断点击的元素是否是insert移动过来的
         if(cat_item){
-            var id = cat_item.dataset.id
-                , title = me._api.find(id).title
-                ;
+            var id = cat_item.dataset.id;
         }
-        // 如果是默认的id1，就返回，不删除，永远保留
-        if (id == 1) 
-            return;
 
         if (is_delete_btn) {
             me._api.remove(id);
@@ -144,8 +147,12 @@ function detcet_click_list() {
             cat_item.insertAdjacentElement('afterend',me.cat_form)//将输入框移动到点击元素位置
 
             me.updating_cat_item = cat_item; //将目前编辑这个list存入预设的一个，用于恢复时候的变量
-        } else if(is_item){
-            
+        } else {
+            if(!id)
+                return;
+            if(me.config)
+            me.config.on_item_click(id)
+
         }
     })
 }

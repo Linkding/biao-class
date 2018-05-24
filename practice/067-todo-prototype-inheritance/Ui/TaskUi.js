@@ -4,19 +4,19 @@ test_list = [
       id        : 100,
       title     : '买菜',
       completed : false,
-      group_id  : 1,
+      cat_id  : 2,
     },
     { // 1
       id        : 101,
       title     : '洗菜',
       completed : false,
-      group_id  : 1,
+      cat_id  : 2,
     },
     {
       id        : 102,
       title     : '背单词',
       completed : false,
-      group_id  : 2,
+      cat_id  : 3,
     },
   ]
 
@@ -46,12 +46,21 @@ function init() {
 function test(){
     console.log('TaskUi test')
 }
-function render() {
+function render(cat_id) {
+
     var me = this;
     //从api获取数据
-    var todo_list = this._api.read();//获取的是一个数组
+    var todo_list = cat_id ?
+                    this._api.read_by_cat(cat_id):
+                    this._api.read();
+
     //清空历史数据
-    me.list.innerHTML = '';
+    if(todo_list.length){
+        this.list.innerHTML = '';
+    } else{
+        this.list.innerHTML = `<div class="empty-holder">暂无内容</div>`;
+    }
+
     todo_list.forEach(function (item) {
         var el = document.createElement('div');
         el.classList.add('row', 'todo-item');
