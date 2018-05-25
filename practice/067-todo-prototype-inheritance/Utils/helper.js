@@ -16,7 +16,7 @@ window.helper = {
   
     var data = {};
     var list = form.querySelectorAll('[name]');
-  
+    console.log(list)
     list.forEach(function (input) {
       switch (input.nodeName) {
   

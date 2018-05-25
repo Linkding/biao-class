@@ -57,15 +57,15 @@ function test(){
 }
 
 function render(cat_id,cat_title) {
-    console.log(cat_title)
     var me = this;
     //从api获取数据
     var todo_list = cat_id ?
                     this._api.read_by_cat(cat_id):
                     this._api.read();
 
-    //清空历史数据
+    
     if(todo_list.length){
+        //清空历史数据
         this.list.innerHTML = '';
         // 插入选中的cat的title
         this.cat_title.innerHTML= `<div class="cat-title" data-cat-id=${cat_id}>${cat_title}</div>`;
@@ -74,11 +74,13 @@ function render(cat_id,cat_title) {
         this.cat_title.innerHTML= '';
         this.list.innerHTML = `<div class="empty-holder">暂无内容</div>`;
     }
-    
+    // 初始渲染时候，cat title默认是空
     if(!cat_title){
         this.cat_title.innerHTML= '';
     } 
-    
+
+    // 更改form中cat id的值
+    me.set_form_data(me.form,{cat_id:cat_id})
     todo_list.forEach(function (item) {
         var el = document.createElement('div');
         el.classList.add('row', 'todo-item');
