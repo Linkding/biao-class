@@ -20,10 +20,19 @@ test_list = [
     },
   ]
 
-function TaskUi(form_selector, list_selector, input_selector) {
-    this.form = document.querySelector(form_selector);
-    this.list = document.querySelector(list_selector);
-    this.input = document.querySelector(input_selector);
+function TaskUi(config) {
+    var default_config = {
+        form_selector :'#todo-form',
+        list_selector: '#todo-list',
+        input_selector:'#todo-input',
+        cat_title_selector:'#cat-title',
+    }
+    var c = this.config = Object.assign({},default_config,config);
+
+    this.form = document.querySelector(c.form_selector);
+    this.list = document.querySelector(c.list_selector);
+    this.input = document.querySelector(c.input_selector);
+    this.cat_title = document.querySelector(c.cat_title_selector);
     this._api = new TaskApi(test_list);
 }
 
@@ -46,8 +55,9 @@ function init() {
 function test(){
     console.log('TaskUi test')
 }
-function render(cat_id) {
 
+function render(cat_id,cat_title) {
+    console.log(cat_title)
     var me = this;
     //从api获取数据
     var todo_list = cat_id ?
@@ -57,10 +67,18 @@ function render(cat_id) {
     //清空历史数据
     if(todo_list.length){
         this.list.innerHTML = '';
-    } else{
+        // 插入选中的cat的title
+        this.cat_title.innerHTML= `<div class="cat-title" data-cat-id=${cat_id}>${cat_title}</div>`;
+    } 
+    else{
+        this.cat_title.innerHTML= '';
         this.list.innerHTML = `<div class="empty-holder">暂无内容</div>`;
     }
-
+    
+    if(!cat_title){
+        this.cat_title.innerHTML= '';
+    } 
+    
     todo_list.forEach(function (item) {
         var el = document.createElement('div');
         el.classList.add('row', 'todo-item');

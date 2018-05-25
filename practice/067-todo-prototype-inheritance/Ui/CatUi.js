@@ -31,6 +31,7 @@ CatUi.prototype.set_form_data = helper.set_form_data;
 CatUi.prototype.clear_form = helper.clear_form;
 CatUi.prototype.show_updating_cat_item = show_updating_cat_item;
 CatUi.prototype.reset_cat_form_location = reset_cat_form_location;
+CatUi.prototype.get_cat_title = get_cat_title;
 
 function init() {
     this.render();
@@ -151,10 +152,14 @@ function detcet_click_list() {
             if(!id)
                 return;
             if(me.config)
-            me.config.on_item_click(id)
-
+                me.config.on_item_click(id,me._api.find(id).title)
         }
     })
+}
+
+function get_cat_title(title){
+    console.log(title)
+    return title;
 }
 
 function show_cat_input() {
