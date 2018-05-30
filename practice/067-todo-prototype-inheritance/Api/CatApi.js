@@ -1,28 +1,28 @@
 window.CatApi = CatApi;
 
-function CatApi(list,max_id) {
+function CatApi() {
+    this._model_name = 'cat';
+    /*继承显性属性（也就是原型prototype）*/
+    BaseApi.call(this);
+
     this.config = {
         title: {
             max_length : 10,
         }
     }
-    list = list || [
+    this.default_list = [
         {
-            id: 1,
+            id : 1,
             title: '默认',
         },
-        {
-            id: 2,
-            title: '生活是我大爷',
-        },
-        {
-            id: 3,
-            title: '天天向上',
-        },
     ];
-    max_id = max_id || 3;
-    /*继承显性属性（也就是原型prototype）*/
-    BaseApi.call(this, list, max_id);
+
+    this.default_max_id = this.default_list.length;
+
+    // 新增排序顺序 ，顺/反
+    this.reverse_direction = true;
+
+    this.load_data();
 }
 
 /*继承隐性属性（也就是原型prototype）*/
@@ -38,10 +38,18 @@ CatApi.prototype.find = find;
 function add(row) {
     if (!row.title)
         return;
+    var max_length = this.config.title.max_length;
+
+    if(row.title.length > max_length)
+        throw `title should not greater than ${max_length}`;
+
     return this.$add(row)
 }
 
 function remove(id) {
+    if( id == 1)
+        return;
+
     return this.$remove(id)
 }
 

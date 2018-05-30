@@ -23,9 +23,18 @@
   }
 
   input,
-  button {
+  button,
+  select {
+    display: inline-block;
     padding: 5px 10px;
     border: 1px solid rgba(0, 0, 0, .1);
+  }
+
+  select {
+    height: 40px;
+    width: 100%;
+    font-size: 15px;
+    border-radius: 0;
   }
 
   [hidden] {
@@ -199,15 +208,19 @@
         <input type="hidden" name="cat_id">
         <input id="todo-input" type="text" name="title" class="col" autocomplete="off">
         <button class="col">添加</button>
+        <select id="cat-select" name="cat_id" hidden></select>
       </form>
-      <div id="cat-title"></div>
       <div id="todo-list">
+          <div class="incomplete"></div>
+          <hr>
+          <div class="completed"></div>
       </div>
     </div>
   </div>
 </div>
 
 <script src="Utils/helper.js"></script>
+<script src="Utils/store.js"></script>
 <script src="Api/BaseApi.js"></script>
 <script src="Api/TaskApi.js"></script>
 <script src="Api/CatApi.js"></script>

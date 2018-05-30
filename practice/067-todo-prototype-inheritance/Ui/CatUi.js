@@ -2,18 +2,21 @@ window.CatUi = CatUi;
 
 function CatUi(config) {
     var default_config = {
-        cat_list : '#cat-list',
-        add_cat:'#add-cat',
-        cat_form:'#cat-form',
+        cat_list: '#cat-list',
+        add_cat: '#add-cat',
+        cat_form: '#cat-form',
         on_item_click: null,
+        on_item_delete: null,
     }
 
-    var c = this.config = Object.assign({},default_config,config);
+    var c = this.config = Object.assign({}, default_config, config);
 
     this.list = document.querySelector(c.cat_list);
     this.add_cat = document.querySelector(c.add_cat);
     this.cat_form = document.querySelector(c.cat_form);
+
     this._api = new CatApi();
+
     this.updating_cat_item = null;//默认为空，用于保存点击更新的那个list，独立保存一份，方便取消时候，恢复回去
 }
 
@@ -47,24 +50,34 @@ function test() {
 }
 
 function render() {
-    var cat_list = this._api.read();
-    var me = this;
+    var cat_list = this._api.read()
+        , me = this
+        , holder = `<div class="empty-holder">暂无分类</div>`
+        ;
+        
+    this.reset_cat_form_location();
 
-    this.list.innerHTML = '';
+    if(cat_list.length)
+        this.list.innerHTML = '';
+    else 
+        this.list.innerHTML = holder;
+
+    // 通过循环 分组数据 生成每一条分组元素
+    cat_list = cat_list || [];
     cat_list.forEach(function (item) {
         var el = document.createElement('div');
         el.classList.add('cat-item', 'row');
         el.dataset.id = item.id;
 
         el.innerHTML = `
-        <div class="input">
-        <input class="item" type="text" value="${item.title}" disabled>
+        <div class="title">
+        <div>${row.title}<div>
         </div>
         <div class="tool-set">
         ${
-            item.id == 1 ?
-            '' :
-            '<span class="update">更新</span><span class="delete">删除</span>'
+        row.id == 1 ?
+        '' :
+        '<span class="update">更新</span><span class="delete">删除</span>'
         }
         </div>
         `
@@ -100,7 +113,7 @@ function detect_cancel_form() {
     var me = this;
     this.cat_form.addEventListener('click', function (e) {
         var is_cancel_btn = e.target.dataset.action == 'cancel';
-        if (is_cancel_btn){
+        if (is_cancel_btn) {
             me.hide_cat_input();
             me.show_updating_cat_item();
             me.reset_cat_form_location();
@@ -109,8 +122,8 @@ function detect_cancel_form() {
 }
 
 // 用于在取消编辑更新cat_list的时候，恢复cat form回到原来的位置
-function reset_cat_form_location(){
-    this.list.insertAdjacentElement('afterend',this.cat_form);
+function reset_cat_form_location() {
+    this.list.insertAdjacentElement('afterend', this.cat_form);
     this.clear_form(this.cat_form);
 }
 function detect_click_add() {
@@ -130,38 +143,45 @@ function detcet_click_list() {
             // , id = cat_item.dataset.id
             ;
         //判断点击的元素是否是insert移动过来的
-        if(cat_item){
+        if (cat_item) {
             var id = cat_item.dataset.id;
         }
 
         if (is_delete_btn) {
+            if (!confirm('确定要删除此分组和其相对应的任务吗？'))
+                return;
             me._api.remove(id);
+            me.config.on_item_delete(id)
             me.render();
         } else if (is_update_btn) {
             if (me.updating_cat_item)
-            me.updating_cat_item.hidden = false;
+                me.updating_cat_item.hidden = false;
 
             var row = me._api.find(id)
             me.set_form_data(me.cat_form, row);//将点击的对应数据写入输入框
             me.show_cat_input();//显示输入框
             cat_item.hidden = true;//隐藏锁点击的对应数据元素
-            cat_item.insertAdjacentElement('afterend',me.cat_form)//将输入框移动到点击元素位置
+            cat_item.insertAdjacentElement('afterend', me.cat_form)//将输入框移动到点击元素位置
 
             me.updating_cat_item = cat_item; //将目前编辑这个list存入预设的一个，用于恢复时候的变量
         } else {
-            if(!id)
+            if (!id)
                 return;
-            if(me.config)
-                me.config.on_item_click(id,me._api.find(id).title)
+            if (me.config)
+                me.config.on_item_click(id)
         }
     })
 }
 
-function get_cat_title(title){
+function get_cat_title(title) {
     console.log(title)
     return title;
 }
 
+function reset_cat_form_location(){
+    this.list.insertAdjacentElement('afterend',this.cat_form);
+    this.clear_form(this.cat_form); //清空表单
+}
 function show_cat_input() {
     this.cat_form.hidden = false;
 }
@@ -170,11 +190,11 @@ function hide_cat_input() {
     this.cat_form.hidden = true;
 }
 
-function show_updating_cat_item(){
-    if(this.updating_cat_item)
+function show_updating_cat_item() {
+    if (this.updating_cat_item)
         this.updating_cat_item.hidden = false;
 }
 
-function toggle_group(){
+function toggle_group() {
 
 }
