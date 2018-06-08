@@ -1,6 +1,6 @@
 module.exports = {
-    entry: '',
+    entry: './route.js',
     output: {
-        filename: 'index.js'
+        filename: 'bundle.js'
     }
 }
