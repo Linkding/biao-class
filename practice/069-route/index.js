@@ -42,9 +42,8 @@ let o = {
                     list.forEach(function (row) {
                         let el_title = document.createElement('div')
                         el_title.innerHTML = `
-                        <a href="#">${row.title}</a>
+                        <a href="#/article?id=${row.id}">${row.title}</a>
                         `
-
                         el_article.appendChild(el_title);
                     })
 
@@ -55,6 +54,25 @@ let o = {
             path: '#/about',
             el: "#about",
             template: './tpl/about.html',
+            data: {
+                name: '王花花',
+                age: 18,
+            },
+            hook: {
+                before: function () {
+                    console.log('rout-before', 'before');
+
+                },
+                after: function () {
+                    console.log('route-after', 'after');
+
+                }
+            }
+        },
+        article: {
+            path: '#/article',
+            el: "#article",
+            template: './tpl/article.html',
             data: {
                 name: '王花花',
                 age: 18,
