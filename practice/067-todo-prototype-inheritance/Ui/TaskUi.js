@@ -90,7 +90,7 @@ function render(cat_id) {
 
         el.innerHTML = `
         <div class="col checkbox">
-        <input type="checkbox">
+        <input class="checker" type="checkbox" ${item.completed ? 'checked' : ''}>
         </div>
         <div class="col detail">
             <div class="title">${item.title}</div>
@@ -144,6 +144,7 @@ function detect_click_list() {
             , id = todo_item.dataset.id
             , is_update_btn = target.classList.contains('update')
             , is_delete_btn = target.classList.contains('remove')
+            , is_checkbox  = target.classList.contains('checker')
             ;
 
         if (is_delete_btn) {
@@ -152,6 +153,9 @@ function detect_click_list() {
         } else if (is_update_btn) {
             var row = me._api.$find(id)
             me.set_form_data(me.form, row)
+        } else if(is_checkbox){
+            me._api.set_completed(id,target.checked)
+            me.render();
         }
     })
 }

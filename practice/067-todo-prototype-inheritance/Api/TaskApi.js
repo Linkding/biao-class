@@ -5,7 +5,7 @@ function TaskApi() {
 
     //继承baseapi显性属性
     BaseApi.call(this);
-    // this.load_data();
+    this.load_data();
 }
 
 // 继承baseapi隐性属性
@@ -18,6 +18,7 @@ TaskApi.prototype.update = update;
 TaskApi.prototype.read = read;
 TaskApi.prototype.read_by_cat = read_by_cat;
 TaskApi.prototype.remove_by_cat = remove_by_cat;
+TaskApi.prototype.set_completed = set_completed;
 
 function add(row) {
     if(!row.title)
@@ -53,4 +54,12 @@ function remove_by_cat(cat_id){
     this.list = this.read().filter(function(item){
         return item.cat_id != cat_id;
     })
+}
+function set_completed(id,completed){
+    var row = this.$find(id);
+    if(!row)
+        return false;
+    row.completed = completed;
+    this.sync_to();
+    
 }

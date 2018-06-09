@@ -18,6 +18,7 @@ function CatUi(config) {
     this._api = new CatApi();
 
     this.updating_cat_item = null;//默认为空，用于保存点击更新的那个list，独立保存一份，方便取消时候，恢复回去
+    this._api.on_sync = c.on_sync
 }
 
 CatUi.prototype.init = init;
@@ -71,11 +72,11 @@ function render() {
 
         el.innerHTML = `
         <div class="title">
-        <div>${row.title}<div>
+        <div>${item.title}<div>
         </div>
         <div class="tool-set">
         ${
-        row.id == 1 ?
+        item.id == 1 ?
         '' :
         '<span class="update">更新</span><span class="delete">删除</span>'
         }

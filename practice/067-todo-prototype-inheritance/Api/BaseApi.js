@@ -18,44 +18,44 @@ BaseApi.prototype.load_data = load_data;
 BaseApi.prototype.sync_from = sync_from;
 
 function load_data(){
-  sync_from();
+  this.sync_from();
 }
 function add(row) {
   this.max_id = this.max_id + 1; //@ 注意这里写法，每次add后，都要更新max_id；
   row.id = this.max_id;
   if (this.reverse_direction)
-    this.todo_list.push(row);
+    this.list.push(row);
   else
-    this.todo_list.unshift(row);
+    this.list.unshift(row);
 
   this.sync_to();
 }
 
 function remove(id) {
-  var index_num = find_index_by_id(this.todo_list, id);
+  var index_num = find_index_by_id(this.list, id);
   if (index_num < 0)
     return;
 
-  this.todo_list.splice(index_num, 1);
+  this.list.splice(index_num, 1);
   this.sync_to();
 }
 
 function update(id, new_row) {
-  var index_num = find_index_by_id(this.todo_list, id);
+  var index_num = find_index_by_id(this.list, id);
   if (index_num < 0)
     return;
   delete new_row.id;
-  var old_row = this.todo_list[index_num];
-  this.todo_list[index_num] = Object.assign({}, old_row, new_row);
+  var old_row = this.list[index_num];
+  this.list[index_num] = Object.assign({}, old_row, new_row);
   this.sync_to();
 }
 
 function read() {
-  return this.todo_list
+  return this.list
 }
 // 查找其中一条数据 
 function find(id) {
-  return find_by_id(this.todo_list, id)
+  return find_by_id(this.list, id)
 }
 
 // =========功能函数=========
@@ -73,20 +73,17 @@ function find_by_id(arr, id) {
 function sync_to() {
   store.set(this._model_name + '-list', this.list || this.default_list);
   store.set(this._model_name + '-max_id', this.max_id || this.default_max_id)
-  if(on_sync)
-    on_sync(this.list);
+  if(this.on_sync)
+    this.on_sync(this.list);
 }
 // 从localstore获取数据
 function sync_from(){
   var old_list = store.get(this._model_name + '-list')
 
   if(!old_list || !old_list.length){
-    console.log(this.default_list)
     this.list = this.default_list;
-    console.log('等于默认 default_list')
   } else {
     this.list = old_list;
-    console.log('不等于默认 default_list')
   }
   
   this.max_id = store.get(this._model_name + '-max_id') || this.default_max_id;
