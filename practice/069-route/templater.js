@@ -3,7 +3,7 @@ function get_obj(data, key) {
 
     // 将键通过点分割成数组：'a.b' ==> ['a','b']
     let layer = key.split('.');
-    
+
     // 循环这个数组，每一次就是深入一级
     // data
     // |_user_
@@ -12,7 +12,7 @@ function get_obj(data, key) {
     //        |_chile:
     //          |_name:
     //          |_age:
-    layer.forEach(function(key){
+    layer.forEach(function (key) {
         result = result[key];
     });
     return result;
@@ -31,7 +31,7 @@ function parse(tpl, data) {
         let key = match[1].trim();
         //利用键名，从data中获取对应的值
         let replacement = get_obj(data, key);
-        
+
 
         //将获取到的值，对源数据进行替换
         result = result.replace(variable, replacement)
