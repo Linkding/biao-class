@@ -22,7 +22,7 @@ let o = {
             el: "#home",
             template: './tpl/home.html',
             data: {
-                name: '林晓斌',
+                name: 'Linkding',
                 longin: {
                     username: 'whh',
                     password: '',
@@ -34,10 +34,10 @@ let o = {
 
                 },
                 after: function () {
+                    console.log('home after');
+                    
                     let list = app_data.article.list;
                     let el_article = document.querySelector('#article-list');
-                    console.log('el_article',el_article);
-                    
 
                     list.forEach(function (row) {
                         let el_title = document.createElement('div')
@@ -82,9 +82,22 @@ let o = {
                     console.log('rout-before', 'before');
 
                 },
-                after: function () {
-                    console.log('route-after', 'after');
-
+                after: function (id) {
+                    let list =  app_data.article.list;
+                    let el_content = document.querySelector('.article-content');
+                    list.forEach(function(item){
+                        if(item.id == id){
+                            console.log('id',id);
+                            
+                            let el = document.createElement('div');
+                            el.innerHTML = `
+                            <h3>${item.title}</h3>
+                            <p>${item.content}</p>
+                            `
+                            el_content.appendChild(el);
+                        }
+                    })
+                    
                 }
             }
         },
@@ -95,11 +108,14 @@ let o = {
             hook:{
                 after:function(){
                     let form = document.querySelector('#create-article');
+                    
 
                     form.addEventListener('submit',function(e){
+                        let max_id = app_data.article.list.length + 1;
                         e.preventDefault();
 
                         let row = {};
+                        row.id = max_id;
                         row.title  = form.querySelector('[name=title]').value;
                         row.content = form.querySelector('[name=content]').value;
 

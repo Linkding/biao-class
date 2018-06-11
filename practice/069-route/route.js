@@ -37,7 +37,6 @@ class Route {
             route_name = this.state.default;
         this.go(route_name)
     }
-    // /x/y/z?a=1&b=2&c=3 => {a: 1, b: 2, c: 3}
     // 监听hashchange事件
     detect_hash_change() {
         window.addEventListener('hashchange', () => {
@@ -74,18 +73,14 @@ class Route {
 
     };
     //传入路由钩子，后置函数；
-    on_render_finish() {
+    on_render_finish(id) {
         let route = this.current
         if (!route)
             return;
-        if (route.hook && route.hook.after && route.hook.after())
-            return;
-        
-        return route.hook.after;
-        console.log('22',22);
-        
+        if (route.hook && route.hook.after)
+            return route.hook.after(id);
     }
-    //删除前一页
+    //删除前一
     remove_previous_tpl() {
         this.root.innerHTML = '';
 
@@ -109,7 +104,11 @@ class Route {
         // let el = document.querySelector(route.el)
         this.root.innerHTML = parse(route.$template, route.data);
         // el.innerHTML = parse(route.$template, route.data);
-        on_render_finish();
+
+        let aritcle_id = this.article_current_id.id;
+        // console.log('aritcle_id',aritcle_id);
+        let article_id = this.article_current_id.id
+        on_render_finish(article_id);
     }
     //通过url获取模板（html）元素
     get_template(url, on_succeed) {
@@ -135,28 +134,24 @@ class Route {
 
     parse_article_hash() {
         let list = [];
-
+        //分两部分处理
+        //1、处理“？”后面url部分
         var layer = this.current.hash.split('?'); //eg: ["#/article", "id=1"]
         
         list.push(layer[1]);
-        this.article_current_id = change_param(list,'=');
-        // console.log('this.article_current_id',this.article_current_id);
+        this.article_current_id = change_param(list,'='); //{id:1}
+        console.log('this.article_current_id',this.article_current_id);
         
-        this.parse_hash(layer[0]);
+        //2.处理route部分
+        return this.parse_hash(layer[0]); // eg: #/article
     }
 
     parse_hash(hash) {
         hash = trim(hash, '#/');
-        console.log(hash)
         let re = new RegExp('^#?\/?' + hash + '\/?$'); //定义好一个 判断的标准格式
-        console.log('this.state.route',this.state.route);
         
         for (let key in this.state.route) {  // key,route的键名
-            console.log('key',key);
-            
             let item = this.state.route[key]; // 其中一个对象，例如：home{}；
-            console.log('re.test(item.path)',re.test(item.path));
-            
             if (re.test(item.path))
                 return key;
         }
