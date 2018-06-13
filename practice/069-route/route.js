@@ -36,7 +36,6 @@ class Route {
 
         for(let name in routes){
             let item = routes[name];
-            console.log(item);
             item.render = ()=> {
                 this.render(item,this.on_render_finish.bind(this));
             };
@@ -60,8 +59,9 @@ class Route {
     }
     // 切换路由
     go(route_name,param) {
+        console.log('param',param);
+        
         let route = this.state.route[route_name];
-        console.log(route)
         if (!route)
             return;
 
@@ -75,6 +75,8 @@ class Route {
         //保存当前路由,渲染时候需要调用
         this.current = route;
         this.current.$param = param;
+        
+        
 
         // 删除旧页面；
         this.remove_previous_tpl();
@@ -111,7 +113,6 @@ class Route {
     render(route, on_render_finish) {
         // 因为路由对象中配置了模板地址，所以可以根据地址取到真实的模板代码（HTML代码）
         this.get_template(route.template, (tpl) => {
-            console.log(tpl)
             route.$template = tpl;
             this.compile(route, on_render_finish);
         });
@@ -125,8 +126,6 @@ class Route {
         http.send();
 
         http.addEventListener('load', () => {
-            console.log('http.responseText',http.responseText);
-            
             on_succeed(http.responseText);  //从模板中获取到的html内容，返回responseText中，插入到对应的html模板位置；
         })
     }
@@ -135,7 +134,6 @@ class Route {
     compile(route, on_render_finish) {
         // let el = document.querySelector(route.el)
         this.root.innerHTML = parse(route.$template, route.data);
-        console.log('parse(route.$template, route.data)',parse(route.$template, route.data));
         
         // el.innerHTML = parse(route.$template, route.data);
 

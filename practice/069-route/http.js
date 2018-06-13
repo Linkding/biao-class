@@ -1,70 +1,43 @@
+window.http = {
+    post,
+    send
+};
+
 window.send = send;
 
-function send(url, method, on_succeed, on_error) {
+let config = {
+    app_key : 'f9d71547efe93859e344be345859d51c114f6e16234c1c9e49b0f3f281cdfc77'
+}
+
+// 制作签名
+function sign(key,timestamp){
+    return btoa(key + timestamp);
+}
+
+
+function send(url, method, data,on_succeed, on_error) {
     method = method || 'get';
 
-    let res;
-    let article_list = [
-        {
-            id: 1,
-            title: 'A',
-            content: 'A, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis doloremque, doloribus earum id magnam numquam quas quibusdam. Aut, beatae delectus doloribus eum inventore magnam necessitatibus, placeat, qui rerum saepe temporibus!',
-        },
-        {
-            id: 2,
-            title: 'B',
-            content: 'B, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis doloremque, doloribus earum id magnam numquam quas quibusdam. Aut, beatae delectus doloribus eum inventore magnam necessitatibus, placeat, qui rerum saepe temporibus!',
-        },
-        {
-            id: 3,
-            title: 'C',
-            content: 'C, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis doloremque, doloribus earum id magnam numquam quas quibusdam. Aut, beatae delectus doloribus eum inventore magnam necessitatibus, placeat, qui rerum saepe temporibus!',
-        },
-    ];
-    let comment_list = [
-        {
-            id: 1,
-            content: 'A, Lorem ipsum dolor sit amets doloribus eum inventore magnam necus!',
-        },
-        {
-            id: 2,
-            content: 'B, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis doloremque, doloribus earum id magnam numquam quas quibusdam. Aut, beatae delectus doloribus eum inventore magnam necessitatibus, placeat, qui rerum saepe temporibus!',
-        },
-        {
-            id: 3,
-            content: 'C, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis doloremque, doloribus earum id magnam numquam quas quibusdam. Aut, beatae delectus doloribus eum inventore magnam necessitatibus, placeat, qui rerum saepe temporibus!',
-        },
-    ];
+   let def = {
+       app_key : config.app_key,
+       timestamp: (new Date).getTime(),// 等于 let a = new Date; a.getTime();
+   }
 
-    switch (url) {
-        case '/api/article/read': //获取文章列表
-            res = {
-                succeed: true,
-                data: article_list,
-            };
-            break;
-        case '/api/article/find': // 获取文章详情
-            res = { succeed: true, data: article_list[0] };
-            break;
-        case '/api/article/create': // 获取文章详情
-        case '/api/article/update': // 获取文章详情
-            res = {
-                succeed: true,
-                data: { id: 1, title: '...', content: '...' },
-            };
-            break;
-        case '/api/article/delete': // 获取文章详情
-            res = {
-                succeed: true,
-                data: { id: 1 },
-            };
-            break;
-        case '/api/comment/read': // 获取文章详情
-            res = {
-                succeed: true,
-                data: comment_list,
-            };
-            break;
-    }
-    on_succeed(res);
+   def.signature = sign(def.app_key,def.timestamp);
+
+   data = Object.assign({},def,data);
+
+   let http = new XMLHttpRequest();
+   http.open(method,url);
+   http.setRequestHeader('Content-Type', 'application/json');
+   http.send(JSON.stringify(data));
+
+   http.addEventListener('load',()=>{
+       let res = JSON.parse(http.responseText);
+       on_succeed(res);
+   });
+}
+
+function post(url,data,on_succeed,on_error){
+    send(url,'post',data,on_succeed,on_error);
 }

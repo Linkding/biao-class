@@ -1,52 +1,62 @@
 <script>
-        /*创建模型*/
-      
-        function sign (key, timestamp) {
-          return btoa(key + timestamp);
-        }
-      
-        function send (url, method, data) {
-          let http = new XMLHttpRequest();
-          http.open(method, url);
-      
-          http.setRequestHeader('Content-Type', 'application/json');
-      
-          http.addEventListener('load', () => {
-            console.log('http.responseText:', http.responseText);
-          });
-      
-          http.send(JSON.stringify(data));
-        }
-      
-        let param = {
-            id: 1,
-          app_key   : '25f43657c180c7711901446df46c81206ad535447406b35c4be34c0d772b340d',
-          timestamp : (new Date).getTime(),
-      
-          name      : "linkding_test", // 模型名称
-          structure : [ // 模型结构
-            {
-              name     : "ld", // 属性名称：标题
-              type     : "string", // 属性数据类型：字符串（最大长度255）
-              nullable : false, // 可否为空：不可为空
-            },
-            {
-              name     : "lxx",  // 属性名称：内容
-              type     : "text", // 属性数据类型：文本 （最大长度65535）
-              nullable : false, // 可否为空：不可为空
-            },
-            {
-              name     : "creattime", // 属性名称：创建时间
-              type     : "dateTime", // 属性数据类型：日期 （2020-10-01 12:30:10）
-              nullable : true,
-            },
-          ],
-        };
-      
-        param.signature = sign(param.app_key, param.timestamp);
-      
-        send('http://mock.biaoyansu.com/api/linkding/find', 'post', param);
-      
+  /*创建模型*/
+
+  function sign(key, timestamp) {
+    return btoa(key + timestamp);
+  }
+
+  function send(url, method, data) {
+    let http = new XMLHttpRequest();
+    http.open(method, url);
+
+    http.setRequestHeader('Content-Type', 'application/json');
+
+    http.addEventListener('load', () => {
+      console.log('http.responseText:', http.responseText);
+    });
+
+    http.send(JSON.stringify(data));
+  }
+
+  let param = {
+    id: 1,
+    app_key: 'f9d71547efe93859e344be345859d51c114f6e16234c1c9e49b0f3f281cdfc77',
+    timestamp: (new Date).getTime(),
+
+    name: "linkding", // 模型名称
+    structure: [ // 模型结构
+      {
+        name: "title", // 属性名称：标题
+        type: "string", // 属性数据类型：字符串（最大长度255）
+        nullable: false, // 可否为空：不可为空
+      },
+      {
+        name: "content",  // 属性名称：内容
+        type: "text", // 属性数据类型：文本 （最大长度65535）
+        nullable: false, // 可否为空：不可为空
+      },
+      {
+        name: "creattime", // 属性名称：创建时间
+        type: "dateTime", // 属性数据类型：日期 （2020-10-01 12:30:10）
+        nullable: true,
+      },
+    ],
+  };
+
+  let article = {
+    id:1,
+    app_key: 'f9d71547efe93859e344be345859d51c114f6e16234c1c9e49b0f3f281cdfc77',
+    timestamp: (new Date).getTime(),
+    // title:'刘昌辉是sb 22',
+    // content:'this is a sb guy!22'
+  }
+  param.signature = sign(param.app_key, param.timestamp);
+  article.signature = sign(article.app_key, article.timestamp);
+
+  // send('http://mock.biaoyansu.com/api/linkding/read', 'post', param);
+  send('http://mock.biaoyansu.com/api/linkding/find', 'post', article);
+  // send('http://mock.biaoyansu.com/api/linkding/create', 'post', article);
+
         // axios.post('http://mock.biaoyansu.com/api/MODEL/CREATE', param);
-      
-      </script>
+
+</script>

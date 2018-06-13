@@ -29,26 +29,28 @@ let o = {
                 }
             },
             hook: {
-                before: (route)=> {
+                // before: (route)=> {
                     
-                    send('/api/article/read','get',(res)=>{
-                        route.data.article_list = res.data;
-                        route.render();
-                    });
+                //     send('/api/article/read','get',(res)=>{
+                //         route.data.article_list = res.data;
+                //         route.render();
+                //     });
 
-                },
-                after: function () {
-                    let list = app_data.article.list;
-                    let el_article = document.querySelector('#article-list');
-
-                    list.forEach(function (row) {
-                        let el_title = document.createElement('div')
-                        el_title.innerHTML = `
-                        <a href="#/article?id=${row.id}">${row.title}</a>
-                        `
-                        el_article.appendChild(el_title);
-                    })
-
+                // },
+                after:  (route)=> {
+                   http.post('http://mock.biaoyansu.com/api/linkding/read',{},(res)=>{
+                       let list = res.data;
+                       
+                       let el_article = document.querySelector('#article-list');
+   
+                       list.forEach(function (row) {
+                           let el_title = document.createElement('div')
+                           el_title.innerHTML = `
+                           <a href="#/article?id=${row.id}">${row.title}</a>
+                           `
+                           el_article.appendChild(el_title);
+                       })
+                   })
                 }
             }
         },
@@ -80,32 +82,29 @@ let o = {
             hook: {
                 before_render: (current)=>{
                     current.data.$param = current.$param;
-                },
-                before: function (current) {
-                    send('/api/article/find','get',(res)=>{
-                        
+                    console.log('current',current);
+                    http.post('http://mock.biaoyansu.com/api/linkding/find',{id:current.$param.id},(res)=>{
                         current.data.article = res.data;
-                        current.render();
                     });
-
+                    
                 },
-                after: (current)=>{
-                    console.log(current)
-                    send('/api/article/read','get',(res)=>{
-                        current.data.comment_list = res.data;
-
-                        let el_list = document.querySelector('#comment-list');
-                        console.log('el_list',el_list);
+                // before: (current)=>{
+                    
+                //     http.post('http://mock.biaoyansu.com/api/linkding/find',{id:current.$param.id},(res)=>{
+                //         console.log('res',res);
                         
-                        el_list.innerHTML = '';
-
-                        res.data.forEach(row=>{
-                            let el = document.createElement('div');
-                            el.innerHTML = `<hr>${row.content}`;
-
-                            el_list.appendChild(el);
-                        });
-                    })
+                //         current.data.article = res.data;
+                //         console.log('current',current);
+                //         });
+                // },
+                after: (current)=>{
+                    current.render();
+                    // console.log('current',current);
+                    
+                    // http.post('http://mock.biaoyansu.com/api/linkding/find',{id:current.$param.id},(res)=>{
+                    //     console.log('res',res);
+                    //     current.render();
+                    //     });
                 }
                 
             },
@@ -124,15 +123,13 @@ let o = {
                         let max_id = app_data.article.list.length + 1;
                         e.preventDefault();
 
-                        let row = {};
-                        row.id = max_id;
-                        row.title  = form.querySelector('[name=title]').value;
-                        row.content = form.querySelector('[name=content]').value;
+                        let input_data = {};
+                        input_data.title  = form.querySelector('[name=title]').value;
+                        input_data.content = form.querySelector('[name=content]').value;
 
-                        console.log('row',row);
-                        
-                        app_data.article.list.push(row);
-                        console.log('app_data.article.list',app_data.article.list);
+                        http.post('http://mock.biaoyansu.com/api/linkding/create',input_data,(res)=>{
+                            console.log(res)
+                        })
                         
                         // 重置 表单
                         form.reset();
