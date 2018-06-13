@@ -26,10 +26,21 @@ class Route {
     constructor(config) {
         this.current = {};
         this.state = Object.assign({}, config);
-        this.article_current_id = {};
         this.root = document.querySelector('#root');
+        this.load_config();
         this.init_page();
         this.detect_hash_change();
+    }
+    load_config(){
+        let routes = this.state.route;
+
+        for(let name in routes){
+            let item = routes[name];
+            console.log(item);
+            item.render = ()=> {
+                this.render(item,this.on_render_finish.bind(this));
+            };
+        };
     }
     init_page() {
         let route_name = location.hash;
@@ -41,29 +52,35 @@ class Route {
     detect_hash_change() {
         window.addEventListener('hashchange', () => {
             this.current.hash = location.hash;
-            let route_name = this.parse_current_hash();
-            console.log(route_name)
-            this.go(route_name);
+            let route_name = this.parse_current_hash_path();
+            let route_param = this.parse_current_hash_query();
+
+            this.go(route_name,route_param);
         })
     }
     // 切换路由
-    go(route_name) {
+    go(route_name,param) {
         let route = this.state.route[route_name];
+        console.log(route)
         if (!route)
             return;
+
         // 如果此route_name存在前置回调钩子，则执行
         // 如果钩子返回false就停止执行（也就是不切换页面）
-        if (route.hook && route.hook.before && route.hook.before() === false)
+        if (route.hook && route.hook.before && route.hook.before(route) === false)
             return;
 
         //保存为历史hash记录；
         this.previous = this.current;
         //保存当前路由,渲染时候需要调用
         this.current = route;
+        this.current.$param = param;
 
         // 删除旧页面；
         this.remove_previous_tpl();
 
+        //hook before_render
+        route.hook && route.hook.before_render && route.hook.before_render(route,param);
         //渲染新路由
         // this.render_current(() => {
         //     // 如果当前路由有后置钩子，那么在切换本路由后就应该叫一下这个钩子
@@ -73,21 +90,20 @@ class Route {
 
     };
     //传入路由钩子，后置函数；
-    on_render_finish(id) {
+    on_render_finish() {
         let route = this.current
         if (!route)
             return;
         if (route.hook && route.hook.after)
-            return route.hook.after(id);
+            return route.hook.after(route);
     }
-    //删除前一
+    //删除前一页
     remove_previous_tpl() {
         this.root.innerHTML = '';
 
     }
     //渲染最新当前页
     render_current(on_render_finish) {
-        console.log('this.current', this.current);
         this.render(this.current, on_render_finish)
 
     }
@@ -95,59 +111,76 @@ class Route {
     render(route, on_render_finish) {
         // 因为路由对象中配置了模板地址，所以可以根据地址取到真实的模板代码（HTML代码）
         this.get_template(route.template, (tpl) => {
+            console.log(tpl)
             route.$template = tpl;
             this.compile(route, on_render_finish);
         });
-    }
-    //将route里面的data更新到视图
-    compile(route, on_render_finish) {
-        // let el = document.querySelector(route.el)
-        this.root.innerHTML = parse(route.$template, route.data);
-        // el.innerHTML = parse(route.$template, route.data);
-
-        let aritcle_id = this.article_current_id.id;
-        // console.log('aritcle_id',aritcle_id);
-        let article_id = this.article_current_id.id
-        on_render_finish(article_id);
-    }
+    } 
+    
     //通过url获取模板（html）元素
     get_template(url, on_succeed) {
         const http = new XMLHttpRequest();
         http.open('get', url);
-        console.log('url', url);
 
         http.send();
 
         http.addEventListener('load', () => {
+            console.log('http.responseText',http.responseText);
+            
             on_succeed(http.responseText);  //从模板中获取到的html内容，返回responseText中，插入到对应的html模板位置；
         })
     }
 
-    parse_current_hash() {
-        var re = /\?+/;
-        if (re.test(this.current.hash)) {
-            return this.parse_article_hash(this.current.hash);
-        } else {
-            return this.parse_hash(this.current.hash);
-        }
+    //将route里面的data更新到视图
+    compile(route, on_render_finish) {
+        // let el = document.querySelector(route.el)
+        this.root.innerHTML = parse(route.$template, route.data);
+        console.log('parse(route.$template, route.data)',parse(route.$template, route.data));
+        
+        // el.innerHTML = parse(route.$template, route.data);
+
+        on_render_finish(route);
+    }
+    
+    parse_current_hash_path() {
+        // var re = /\?+/;
+        // if (re.test(this.current.hash)) {
+        //     return this.parse_article_hash(this.current.hash);
+        // } else {
+            // }
+        return this.parse_hash_path(this.current.hash);
     }
 
-    parse_article_hash() {
-        let list = [];
-        //分两部分处理
-        //1、处理“？”后面url部分
-        var layer = this.current.hash.split('?'); //eg: ["#/article", "id=1"]
-        
-        list.push(layer[1]);
-        this.article_current_id = change_param(list,'='); //{id:1}
-        console.log('this.article_current_id',this.article_current_id);
-        
-        //2.处理route部分
-        return this.parse_hash(layer[0]); // eg: #/article
+    parse_current_hash_query(){
+        return this.parse_hash_query(this.current.hash);
     }
+    
+    parse_hash_query(hash){
+        let param  = {};
+        let is_split = hash.split('?').length < 2;
+        //如果hash没有传参(即没有？后面的内容)，则返回；
+        if(is_split)
+            return;
+        // 原始传参以问好分割，eg:'#/article?a=1&b=2&c=3'
+        // 左边: '#/article'
+        // 右边: 'a=1&b=2&c=3'
+        // 即split分割: ['#/article','a=1&b=2&c=3']
+        hash = hash.split('?')[1];
 
-    parse_hash(hash) {
+        //如果问好后没有内容，也将空param返回；
+        if(!hash)
+            return param;
+        let arr = hash.split('&');
+
+        param = change_param(arr,"=");
+        return param;
+    }
+    
+
+    parse_hash_path(hash) {
+        hash = hash.split('?')[0];
         hash = trim(hash, '#/');
+        
         let re = new RegExp('^#?\/?' + hash + '\/?$'); //定义好一个 判断的标准格式
         
         for (let key in this.state.route) {  // key,route的键名
@@ -202,11 +235,7 @@ function trim(str, cap_base) {
     return str;
 }
 
-// 'a=1&b=2&c=3'=> ["a=1", "b=2", "c=3"]
-function cut_param(cap,cap_type){
-    let layer = cap.split(cap_type);
-    return layer;
-}
+
 //  ["a=1", "b=2", "c=3"] => {a:1,b:2}
 function change_param(cap_list,cap_type){
     let arr = {};

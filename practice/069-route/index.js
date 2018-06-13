@@ -29,13 +29,15 @@ let o = {
                 }
             },
             hook: {
-                before: function () {
-                    console.log('rout-before', 'before');
+                before: (route)=> {
+                    
+                    send('/api/article/read','get',(res)=>{
+                        route.data.article_list = res.data;
+                        route.render();
+                    });
 
                 },
                 after: function () {
-                    console.log('home after');
-                    
                     let list = app_data.article.list;
                     let el_article = document.querySelector('#article-list');
 
@@ -60,11 +62,9 @@ let o = {
             },
             hook: {
                 before: function () {
-                    console.log('rout-before', 'before');
 
                 },
                 after: function () {
-                    console.log('route-after', 'after');
 
                 }
             }
@@ -78,28 +78,38 @@ let o = {
                 age: 18,
             },
             hook: {
-                before: function () {
-                    console.log('rout-before', 'before');
+                before_render: (current)=>{
+                    current.data.$param = current.$param;
+                },
+                before: function (current) {
+                    send('/api/article/find','get',(res)=>{
+                        
+                        current.data.article = res.data;
+                        current.render();
+                    });
 
                 },
-                after: function (id) {
-                    let list =  app_data.article.list;
-                    let el_content = document.querySelector('.article-content');
-                    list.forEach(function(item){
-                        if(item.id == id){
-                            console.log('id',id);
-                            
+                after: (current)=>{
+                    console.log(current)
+                    send('/api/article/read','get',(res)=>{
+                        current.data.comment_list = res.data;
+
+                        let el_list = document.querySelector('#comment-list');
+                        console.log('el_list',el_list);
+                        
+                        el_list.innerHTML = '';
+
+                        res.data.forEach(row=>{
                             let el = document.createElement('div');
-                            el.innerHTML = `
-                            <h3>${item.title}</h3>
-                            <p>${item.content}</p>
-                            `
-                            el_content.appendChild(el);
-                        }
+                            el.innerHTML = `<hr>${row.content}`;
+
+                            el_list.appendChild(el);
+                        });
                     })
-                    
                 }
-            }
+                
+            },
+            data: {}
         },
         create: {
             path: '/create',

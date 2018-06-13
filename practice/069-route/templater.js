@@ -19,6 +19,7 @@ function get_obj(data, key) {
 }
 
 function parse(tpl, data) {
+    console.log(tpl);
     const re = /{{([^{]+)}}/g;
     let match;
 
@@ -27,10 +28,12 @@ function parse(tpl, data) {
     while (match = re.exec(tpl)) {
         //获取匹配到的第一部分 , {{user.name}}
         let variable = match[0];
+        console.log(variable)
         //获取匹配的第二部分(键名)， user.name
         let key = match[1].trim();
         //利用键名，从data中获取对应的值
         let replacement = get_obj(data, key);
+        console.log(replacement)
 
 
         //将获取到的值，对源数据进行替换
