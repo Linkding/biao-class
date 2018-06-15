@@ -6,42 +6,42 @@ let app = new Vue({
     },
     methods:{
         init_current(){
-            this.current = {};
-            // this.memo_list.push(this.current);
+            this.current = {}
         },
-        //保存到后端
         add(){
-            let is_update = !!this.current.id; //两个否（！），是转换为布尔值
+            let is_update = !!this.current.id;
             let api = is_update ? 'update':'create';
-            
             http
                 .post(`memo/${api}`,this.current)
                 .then((res)=>{
                     let new_row = res.data.data;
                     this.current = new_row;
 
-                    if(!is_update) //如果不是更新，就插入到本地数据
+                    if(!is_update)//如果是新增，就增加到本地
                         this.memo_list.push(new_row);
                 })
         },
         remove(id,e){
-            http  
+            console.log(id);
+            http
                 .post('memo/delete',{id:id})
                 .then((res)=>{
+                    console.log(res);
                     this.sync_from();
-                });
-                e.stopPropagation();
+                })
+            e.stopPropagation();
         },
         sync_from(){
             http
-                .post('memo/read')
+                .post('memo/read',{
+                    limit:5,
+                    where:{
+                        or:[['id','>',0],]
+                    },
+                })
                 .then((res)=>{
-                    console.log(res)
                     this.memo_list = res.data.data;
                 })
         },
-        create(){
-            this.sync_from();
-        }
     }
 })
