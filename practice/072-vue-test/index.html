@@ -1,0 +1,35 @@
+<div id="root">
+    <input type="text" v-model="name">
+    <input type="text" v-model="child.child.name" @focus="on = true" @blur="on = false">
+    <div v-show="on">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex possimus enim soluta reprehenderit, tempora laborum temporibus aperiam nam impedit, quasi quibusdam tenetur, optio dolorem dolores! Aliquam quaerat itaque qui velit!
+    </div>
+    
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+<script>
+    var root = new Vue({
+        el: '#root',
+        data:{
+            on: true,
+            name: 'lsb',
+            child: {
+                name: 'lbb',
+                child: {
+                    name: 'lxb',
+                }
+            }
+        },
+        watch:{
+            name: function(n,o){
+                localStorage.setItem("name",n)
+            },
+            child:{
+                deep: true,
+                handler: function(n){
+                    console.log('n',n.child.name)
+                }
+            }
+        }
+    })
+</script> 
