@@ -19,14 +19,19 @@
   }
 
   let param = {
-    id: 1,
+    // id: 1,
     app_key: 'f9d71547efe93859e344be345859d51c114f6e16234c1c9e49b0f3f281cdfc77',
     timestamp: (new Date).getTime(),
 
-    name: "memo", // 模型名称
+    name: "blog", // 模型名称
     structure: [ // 模型结构
       {
         name: "title", // 属性名称：标题
+        type: "string", // 属性数据类型：字符串（最大长度255）
+        nullable: false, // 可否为空：不可为空
+      },
+      {
+        name: "author", // 属性名称：作者
         type: "string", // 属性数据类型：字符串（最大长度255）
         nullable: false, // 可否为空：不可为空
       },
@@ -56,8 +61,8 @@
   // send('http://mock.biaoyansu.com/api/linkding/create', 'post', article);
   // send('http://mock.biaoyansu.com/api/linkding/find', 'post', article);
   // send('http://mock.biaoyansu.com/api/linkding/update', 'post', article);
-  send('http://mock.biaoyansu.com/api/memo/read', 'post', article);
-  // send('http://mock.biaoyansu.com/api/MODEL/CREATE', 'post', param);
+  // send('http://mock.biaoyansu.com/api/memo/read', 'post', article);
+  send('http://mock.biaoyansu.com/api/MODEL/CREATE', 'post', param);
 
         // axios.post('http://mock.biaoyansu.com/api/MODEL/CREATE', param);
 
