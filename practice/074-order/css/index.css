@@ -91,8 +91,17 @@ td img {
   opacity: .7;
 }
 
-.pagination-container{
+.pagination-container,
+.pager-jump
+{
   padding: 10px 0;
   font-size: 13px;
   text-align: center;
+}
+.pagination-container .pagination button.active{
+  background: pink;
+}
+
+.pager-jump input{
+  width: 8%;
 }

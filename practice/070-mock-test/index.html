@@ -50,10 +50,10 @@
 
   let article = {
     // id:3,
-    app_key: 'f9d71547efe93859e344be345859d51c114f6e16234c1c9e49b0f3f281cdfc77',
+    app_key: '1405467a257039494b71d95fb411ec4d68e7ba3c20c987dc1207e78886d5e94e',
     timestamp: (new Date).getTime(),
-    title:'我是 刘昌辉',
-    content:'this is a sb guy!'
+    name:'ddd',
+    capacity: '11',
   }
   param.signature = sign(param.app_key, param.timestamp);
   article.signature = sign(article.app_key, article.timestamp);
@@ -61,8 +61,9 @@
   // send('http://mock.biaoyansu.com/api/linkding/create', 'post', article);
   // send('http://mock.biaoyansu.com/api/linkding/find', 'post', article);
   // send('http://mock.biaoyansu.com/api/linkding/update', 'post', article);
-  // send('http://mock.biaoyansu.com/api/memo/read', 'post', article);
-  send('http://mock.biaoyansu.com/api/MODEL/CREATE', 'post', param);
+  send('http://mock.biaoyansu.com/api/table/read', 'post', article);
+  // send('http://mock.biaoyansu.com/api/MODEL/delete', 'post', article);
+  
 
         // axios.post('http://mock.biaoyansu.com/api/MODEL/CREATE', param);
 

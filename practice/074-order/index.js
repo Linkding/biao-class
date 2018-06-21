@@ -35,7 +35,7 @@ const AdminPage = {
                 });
         },
         read() {
-            http.post(`${this.model}/read?page=1&limit=1`, )
+            http.post(`${this.model}/read?page=1&limit=2`, )
                 .then(r => {
                     this.list = r.data.data;
                     this.pagination = Object.assign({}, this.pagination, r.data)
@@ -322,11 +322,17 @@ const AdminTable = Vue.component('admin-table', {
         </tbody>
     </table>
     <div class="row pagination-container" >
-        <button id="first-page" class="col pager" @click="go_first()">首页</button>
+        <button id="first-page" class="col pager" @click="go_first()" v-show="pagination.last_page > 1">首页</button>
         <div class="col pagination" v-for="page_num in page">
-            <button class="col pager" @click="go_page(page_num)">{{page_num}}</button>
+            <button :class="['col pager',{ active: page_num == pagination.current_page ? true : false}]" @click="go_page(page_num)">{{page_num}}</button>
         </div>
-        <button id="last-page" class="col pager" @click="go_last()">尾页</button>
+        <button id="last-page" class="col pager" @click="go_last()" v-show="pagination.last_page >1">尾页</button>
+        <div class="row pager-jump">
+            <span>跳转</span>
+            <input type="number" v-model="jump_page">
+            <span>页</span>
+            <button @click="go(jump_page)">确定</button>
+        </div>
     </div>
     </div>
     `,
@@ -347,6 +353,7 @@ const AdminTable = Vue.component('admin-table', {
                 page_amount: '', //多少页 => total/per_page
 
             },
+            jump_page:'',
             // page:[],
         }
     },
