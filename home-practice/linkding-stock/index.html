@@ -1,37 +1,124 @@
-<li>linkding数据表格</li>  
-    <table id="root" border="2" bordercolor="black" width="300" cellspacing="0" cellpadding="5"> 
-        <tr>
-          <th>股票</th>
-          <th>账户</th>
-          <th>股票数量</th>
-          <th>成本</th>
-        </tr>  
-        <tr>  
-            <td  rowspan="6">中国平安 601318</td>  
-            <td>东方财富-xx</td>  
-            <td>1000</td>  
-            <td>10</td>  
-        </tr>  
-        <tr>  
-            <td>东方财富-xx</td>  
-            <td>1000</td>  
-            <td>10</td>  
-        </tr> 
-        <tr>  
-            <td>东方财富-xx</td>  
-            <td>1000</td>  
-            <td>10</td>  
-        </tr>
-    </table>  
-    <script src="https://cdn.bootcss.com/vue/2.5.15/vue.js"></script>
-    <script>
-      var vm = new Vue({
-        el: '#root',
-        data:{
-          
-        },
-        methods:{
+<link rel="stylesheet" href="css/lib/normalize.css">
+<link rel="stylesheet" href="css/common/global.css">
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+<style>
+    .row {
+        font-size: 0;
+        display: block;
+    }
 
-        }
-      })
-    </script>
+    .col {
+        vertical-align: top;
+        font-size: 15px;
+        display: inline-block;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .main {
+        border: 1px solid blue;
+        min-height: 500px;
+    }
+
+    .main .col.item {
+        padding-right: 20px;
+    }
+
+    .main .header {
+        border-top: 0.5px solid rgba(157, 225, 241, 0.9);
+        border-bottom: 0.5px solid rgba(145, 221, 238, 0.9);
+        padding: 10px 3px;
+        background: rgba(0, 0, 255, 0.4);
+        
+    }
+
+    .stock-input {
+        padding-top: 140px;
+        text-align: center;
+
+    }
+
+    .stock-input>* {
+        line-height: 2.5rem;
+    }
+
+    .input-tip {
+        font-size: 20px;
+    }
+
+    form input {
+        padding: 2px 5px;
+        width: 250px;
+        font-size: 12px
+    }
+    .main .stock-list > *{
+        padding: 3px 5px;
+        line-height: 2rem;
+    }
+
+    .main .stock-list:hover {
+        background: rgba(0, 0, 0, 0.1)
+    }
+    .main .toolset_btn .col.item{
+        padding-right: 40px;
+    }
+    .main .toolset_btn:hover {
+        cursor: pointer;
+    }
+</style>
+<div class="row nav">
+    <div class="container">
+        <div class="main">
+            <div class="row header">
+                <div class="col-lg-4 header_real">
+                    <div class="col item">全部股票</div>
+                    <div class="col item">最新价格</div>
+                    <div class="col item">涨跌幅</div>
+                    <div class="col item">昨收</div>
+                </div>
+                <div class="col-lg-5 info_header">
+                    <div class="col item">成本</div>
+                    <div class="col item">股数</div>
+                    <div class="col item">持有市值</div>
+                    <div class="col item">持仓比例</div>
+                    <div class="col item">盈亏</div>
+                </div>
+                <div class="col-lg-3 toolset">
+                    <div class="col item">盈亏</div>
+                    <div class="col item">删除</div>
+                    <div class="col item">操作</div>
+                </div>
+            </div>
+            <div id="stock-list" class="row stock-list" v-for="(row index) in stock_list">
+                <div class="col-lg-4 real_time">
+                    <div class="col item">{{ row.name }}</div>
+                    <div class="col item">{{ row.new_price }}</div>
+                    <div class="col item">{{ row.change }}</div>
+                    <div class="col item">{{ row.close }}</div>
+                </div>
+                <div class="col-lg-5 stock_info">
+                    <div class="col item">{{ row.cost }}</div>
+                    <div class="col item">{{ row.stock_num }}</div>
+                    <div class="col item">{{ row.mark_value }}</div>
+                    <div class="col item">{{ row.position }}</div>
+                    <div class="col item">{{ row.gain_loss }}</div>
+                </div>
+                <div class="col-lg-3 toolset_btn">
+                    <div class="col item"><i class="fa fa-calculator" aria-hidden="true"></i></div>
+                    <div class="col item" @click="remove()"><i class="fa fa-times" aria-hidden="true"></i></div>
+                    <div class="col item"><i class="fa fa-bars" aria-hidden="true"></i></div>
+                </div>
+            </div>
+            <form class="stock-input">
+                <div class="input-tip">你还没有添加股票，立即添加</div>
+                <input type="text" placeholder="添加股票">
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.15/vue.js"></script>
+<script src="index.js"></script>
