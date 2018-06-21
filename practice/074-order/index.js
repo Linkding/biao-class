@@ -35,7 +35,7 @@ const AdminPage = {
                 });
         },
         read() {
-            http.post(`${this.model}/read?page=1&limit=2`, )
+            http.post(`${this.model}/read?page=1&limit=1`, )
                 .then(r => {
                     this.list = r.data.data;
                     this.pagination = Object.assign({}, this.pagination, r.data)
@@ -329,7 +329,7 @@ const AdminTable = Vue.component('admin-table', {
         <button id="last-page" class="col pager" @click="go_last()" v-show="pagination.last_page >1">尾页</button>
         <div class="row pager-jump">
             <span>跳转</span>
-            <input type="number" v-model="jump_page">
+            <input type="number" min='1'  v-model="jump_page">
             <span>页</span>
             <button @click="go(jump_page)">确定</button>
         </div>
