@@ -8,8 +8,9 @@ const AdminPage = {
             keyword: '', //搜索关键字
             timer: null,
             pagination: {
-                range: 5 //页面范围
+                range: 5 //页码显示个数
             },
+            jump_page:'',
         };
     },
     mounted() {
@@ -74,6 +75,57 @@ const AdminPage = {
                 .then(res => {
                     this.list = res.data.data;
                 })
+        },
+        go(num){
+            http.post(`${this.model}/read?page=${num}&limit=${this.pagination.per_page}`)
+                .then(r => {
+                    this.list = r.data.data;
+                    this.pagination = Object.assign({},this.pagination,r.data) 
+                })
+        },
+        go_page(num) {
+            this.go(num)
+        },
+        go_first(){
+            this.go(1)
+        },
+        go_last(){
+            let last_page = this.pagination.last_page;
+            this.go(last_page);
+        }
+    },
+    computed: {
+        page: function () {
+            let pagination = this.pagination
+                , start
+                , end
+                , middle = Math.ceil(pagination.range / 2)
+                , reaching_left = pagination.current_page <= middle
+                , reaching_right = pagination.current_page > pagination.total - middle
+                , list = []
+                ;
+            if (reaching_left) {
+                start = 1;
+                if (pagination.range > pagination.last_page) { //如果数据总数小于单页数据数
+                    end = pagination.last_page
+                } else {
+                    end = pagination.range
+                }
+            } else if (reaching_right) {
+                start = pagination.total - (middle + 1);
+                end = pagination.total
+            } else {
+                start = pagination.current_page - (middle - 1);
+                end = pagination.current_page + (middle - 1)
+            }
+
+            for (i = start; i < end + 1; i++) {
+                list.push(i)
+            };
+
+
+            return list;
+
         }
     },
     watch: {
@@ -180,33 +232,47 @@ const AdminDish = Vue.component('admin-dish', {
         </form>
     </div>
     <table v-if="list.length" class="list">
-        <thead>
-            <tr>
-                <th>菜名</th>
-                <th>价格</th>
-                <th>描述</th>
-                <th>封面</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="row in list">
-                <td>{{row.name}}</td>
-                <td>{{row.price}}</td>
-                <td>{{row.description || '-'}}</td>
-                <td>
-                    <img v-if="row.cover_url" :src="row.cover_url" :alt="row.name"/>
-                    <span class="empty-holder" v-else>暂无图片</span>
-                </td>
-                <td>
-                    <button @click="current = row">更新</button>
-                    <button @click="remove(row.id)">删除</button>
-                </td>
-            </tr>
-        </tbody>
-        </table>
-        <div v-else class="empty-holder">暂无内容</div>
+    <thead>
+        <tr>
+            <th>菜名</th>
+            <th>价格</th>
+            <th>描述</th>
+            <th>封面</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-for="row in list">
+            <td>{{row.name}}</td>
+            <td>{{row.price}}</td>
+            <td>{{row.description || '-'}}</td>
+            <td>
+                <img v-if="row.cover_url" :src="row.cover_url" :alt="row.name"/>
+                <span class="empty-holder" v-else>暂无图片</span>
+            </td>
+            <td>
+                <button @click="current = row">更新</button>
+                <button @click="remove(row.id)">删除</button>
+            </td>
+        </tr>
+    </tbody>
+    </table>
+    <div v-else class="empty-holder">暂无内容</div>
+
+    <div class="row pagination-container" >
+        <button id="first-page" class="col pager" @click="go_first()" v-show="pagination.last_page > 1">首页</button>
+        <div class="col pagination" v-for="page_num in page">
+            <button :class="['col pager',{ active: page_num == pagination.current_page ? true : false}]" @click="go_page(page_num)">{{page_num}}</button>
+        </div>
+        <button id="last-page" class="col pager" @click="go_last()" v-show="pagination.last_page >1">尾页</button>
+        <div class="row pager-jump">
+            <span>跳转</span>
+            <input type="number" min='1'  v-model="jump_page">
+            <span>页</span>
+            <button @click="go(jump_page)">确定</button>
+        </div>
     </div>
+     </div>
     `,
     data() {
         return {
@@ -340,21 +406,18 @@ const AdminTable = Vue.component('admin-table', {
         return {
             model: 'table',
             validate_props: ['name', 'capacity'],
-            a: 1,
-            pagination: {
-                current_page: '',
-                last_page: '',
-                first_page_url: '', //第一页url
-                last_page_url: '', //最后一页url
-                next_page_url: '', //下一页url
-                pre_page_url: '', //前一页url
-                per_page: '', //每页多少条数据
-                total: '',//共计多少条数据
-                page_amount: '', //多少页 => total/per_page
+            // pagination: {
+            //     current_page: '',
+            //     last_page: '',
+            //     first_page_url: '', //第一页url
+            //     last_page_url: '', //最后一页url
+            //     next_page_url: '', //下一页url
+            //     pre_page_url: '', //前一页url
+            //     per_page: '', //每页多少条数据
+            //     total: '',//共计多少条数据
+            //     page_amount: '', //多少页 => total/per_page
 
-            },
-            jump_page:'',
-            // page:[],
+            // },
         }
     },
     methods: {
@@ -380,57 +443,6 @@ const AdminTable = Vue.component('admin-table', {
                 return "此项输入值不合法"
             return true;
         },
-        go(num){
-            http.post(`table/read?page=${num}&limit=${this.pagination.per_page}`)
-                .then(r => {
-                    this.list = r.data.data;
-                    this.pagination = Object.assign({},this.pagination,r.data) 
-                })
-        },
-        go_page(num) {
-            this.go(num)
-        },
-        go_first(){
-            this.go(1)
-        },
-        go_last(){
-            let last_page = this.pagination.last_page;
-            this.go(last_page);
-        }
-    },
-    computed: {
-        page: function () {
-            let pagination = this.pagination
-                , start
-                , end
-                , middle = Math.ceil(pagination.range / 2)
-                , reaching_left = pagination.current_page <= middle
-                , reaching_right = pagination.current_page > pagination.total - middle
-                , list = []
-                ;
-            if (reaching_left) {
-                start = 1;
-                if (pagination.range > pagination.last_page) { //如果数据总数小于单页数据数
-                    end = pagination.last_page
-                } else {
-                    end = pagination.range
-                }
-            } else if (reaching_right) {
-                start = pagination.total - (middle + 1);
-                end = pagination.total
-            } else {
-                start = pagination.current_page - (middle - 1);
-                end = pagination.current_page + (middle - 1)
-            }
-
-            for (i = start; i < end + 1; i++) {
-                list.push(i)
-            };
-
-
-            return list;
-
-        }
     },
     watch: {
 
