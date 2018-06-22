@@ -136,7 +136,7 @@ const Home = Vue.component('home', {
     template: `
     <div>
         <h1>欢迎来到背背山吃饭大学</h1>
-        <div class="row dish" v-for="dish in dish_list">
+        <div class="row dish" v-for="(dish,index) in dish_list">
             <div class="col-lg-4 thumbnail">
                 <img :src="dish.cover_url || default_cover_url" alt=""/>
             </div>
@@ -145,30 +145,81 @@ const Home = Vue.component('home', {
                 <div class="description">{{dish.description}}</div>
             </div>
             <div class="col-lg-3 tool-set">
-                <button>-</button>
-                <input type="number"/>
-                <button>+</button>
+                <button @click="">-</button>
+                <input type="number" v-model="dish.$count">
+                <button @click="increment(index)">+</button>
             </div>
         </div>
-        <button @submit="">提交订单</button>
+        <button @click="submit_order()">提交订单</button>
     </div>
     `,
     data() {
         return {
             dish_list: [
-                { name: '豆腐', description: '谁家豆腐', cover_url: "http://s2.cdn.xiachufang.com/836e9ed2882711e6a9a10242ac110002_640w_628h.jpg?imageView2/2/w/660/interlace/1/q/90" },
-                { name: '黄瓜', description: "你的男朋友", cover_url: "http://s2.cdn.xiachufang.com/70d9f7a686fd11e6a9a10242ac110002_435w_652h.jpg?imageView2/2/w/660/interlace/1/q/90" },
+                // { name: '豆腐', description: '谁家豆腐', cover_url: "http://s2.cdn.xiachufang.com/836e9ed2882711e6a9a10242ac110002_640w_628h.jpg?imageView2/2/w/660/interlace/1/q/90" },
+                // { name: '黄瓜', description: "你的男朋友", cover_url: "http://s2.cdn.xiachufang.com/70d9f7a686fd11e6a9a10242ac110002_435w_652h.jpg?imageView2/2/w/660/interlace/1/q/90" },
             ],
             default_cover_url: '',
             order: {
-                table_id: '',
-                dish_info: [
-                    { dish_id: 1, count: 2 },
-                    { dish_id: 2, count: 2 },
-                ],
-                memo: '少油 饮料加冰'
+                // table_id: '',
+                // dish_info: [
+                //     { dish_id: 1, count: 2 },
+                //     { dish_id: 2, count: 2 },
+                // ],
+                // memo: '少油 饮料加冰'
             }
         }
+    },
+    methods:{
+        //获取菜单
+        read_dish(){
+            http.post('dish/read')
+                .then(r=>{
+                    this.dish_list = r.data.data;
+                    this.reset_order();
+                })
+        },
+
+        reset_order(){
+            // this.order = {table_id:this.order.table_id};
+            //将dish_list里每一项增加$count键，并赋值为0；
+            let len = this.dish_list.length;
+            for(let i =0;i<len;i++){
+                this.dish_list[i].$count = 0;
+            }
+        },
+
+        increment(index){
+            
+            this.dish_list[index].$count++;
+            console.log('this.dish_list',this.dish_list);
+        },
+
+        submit_order(){
+            this.prepare_order_info();
+            console.log('this.order',this.order);
+            console.log('this.dish_list',this.dish_list);
+            
+        },
+        prepare_order_info(){
+            let info = [];
+            console.log('this.dish_list',this.dish_list);
+            
+            this.dish_list.forEach(dish=>{
+                let count = dish.$count;
+                if(!count)
+                    return;
+                info.push({
+                    dish_id:dish.id,
+                    count:parseInt(count),
+                });
+            });
+            this.order.dish_info = info;
+        }
+    },
+    mounted(){
+        this.read_dish();
+        this.order.table_id = this.$route.query.table_id
     }
 
 })
@@ -450,21 +501,23 @@ const AdminTable = Vue.component('admin-table', {
     mixins: [AdminPage]
 })
 
+const router = new VueRouter({
+    routes: [
+        { path: '/', component: Home },
+        {
+            path: '/admin',
+            component: Admin,
+            children: [
+                { path: 'dish', component: AdminDish },
+                { path: 'table', component: AdminTable },
+            ]
+        }
+    ]
+});
+
 new Vue({
     el: '#root',
-    router: new VueRouter({
-        routes: [
-            { path: '/', component: Home },
-            {
-                path: '/admin',
-                component: Admin,
-                children: [
-                    { path: 'dish', component: AdminDish },
-                    { path: 'table', component: AdminTable },
-                ]
-            }
-        ]
-    })
+    router: router,
 })
 // table dish order 嵌套路由
 // http.post('MODEL/CREATE', {
@@ -484,7 +537,7 @@ new Vue({
 //     ],
 // });
 
-// http.post('MODEL/CREATE', {
+// http.post('MODEL/CREATE', {ppp
 //     name: 'table',
 //     structure: [
 //         {

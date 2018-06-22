@@ -25,17 +25,17 @@
 <script src="http.js"></script>
 <script src="index.js"></script>
 <script>
-    // http.post('table/read')
-    //     .then(res=>{
-    //         console.log(res)
-    //     })
     // http.post('MODEL/CREATE_PROPERTY', {
     //     model: 'order',
-    //     property: 'parent_id',
+    //     property: 'memo',
     //     structure: {
-    //         type: 'integer',
+    //         type: 'text',
     //         nullable: true,
     //     },
     // });
+    http.post('MODEL/READ')
+        .then(res=>{
+            console.log(res)
+        })
 
 </script>
