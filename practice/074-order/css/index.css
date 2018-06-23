@@ -33,8 +33,10 @@ td img {
 }
 
 .admin .nav {
-  background: #143c67;
-  color: #fbf9f1;
+  min-height: 100%;
+  /* background: #7FB2F0; */
+  /* color: #fbf9f1; */
+  border: 1px solid rgba(0, 0, 0, .05);
 }
 
 .admin .nav a {
@@ -44,7 +46,7 @@ td img {
 }
 
 .admin .nav a:hover {
-  background: rgba(0, 0, 0, .4);
+  background: #324D5C;
   color: #fff;
 }
 
@@ -91,12 +93,29 @@ td img {
   opacity: .7;
 }
 
-.login{
-  font-size: 15px;
-  background: rgba(0, 0, 0, .4);
+.cart-trigger,
+.order-detail {
+  position: fixed;
+  right: 10px;
   padding: 10px;
-  border: 1px solid rgba(0, 0, 0, .05);
 }
-.login > * {
-  color: #fff;
+
+.cart-trigger {
+  bottom: 10px;
+  background: gold;
+}
+
+.order-detail {
+  background: #fff;
+  border: 2px solid #000;
+  /* left: 10px; */
+  bottom: 0;
+}
+
+.close:after {
+  content: 'x';
+  position: relative;
+  display: inline-block;
+  float: right;
+  cursor: pointer;
 }

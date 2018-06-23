@@ -6,7 +6,7 @@
   text-align: center;
 }
 .pagination-container .pagination button.active{
-  background: pink;
+  background: #F0CA4D;
 }
 
 .pager-jump input{

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./node_modules/normalize.css/normalize.css">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/pagination.css">
 </head>
 
 <body>
@@ -33,7 +34,7 @@
     //         nullable: true,
     //     },
     // });
-    http.post('MODEL/READ')
+    http.post('order/read')
         .then(res=>{
             console.log(res)
         })

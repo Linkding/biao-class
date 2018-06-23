@@ -10,7 +10,7 @@ const AdminPage = {
             pagination: {
                 range: 5 //页码显示个数
             },
-            jump_page:'',
+            jump_page: '',
         };
     },
     mounted() {
@@ -36,7 +36,7 @@ const AdminPage = {
                 });
         },
         read() {
-            http.post(`${this.model}/read?page=1&limit=1`, )
+            http.post(`${this.model}/read?page=1&limit=15`, )
                 .then(r => {
                     this.list = r.data.data;
                     this.pagination = Object.assign({}, this.pagination, r.data)
@@ -76,20 +76,20 @@ const AdminPage = {
                     this.list = res.data.data;
                 })
         },
-        go(num){
+        go(num) {
             http.post(`${this.model}/read?page=${num}&limit=${this.pagination.per_page}`)
                 .then(r => {
                     this.list = r.data.data;
-                    this.pagination = Object.assign({},this.pagination,r.data) 
+                    this.pagination = Object.assign({}, this.pagination, r.data)
                 })
         },
         go_page(num) {
             this.go(num)
         },
-        go_first(){
+        go_first() {
             this.go(1)
         },
-        go_last(){
+        go_last() {
             let last_page = this.pagination.last_page;
             this.go(last_page);
         }
@@ -135,6 +135,9 @@ const AdminPage = {
 const Home = Vue.component('home', {
     template: `
     <div>
+        <div class="col login">
+            <router-link to="/login">管理员登录</router-link>
+        </div>
         <h1>欢迎来到背背山吃饭大学</h1>
         <div class="row dish" v-for="(dish,index) in dish_list">
             <div class="col-lg-4 thumbnail">
@@ -145,12 +148,13 @@ const Home = Vue.component('home', {
                 <div class="description">{{dish.description}}</div>
             </div>
             <div class="col-lg-3 tool-set">
-                <button @click="">-</button>
+                <button @click="decrement(index)">-</button>
                 <input type="number" v-model="dish.$count">
                 <button @click="increment(index)">+</button>
             </div>
         </div>
         <button @click="submit_order()">提交订单</button>
+        
     </div>
     `,
     data() {
@@ -170,54 +174,80 @@ const Home = Vue.component('home', {
             }
         }
     },
-    methods:{
+    methods: {
         //获取菜单
-        read_dish(){
+        read_dish() {
             http.post('dish/read')
-                .then(r=>{
+                .then(r => {
                     this.dish_list = r.data.data;
                     this.reset_order();
                 })
         },
 
-        reset_order(){
+        reset_order() {
             // this.order = {table_id:this.order.table_id};
             //将dish_list里每一项增加$count键，并赋值为0；
             let len = this.dish_list.length;
-            for(let i =0;i<len;i++){
-                this.dish_list[i].$count = 0;
+            for (let i = 0; i < len; i++) {
+                Vue.set(this.dish_list[i], "$count", 0);//vue实例化后，新增的属性需要使用$set方法来添加，才会更新到视图；
             }
         },
 
-        increment(index){
-            
+        increment(index) {
             this.dish_list[index].$count++;
-            console.log('this.dish_list',this.dish_list);
+            // console.log('this.dish_list',this.dish_list);
+        },
+        decrement(index) {
+            this.dish_list[index].$count--;
         },
 
-        submit_order(){
+        submit_order() {
             this.prepare_order_info();
-            console.log('this.order',this.order);
-            console.log('this.dish_list',this.dish_list);
-            
+            this.order.status = "created";
+
+            this.main_order_id()
+                .then(id => {
+                    if (id)
+                        this.order.parent_id = id; //如果已经存在这个父级主单，则次订单设定parent_id,标记为加单
+                    http.post('order/create', this.order)
+                        .then(r => {
+                            if (r.data.success)
+                                this.reset_order();//提交成功后，重设订单为初始状态；
+                        })
+                })
         },
-        prepare_order_info(){
+        //获取主单号
+        main_order_id() {
+            return http.post('order/first', {
+                where: {
+                    and: {
+                        table_id: this.order.table_id,
+                        status: 'created',
+                        parent_id: null,
+                    }
+                }
+            }).then(r => {
+                if (!r.data.data)
+                    return false;
+                return r.data.data.id;
+            })
+        },
+        prepare_order_info() {
             let info = [];
-            console.log('this.dish_list',this.dish_list);
-            
-            this.dish_list.forEach(dish=>{
+
+            this.dish_list.forEach(dish => {
                 let count = dish.$count;
-                if(!count)
+                if (!count)
                     return;
                 info.push({
-                    dish_id:dish.id,
-                    count:parseInt(count),
+                    dish_id: dish.id,
+                    count: parseInt(count),
                 });
             });
             this.order.dish_info = info;
         }
     },
-    mounted(){
+    mounted() {
         this.read_dish();
         this.order.table_id = this.$route.query.table_id
     }
@@ -231,14 +261,190 @@ const Admin = Vue.component('admin', {
             <router-link to="/admin/table">桌号管理</router-link>
             <router-link to="/admin/dish">菜品管理</router-link>
             <router-link to="/admin/order">订单管理</router-link>
+            <a @click="logout()">登出</a>
         </div>
         <div class="col-lg-9 main">
             <router-view></router-view>
         </div>
     </div>
     `,
+    methods:{
+        logout(){
+            logout();
+            router.push('/login');
+        }
+    }
 });
 
+const Login = Vue.component('login', {
+    template:
+        `
+    <div class="admin">
+        <h1>登录</h1>
+        <form @submit="login($event)" novalidate>
+            <div class="error" v-if="error.length">
+                <div v-for="e in error">{{e}}</div>
+            </div>
+            <div class="input-wrap">
+                <label>用户名</label>
+                <input type="text" v-model="user.username">
+            </div>
+            <div class="input-wrap">
+                <label>密码</label>
+                <input type="password" v-model="user.password">
+            </div>
+            <div class="input-wrap">
+                <button>登录</button>
+            </div>
+        </form>
+    </div>
+    `,
+    data() {
+        return {
+            error: [],
+            user: [],
+        }
+    },
+    methods: {
+        login(e) {
+            e.preventDefault();
+            this.error = [];
+
+            if (
+                this.user.username != 'whh' ||
+                this.user.password != 'qwer'
+            ) {
+                this.error.push('用户名或者密码错误');
+                return;
+            }
+            localStorage.setItem('logged_in', 1);
+            router.push('/admin/order');
+
+        }
+    }
+});
+
+const AdminOrder = Vue.component('admin-order', {
+    template:
+        `
+    <div>
+        <h2>菜品管理</h2>
+        <div class="tool-set">
+            <button @click="show_form = !show_form">
+                <span v-if="show_form">取消</span>
+                创建订单
+            </button>
+        </div>
+        <div class="sub-set row">
+            <form @submit="search($event)" class="col-lg-4 col-sm-12">
+                <input type="search" v-model="keyword" placeholder="关键字"> 
+                <button type="submit" hidden>搜索</button>
+            </form>
+        </div>
+        <form @submit="create($event)" v-if="show_form" novalidate>
+            <div v-if="error.length" class="error">
+                <div v-for="e in error">{{e}}</div>
+            </div>
+            <div class="input-wrap">
+                <label>菜名</label>
+                <input type="text" v-model="current.name">
+            </div>
+            <div class="input-wrap">
+                <label>价格</label>
+                <input type="number" v-model="current.price">
+            </div>
+            <div class="input-wrap">
+                <label>描述</label>
+                <textarea type="text" v-model="current.description"></textarea>
+            </div>
+            <div class="input-wrap">
+                <label>封面地址</label>
+                <input type="url" v-model="current.cover_url">
+            </div>
+            <div class="input-wrap">
+                <button>提交</button>
+            </div>
+        </form>
+
+        <div class="sub-set row">
+            <form @submit="search($event)" class="col-lg-4 col-sm-12">
+                <input type="search" v-model="keyword" placeholder="关键字"> 
+                <button type="submit" hidden>搜索</button>
+            </form>
+        </div>
+        <table v-if="list.length" class="list">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>桌子</th>
+                <th>菜品清单</th>
+                <th>主单</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="row in list">
+                <td>{{row.id}}</td>
+                <td>{{row.table_id}}</td>
+                <td>{{row.dish_info }}</td>
+                <td>{{row.parent_id||'-'}}</td>
+                <td>
+                    <select @change="change_status(row.id,row.status)" v-model="row.status">
+                        <option v-for="status in status_list" :value="status.value">{{status.name}}</option>
+                    </select>
+                    <button @click="remove(row.id)">删除</button>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+        <div v-else class="empty-holder">暂无内容</div>
+        <div class="row pagination-container" >
+            <button id="first-page" class="col pager" @click="go_first()" v-show="pagination.last_page > 1">首页</button>
+            <div class="col pagination" v-for="page_num in page">
+                <button :class="['col pager',{ active: page_num == pagination.current_page ? true : false}]" @click="go_page(page_num)">{{page_num}}</button>
+            </div>
+            <button id="last-page" class="col pager" @click="go_last()" v-show="pagination.last_page >1">尾页</button>
+            <div class="row pager-jump">
+                <span>跳转</span>
+                <input type="number" min='1' :max="pagination.last_page"  v-model="jump_page">
+                <span>页</span>
+                <button @click="go(jump_page)">确定</button>
+            </div>
+         </div>
+    </div>
+    `,
+    data() {
+        return {
+            model: 'order',
+            validate_props: ['cover_url', 'description', 'name', 'price'],
+            status_list: [
+                {
+                    name: '进行中',
+                    value: 'created',
+                },
+                {
+                    name: '已支付',
+                    value: 'paid',
+                },
+                {
+                    name: '已关闭',
+                    value: 'closed',
+                },
+                {
+                    name: '已取消',
+                    value: 'canceled',
+                },
+            ]
+        }
+    },
+    methods: {
+        change_status(id, status) {
+            http.post('order/update', { id, status });
+        },
+
+    },
+    mixins: [AdminPage],
+})
 
 const AdminDish = Vue.component('admin-dish', {
     template: `
@@ -318,7 +524,7 @@ const AdminDish = Vue.component('admin-dish', {
         <button id="last-page" class="col pager" @click="go_last()" v-show="pagination.last_page >1">尾页</button>
         <div class="row pager-jump">
             <span>跳转</span>
-            <input type="number" min='1'  v-model="jump_page">
+            <input type="number" min='1' :max="pagination.last_page"  v-model="jump_page">
             <span>页</span>
             <button @click="go(jump_page)">确定</button>
         </div>
@@ -446,7 +652,7 @@ const AdminTable = Vue.component('admin-table', {
         <button id="last-page" class="col pager" @click="go_last()" v-show="pagination.last_page >1">尾页</button>
         <div class="row pager-jump">
             <span>跳转</span>
-            <input type="number" min='1'  v-model="jump_page">
+            <input type="number" min='1' :max="pagination.last_page"  v-model="jump_page">
             <span>页</span>
             <button @click="go(jump_page)">确定</button>
         </div>
@@ -504,16 +710,45 @@ const AdminTable = Vue.component('admin-table', {
 const router = new VueRouter({
     routes: [
         { path: '/', component: Home },
+        { path: '/login', component: Login },
         {
             path: '/admin',
             component: Admin,
             children: [
                 { path: 'dish', component: AdminDish },
                 { path: 'table', component: AdminTable },
+                { path: 'order', component: AdminOrder },
             ]
         }
     ]
 });
+
+router.beforeEach((to, from, next) => {
+    console.log('to', to);
+    console.log('from', from);
+    console.log('next', next);
+    let is_logged_in = logged_in();
+    let going_admin_page = /^\/admin/.test(to.fullPath);
+
+    if(going_admin_page){
+        if(is_logged_in){
+            next();
+        } else{
+            router.push('/login');
+        }
+    } else {
+        next();
+    }
+
+});
+
+function logged_in() {
+    return !!localStorage.getItem('logged_in');
+}
+
+function logout(){
+    localStorage.removeItem('logged_in');
+}
 
 new Vue({
     el: '#root',
