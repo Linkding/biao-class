@@ -1,0 +1,14 @@
+.pagination-container,
+.pager-jump
+{
+  padding: 10px 0;
+  font-size: 13px;
+  text-align: center;
+}
+.pagination-container .pagination button.active{
+  background: #F0CA4D;
+}
+
+.pager-jump input{
+  width: 6%;
+}
