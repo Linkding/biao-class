@@ -161,3 +161,30 @@ a {
     content: '￥';
 }
   
+.error-list{
+    background: rgba(255, 0, 0, .2);
+    color: #c10;
+    margin-bottom: 10px;
+}
+.error {
+    padding: 15x;
+}
+.small {
+    font-size: 80%;
+}
+.muted {
+    opacity: .8;
+}
+.muted a {
+    color: #555;
+}
+
+.error-list {
+    background: rgba(255, 0, 0, .5);
+    padding: 5px;
+    color: #c10;
+    font-size: 0.7rem;
+}
+.input-control {
+    margin-bottom: 8px;
+}

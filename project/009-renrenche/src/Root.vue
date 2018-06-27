@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Login/>
+    <Singup/>
+    <!-- <Login/> -->
     <!-- <Detail/> -->
   </div>
 </template>
@@ -10,6 +11,7 @@
 import Home from './page/Home.vue';
 import Detail from './page/Detail.vue';
 import Login from './page/Login';
+import Singup from './page/Singup';
 
 export default {
   name: 'root',
@@ -17,6 +19,7 @@ export default {
     Detail,
     Home,
     Login,
+    Singup,
   }
 }
 </script>
