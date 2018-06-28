@@ -35,7 +35,7 @@
         components:{Nav}
     }
 </script>
-<style>
+<style scoped>
     .header {
         background-image: url('../assets/login/1300x400.png');
     }

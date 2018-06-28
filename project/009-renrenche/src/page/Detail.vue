@@ -592,12 +592,8 @@ export default {
 };
 </script>
 
-<style>
-.fa.fa-mobile,
- .fa.fa-heart-o,
- .fa.fa-phone,
- .fa.fa-lightbulb-o,
- .fa.fa-thumbs-up{
+<style scoped>
+.fa {
     padding-right: 10px;
     font-size: 1rem;
 }
@@ -671,12 +667,12 @@ export default {
     width: 40%;
 }
 
-.basis .search input,
+/* .basis .search input,
 .basis .search button {
   padding: 10px;
   font-size: 1rem;
   border: 1px solid rgba(0, 0, 0, .1)
-}
+} */
 
 .basis .search button {
     border-left: 0px;

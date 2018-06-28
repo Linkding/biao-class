@@ -45,8 +45,9 @@
               <span class="tag">经典跑车</span>
             </div>
             <div>
-              <input type="text" placeholder="请输入关键字">
-              <button type="submit">🔍</button>
+              <!-- <input type="text" placeholder="请输入关键字">
+              <button type="submit">🔍</button> -->
+              <SearchBar/>
             </div>
           </div>
           <div class="col-lg-4">
@@ -96,6 +97,7 @@
               </div>
         </div>
       </div>
+      <!-- 车列表 导航 -->
       <div class="vehicle-nav">
         <div class="container">
           <div class="col-lg-2 item">
@@ -118,6 +120,7 @@
           </div>
         </div>
       </div>
+      <!-- 车 列表 -->
       <div class="vehicle-list">
         <div class="container">
           <div class="col-lg-3">
@@ -130,8 +133,8 @@
                   <div class="desc">2015年02月 / 3.07万公里</div>
                   <div class="other">
                     <span class="price">11.5万</span>
-                    <span>首付3.5万</span>
-                    <span class="btn btn-primary btn-fat">购买</span>
+                    <span class="f-pay">首付3.5万</span>
+                    <!-- <span class="btn btn-primary btn-fat">购买</span> -->
                   </div>
                 </div>
             </div>
@@ -143,12 +146,14 @@
 
 <script>
 import Nav from "../components/Nav.vue";
+import SearchBar from "../components/SearchBar";
+
 
 export default {
-  components: { Nav }
+  components: { Nav,SearchBar }
 };
 </script>
-<style>
+<style scoped>
 .quick_check {
   padding: 20px;
 }
@@ -238,5 +243,51 @@ export default {
 
 .vehicle-nav .item:hover{
   background: rgba(0, 0, 0, 0.4)
+}
+
+.vehicle-list .card {
+  padding: 3px;
+  margin: 10px 0;
+}
+
+.vehicle-list .card:hover {
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, .08);
+  /* border: 1px solid rgba(0, 0, 0, 0.06); */
+}
+.vehicle-list .detail{
+  padding: 10px 20px;
+}
+
+.vehicle-list .detail > * {
+  padding: 5px 0;
+}
+
+.vehicle-list .detail .title {
+  font-size: 1.2rem;
+  color: #495056;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.vehicle-list .detail .desc,
+.vehicle-list .detail .other .f-pay {
+  color: #7a838d;
+}
+
+.vehicle-list .detail .desc {
+  font-size: 0.9rem;
+}
+.vehicle-list .detail .other > * {
+  padding-right: 10px;
+}
+.vehicle-list .detail .other .price{
+  font-size: 1.3rem;
+  font-weight: 650;
+  color: #f95523;
+}
+
+.vehicle-list .detail .other .f-pay {
+  font-size: 0.6rem;
 }
 </style>

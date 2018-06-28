@@ -1,5 +1,5 @@
 <template>
-    <div class="main-nav">
+    <div :style="{marginBottom: this.pushDown ? '20px': 0,}" class="main-nav">
        <div class="row container">
            <div class="col left">
                <a href="" class="logo">logo</a>
@@ -17,7 +17,13 @@
     </div>
 </template>
 <script>
-    export default {}
+    export default {
+        props:{
+            pushDown :{
+                default: false,
+            }
+        },
+    }
 </script>
     
 <style scoped>

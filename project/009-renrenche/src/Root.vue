@@ -1,8 +1,16 @@
 <template>
   <div>
-    <Singup/>
+    <!-- <Me/> -->
+    <!-- <SettingNav/> -->
+    <!-- <Singup/> -->
     <!-- <Login/> -->
     <!-- <Detail/> -->
+    <Home/>
+    <!-- <DropDown :selectItem="yo" displayKey='nickname' :list="[
+                      {name:'whh',key:'王花',nickname:'wowow'},
+                      {name:'lss',key:'lss',nickname:'wowow'}]"/> -->
+    <!-- <SearchBar/> -->
+    <!-- <SearchResult/> -->
   </div>
 </template>
 
@@ -12,6 +20,11 @@ import Home from './page/Home.vue';
 import Detail from './page/Detail.vue';
 import Login from './page/Login';
 import Singup from './page/Singup';
+import SearchResult from './page/SearchResult';
+import Me from './page/settings/Me';
+import SettingNav from './components/SettingNav';
+import DropDown from './components/DropDown';
+import SearchBar from './components/SearchBar';
 
 export default {
   name: 'root',
@@ -20,6 +33,16 @@ export default {
     Home,
     Login,
     Singup,
+    SettingNav,
+    Me,
+    DropDown,
+    SearchBar,
+    SearchResult,
+  },
+  methods:{
+    yo(i){
+      console.log(i)
+    }
   }
 }
 </script>
