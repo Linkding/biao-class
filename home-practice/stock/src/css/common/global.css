@@ -34,6 +34,10 @@ hr {
     border: 0;
     border-bottom:1px solid rgba(0, 0, 0, .05)
 }
+.left {
+    text-align: left;
+}
+
 .right {
     text-align: right;
 }
@@ -149,4 +153,72 @@ hr {
     .col-sm-12 {
         width: 100%;
     }
+}
+
+/* ==========btn========= */
+input,
+button {
+  padding: 4px;
+  font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, .1);
+  vertical-align: top;
+  outline: 0;
+}
+
+.input-control {
+    display: inline-block;
+}
+
+.input-control > *{
+    vertical-align: middle;
+    padding-right: 8px;
+    font-size: 1rem;
+}
+
+.input-control label {
+    display: block;
+    padding: 2px;
+}
+.btn-primary {
+    /* background: #fd521d; */
+    color: #1e1e1e;
+}
+
+.btn-fat {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+  /* =============table========== */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    font-size: 1rem;
+    padding: 10px;
+    text-align: center;
+}
+
+td {
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+
+th {
+    border-bottom: 2px solid rgba(0, 0, 0, .1);
+}
+
+tbody tr:hover {
+    background: #A7AEB8;
+}
+
+/* ===========色板============ */
+.color {
+color:#A7AEB8;
+color:#E2D4C0;
+color:#CBA58C;
+color:#C31021;
+color:#0B0B0B;
 }
