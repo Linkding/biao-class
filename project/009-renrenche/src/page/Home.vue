@@ -259,7 +259,7 @@ export default {
 }
 
 .vehicle-list .detail > * {
-  padding: 5px 0;
+  padding: 7px 0;
 }
 
 .vehicle-list .detail .title {

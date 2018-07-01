@@ -17,7 +17,7 @@
                     <div class="input-control"> 
                         <button type="submit">登录</button>
                     </div>
-                    <div class="input-control small muted">没有账号？<a href="">注册</a></div>
+                    <div class="input-control small muted">没有账号？<a href="#/singup">注册</a></div>
                 </form>
             </div>
         </div>
@@ -38,7 +38,7 @@
     }
 
     .main-form {
-        top:160px;
+        top:130px;
         right: 80px;
         padding: 10px 15px;
     }

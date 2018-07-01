@@ -7,6 +7,7 @@
 html {
     font-family: 'Microsoft YaHei',SimHei, sans-serif;
     font-size: 15px;
+    background: #D9E1E5;
 }
 
 img {
@@ -140,16 +141,32 @@ a {
         width: 100%;
     }
 }
-
-.btn {
-    padding: 8px;
-    border: 1px solid rgba(0, 0, 0, .1);
-    color: #444;
+/* ==========btn========= */
+input,
+button {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, .1);
+  vertical-align: top;
+  outline: 0;
 }
 
+.input-control {
+    margin: 10px 0;
+}
+
+.input-control > *{
+    vertical-align: middle;
+    padding-right: 8px;
+}
+
+.input-control label {
+    display: block;
+    padding: 2px;
+}
 .btn-primary {
-    background: #fd521d;
-    color: #fff;
+    /* background: #fd521d; */
+    color: #1e1e1e;
 }
 
 .btn-fat {
@@ -157,18 +174,17 @@ a {
     padding-right: 40px;
 }
 
+
+/* =============currency======= */
 .currency:before {
     content: '￥';
 }
-  
-.error-list{
-    background: rgba(255, 0, 0, .2);
-    color: #c10;
-    margin-bottom: 10px;
-}
+
+/* ============error-lit 错误提示========= */
 .error {
     padding: 15x;
 }
+
 .small {
     font-size: 80%;
 }
@@ -180,19 +196,55 @@ a {
 }
 
 .error-list {
-    background: rgba(255, 0, 0, .5);
     padding: 5px;
     color: #c10;
     font-size: 0.7rem;
 }
-.input-control {
-    margin-bottom: 8px;
+
+
+.wrapper {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .05);
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, .05);
+    padding: 10px 20px;
 }
 
-input,
-button {
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid rgba(0, 0, 0, .1);
-  vertical-align: top;
+/* ===============table========= */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    font-size: 1rem;
+    padding: 5px;
+    text-align: center;
+}
+
+td {
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+
+th {
+    border-bottom: 2px solid rgba(0, 0, 0, .1);
+}
+
+tbody tr:hover {
+    background: rgba(0, 0, 0, .05);
+}
+
+
+
+/* ============色板=========== */
+.color{
+    color: #E08109;
+    color: #181818;
+    color: #0B5A81;
+    color: #D9E1E5;
+    color: #FFFFFF;
+}
+
+.dib{
+    display: inline-block;
 }

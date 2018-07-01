@@ -32,11 +32,11 @@ export default {
 .dropdown {
   position: relative;
   display: inline-block;
-  background: #fff;
 }
 
 .drop-title,
 .drop-item {
+  background: #fff;
   width: 80px;
   padding: 2px;
   display: block;
@@ -46,18 +46,18 @@ export default {
 
 .drop-title,
 .drop-item {
-  border: 1px solid #111;
+  border: 1px solid #D9E1E5;
 }
 
 .dropdown:hover .drop-item, 
 .dropdown:hover .drop-title {
     border-bottom: 0;
-    border-color: #22ac38;
+    border-color: #0B5A81;
 
 }
 
 .drop-item > *:hover {
-    background: #22ac38;
+    background: #0B5A81;
     color: #fff;
 }
 

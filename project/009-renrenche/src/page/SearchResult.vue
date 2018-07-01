@@ -89,24 +89,24 @@
 <script>
 import Nav from "../components/Nav";
 import SearchBar from "../components/SearchBar";
-import DropDown from '../components/DropDown';
+import DropDown from "../components/DropDown";
 
 export default {
-  components: { Nav, SearchBar ,DropDown },
-  data(){
-     return{
-         tmp : [
-          { name : '王花花', value : 1 },
-          { name : '李拴蛋', value : 2 },
-          { name : '赵可爽', value : 3 },
-          { name : '刘备备', value : 4 },
-        ],
-     } 
+  components: { Nav, SearchBar, DropDown },
+  data() {
+    return {
+      tmp: [
+        { name: "王花花", value: 1 },
+        { name: "李拴蛋", value: 2 },
+        { name: "赵可爽", value: 3 },
+        { name: "刘备备", value: 4 }
+      ]
+    };
   },
-  methods:{
-      yo(i){
-          console.log(i)
-      }
+  methods: {
+    yo(i) {
+      console.log(i);
+    }
   }
 };
 </script>
@@ -116,18 +116,17 @@ export default {
   color: #495056;
 }
 .fiflter-list {
-    padding: 15px 0;
+  padding: 15px 0;
   border-bottom: 1px solid #e6e6e6;
-
 }
 
 .prop {
-    color: #7a838d;
-    text-align: center;
+  color: #7a838d;
+  text-align: center;
 }
 
 .fiflter-list > * {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .range > * {
@@ -135,7 +134,7 @@ export default {
   padding: 0 5px;
 }
 .active {
-  background: #22ac38;
+  background: #0B5A81;
   color: #fff;
 }
 </style>
