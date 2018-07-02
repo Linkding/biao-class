@@ -9,6 +9,7 @@
                 <div class="col-lg-9">
                     <div class="wrapper">
                         <h2>用户列表</h2>
+                        <SearchBar :model="model"  :cb="search" :searchable="searchable"/>
                         <div class="tool-bar">
                             <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建用户</span></button>
                         </div>

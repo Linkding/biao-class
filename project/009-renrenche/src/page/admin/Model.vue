@@ -9,10 +9,11 @@
                 <div class="col-lg-9">
                     <div class="wrapper">
                         <h2>车系管理</h2>
-                        <form class="search-bar" @submit="search($event)">
+                        <SearchBar :model="model"  :cb="search" :searchable="searchable"/>
+                        <!-- <form class="search-bar" @submit="search($event)">
                             <input type="search" placeholder="请输入关键字" autofocus v-model="keyword">
                             <button type="submit">🔍</button>
-                        </form>
+                        </form> -->
                         <div class="tool-bar">
                             <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建用户</span></button>
                              
@@ -62,7 +63,8 @@
 </template>
 <script>
 import AdminPage from '../../mixin/AdminPage';
-import api from '../../lib/api'
+import api from '../../lib/api';
+
 export default {
   created() {
     this.model = "model";

@@ -11,10 +11,11 @@
                         <h2>二手车列表</h2>
                         <div class="tool-bar">
                             <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建二手车</span></button>
-                            <form class="search-bar" @submit="search($event)">
+                            <SearchBar :model="model"  :cb="search" :searchable="searchable"/>
+                            <!-- <form class="search-bar" @submit="search($event)">
                                 <input type="search" placeholder="请输入关键字" autofocus v-model="keyword">
                                 <button type="submit">🔍</button>
-                            </form>
+                            </form> -->
                         </div>
                         <form v-if="show_form" @submit="cou($event)">
                             <div class="input-control">
