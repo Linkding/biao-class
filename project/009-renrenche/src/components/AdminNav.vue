@@ -1,6 +1,7 @@
 <template>
     <div :style="{width:width}" class="nav-side">
-        <a href="#" class="nav-item">基础设置</a>
+        <router-link class="nav-item" to="/admin/user">用户管理</router-link>
+        <router-link class="nav-item" to="/admin/vehicle">车辆管理</router-link>
         <a href="#" class="nav-item">安全设置</a>
         <a href="#" class="nav-item">买卖设置</a>
     </div>
@@ -16,6 +17,8 @@
 </script>
 
 <style scoped>
-    
+    .router-link-active {
+        background: rgba(0, 0, 0, 0.1)
+    }
 
 </style>
