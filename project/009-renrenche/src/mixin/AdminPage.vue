@@ -3,9 +3,10 @@ import Nav from "../components/Nav";
 import Pagination from "../components/Pagination";
 import AdminNav from "../components/AdminNav";
 import api from "../lib/api";
+import SearchBar from '../components/SearchBar'; 
 
 export default {
-  components: { Nav, AdminNav, Pagination },
+  components: { Nav, AdminNav, Pagination,SearchBar },
   data() {
     return {
       total: 0, //共计多少条数据
@@ -54,20 +55,23 @@ export default {
       this.current = "";
       this.show_form = false;
     },
-    search(e){
-      e.preventDefault();
+    search(keyword){
 
       let param ={
         or:{},
       };
 
       this.searchable.forEach(prop=>{
-        param.or[prop] = this.keyword;
+        param.or[prop] = keyword;
       });
-
+      // console.log('this.searchable',this.searchable);
+      // console.log('param',param);
+      
+      
       api(`${this.model}/search`,param
       ).then(r=>{
-        this.list = r.data;
+         this.list = r.data;
+         this.total = r.total;
       })
     },
    
