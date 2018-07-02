@@ -1,8 +1,8 @@
 <script>
-import Nav from "../../components/Nav";
-import Pagination from "../../components/Pagination";
-import AdminNav from "../../components/AdminNav";
-import api from "../../lib/api";
+import Nav from "../components/Nav";
+import Pagination from "../components/Pagination";
+import AdminNav from "../components/AdminNav";
+import api from "../lib/api";
 
 export default {
   components: { Nav, AdminNav, Pagination },
@@ -24,7 +24,7 @@ export default {
       this.read(page);
     },
     read(page = 1) {
-      if (page == this.current_page && page != 1) return; //如果点击当前页，而且不是第一页，则返回
+      if (page == this.current_page && page != 1) return; //点击当前页，不操作。如果当前页是1，则会请求，主要是首次加载就是第一页，不能将第一页情况卡死
 
       api(`${this.model}/read`, { limit: this.limit, page: page }).then(r => {
         this.list = r.data;
@@ -55,6 +55,8 @@ export default {
     }
   },
   mounted() {
+    if(!this.model)
+        throw new Error('请在模型中配置model！')
     this.read();
   }
 };

@@ -99,63 +99,20 @@
     </div>
 </template>
 <script>
-import Nav from "../../components/Nav";
-import Pagination from "../../components/Pagination";
-import AdminNav from "../../components/AdminNav";
-import api from "../../lib/api";
+import AdminPage from '../../mixin/AdminPage';
 
 export default {
-  components: { Nav, AdminNav, Pagination },
+   created() {
+       this.model = 'vehicle';
+   },
   data() {
     return {
-      total: 0, //共计多少条数据
-      last_page: 0, //最后一页，默认0
-      current_page: 1, //当前页码
-      limit: 2,
-      show_form: false,
-      current: {},
-      list: [],
-      edit_mode: false
     };
   },
   methods: {
-    on_page_change(page) {
-      this.read(page);
-    },
-    read(page = 1) {
-      if (page == this.current_page && page != 1) return; //如果点击当前页，而且不是第一页，则返回
-
-      api("vehicle/read", { limit: this.limit, page: page }).then(r => {
-        this.list = r.data;
-        this.total = r.total;
-        this.last_page = r.last_page;
-        this.current_page = r.current_page;
-      });
-    },
-    cou(e) {
-      e.preventDefault();
-      let action = this.current.id ? "update" : "create";
-      api(`vehicle/${action}`, this.current).then(r => {
-        this.read();
-      });
-    },
-    remove(id) {
-      api("vehicle/delete", { id }).then(r => {
-        this.read();
-      });
-    },
-    update(row) {
-      this.current = row;
-      this.show_form = true;
-    },
-    cancel() {
-      this.current = "";
-      this.show_form = false;
-    }
+   
   },
-  mounted() {
-    this.read();
-  }
+  mixins:[AdminPage],
 };
 </script>
 <style scoped>

@@ -12,6 +12,7 @@ import Singup from './page/Singup';
 import SearchResult from './page/SearchResult';
 import AdminBase from './page/admin/Base';
 import Vehicle from './page/admin/Vehicle';
+import User from './page/admin/User';
 
 
 import Me from './page/settings/Me';
@@ -38,10 +39,10 @@ const router = new VueRouter({
     {path:'/dropdown',component:DropDown},
     {path:'/searchbar',component:SearchBar},
     {
-      path:'/admin',
-      component:AdminBase,
+      path:'/admin',component:AdminBase,
       children:[
         {path:'vehicle',component:Vehicle},
+        {path:'user',component:User},
       ]
     }
   ]

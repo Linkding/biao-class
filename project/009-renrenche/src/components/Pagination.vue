@@ -40,6 +40,7 @@
     </div>
 </template>
 <script>
+
 export default {
   props: {
     limit: {
@@ -71,10 +72,9 @@ export default {
       this.change(--this.current_page);
     },
     next() {
-      if (this.is_last_page)
-         return;
+      if (this.is_last_page) return;
       this.change(++this.current_page);
-    },
+    }
   },
   computed: {
     half_limit() {
@@ -90,7 +90,6 @@ export default {
       return Math.ceil(this.totalCount / this.limit);
     }
   },
-  mounted() {
-  },
+  mounted() {}
 };
 </script>
