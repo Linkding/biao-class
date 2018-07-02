@@ -11,11 +11,12 @@ export default {
       total: 0, //共计多少条数据
       last_page: 0, //最后一页，默认0
       current_page: 1, //当前页码
-      limit: 2,
+      limit: 5,
       show_form: false,
       current: {},
       list: [],
       edit_mode: false,
+      keyword:'',
       model:null,
     };
   },
@@ -52,7 +53,24 @@ export default {
     cancel() {
       this.current = "";
       this.show_form = false;
-    }
+    },
+    search(e){
+      e.preventDefault();
+
+      let param ={
+        or:{},
+      };
+
+      this.searchable.forEach(prop=>{
+        param.or[prop] = this.keyword;
+      });
+
+      api(`${this.model}/search`,param
+      ).then(r=>{
+        this.list = r.data;
+      })
+    },
+   
   },
   mounted() {
     if(!this.model)

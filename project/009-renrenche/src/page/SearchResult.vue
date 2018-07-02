@@ -14,9 +14,12 @@
                         <div class="col-lg-1 prop">
                             品牌
                         </div>
-                        <div class="col-lg-10 range">
+                        <div class="col-lg-10 range" >
                             <span class="active">不限</span>
-                            <span>大众</span>
+                            <span v-for="brand in brand_list" :key="brand.name">
+                                <span @click="search_model(brand.id)">{{brand.name}}</span>
+                            </span>
+                            <!-- <span>大众</span>
                             <span>福特</span>
                             <span>奔驰</span>
                             <span>现代</span>
@@ -27,7 +30,7 @@
                             <span>大众</span>
                             <span>福特</span>
                             <span>奔驰</span>
-                            <span>现代</span>
+                            <span>现代</span> -->
                         </div>
                         <div class="col-lg-1 prop right">全部</div>
                     </div>
@@ -38,7 +41,10 @@
                         </div>
                         <div class="col-lg-10 range">
                             <span class="active">不限</span>
-                            <span>朗逸</span>
+                            <span v-for="model in model_list" :key="model.name">
+                                <span>{{model.name}}</span>
+                            </span>
+                            <!-- <span>朗逸</span>
                             <span>奔特</span>
                             <span>福驰</span>
                             <span>大代</span>
@@ -47,7 +53,7 @@
                             <span>奔特</span>
                             <span>福驰</span>
                             <span>大代</span>
-                            <span>现众</span>
+                            <span>现众</span> -->
                         </div>
                         <div class="col-lg-1 prop right">全部</div>
                     </div>
@@ -90,6 +96,8 @@
 import Nav from "../components/Nav";
 import SearchBar from "../components/SearchBar";
 import DropDown from "../components/DropDown";
+import api from "../lib/api";
+
 
 export default {
   components: { Nav, SearchBar, DropDown },
@@ -100,14 +108,45 @@ export default {
         { name: "李拴蛋", value: 2 },
         { name: "赵可爽", value: 3 },
         { name: "刘备备", value: 4 }
-      ]
+      ],
+      brand_list:[],
+      model_list:[
+        {name:"朗逸"},
+        {name:"奔特"},
+        {name:"福驰"},
+        {name:"大代"},
+        {name:"现众"},
+        {name:"朗逸"},
+        {name:"奔特"},
+        {name:"福驰"},
+        {name:"大代"},
+        {name:"现众"},
+      ],
     };
   },
   methods: {
     yo(i) {
       console.log(i);
+    },
+    read_brand(){
+        api('brand/read')
+            .then(r=>{
+                this.brand_list = r.data;
+                console.log('this.brand_list',this.brand_list);
+                
+            })
+    },
+    search_model(id){
+        api('model/search',{
+            or:{'brand_id':id}
+        }).then(r=>{
+            this.model_list = r.data;
+        })
     }
-  }
+  },
+  mounted() {
+      this.read_brand();
+  },
 };
 </script>
 <style scoped>

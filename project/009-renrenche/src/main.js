@@ -13,6 +13,8 @@ import SearchResult from './page/SearchResult';
 import AdminBase from './page/admin/Base';
 import Vehicle from './page/admin/Vehicle';
 import User from './page/admin/User';
+import Brand from './page/admin/Brand';
+import Model from './page/admin/Model';
 
 
 import Me from './page/settings/Me';
@@ -43,6 +45,8 @@ const router = new VueRouter({
       children:[
         {path:'vehicle',component:Vehicle},
         {path:'user',component:User},
+        {path:'brand',component:Brand},
+        {path:'model',component:Model},
       ]
     }
   ]

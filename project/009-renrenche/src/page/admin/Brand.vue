@@ -8,22 +8,18 @@
                 </div>
                 <div class="col-lg-9">
                     <div class="wrapper">
-                        <h2>用户列表</h2>
+                        <h2>品牌管理</h2>
+                        <form class="search-bar" @submit="search($event)">
+                            <input type="search" placeholder="请输入关键字" autofocus v-model="keyword">
+                            <button type="submit">🔍</button>
+                        </form>
                         <div class="tool-bar">
                             <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建用户</span></button>
                         </div>
                         <form v-if="show_form" @submit="cou($event)">
                             <div class="input-control">
-                                <label>用户名</label>
-                                <input type="text" v-model="current.username">
-                            </div>
-                            <div class="input-control">
-                                <label>密码</label>
-                                <input type="password" v-model="current.password">
-                            </div>
-                             <div class="input-control">
-                                <label>真实姓名</label>
-                                <input type="text" v-model="current.real_name">
+                                <label>品牌名</label>
+                                <input type="text" v-model="current.name">
                             </div>
                             <div class="input-control">
                                 <button class="btn-primary" type="submit">提交</button>
@@ -33,16 +29,14 @@
                         <div class="table">
                             <table>
                                 <thead>
-                                    <th>用户名</th>
-                                    <th>密码</th>
-                                    <th>真实姓名</th>
+                                    <th>品牌号</th>
+                                    <th>品牌</th>
                                     <th>操作</th>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(row,index) in list" :key="index">
-                                    <td>{{row.username}}</td>
-                                    <td>{{row.password}}</td>
-                                    <td>{{row.real_name || '-'}}</td>
+                                    <td>{{row.id}}</td>
+                                    <td>{{row.name}}</td>
                                     <td>
                                         <button @click="update(row)">编辑</button>
                                         <button @click="remove(row.id)">删除</button>
@@ -63,11 +57,11 @@ import AdminPage from '../../mixin/AdminPage';
 
 export default {
   created() {
-    this.model = "user";
+    this.model = "brand";
   },
   data() {
     return {
-        searchable:['username']
+        searchable:['name']
     };
   },
   mixins:[AdminPage],

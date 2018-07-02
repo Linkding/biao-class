@@ -11,6 +11,10 @@
                         <h2>二手车列表</h2>
                         <div class="tool-bar">
                             <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建二手车</span></button>
+                            <form class="search-bar" @submit="search($event)">
+                                <input type="search" placeholder="请输入关键字" autofocus v-model="keyword">
+                                <button type="submit">🔍</button>
+                            </form>
                         </div>
                         <form v-if="show_form" @submit="cou($event)">
                             <div class="input-control">
@@ -107,6 +111,7 @@ export default {
    },
   data() {
     return {
+        searchable:['title']
     };
   },
   methods: {
@@ -123,5 +128,20 @@ button:hover {
 }
 .input-control button {
   margin: 0px 10px;
+}
+
+.search-bar {
+    margin: 10px 0;
+}
+input {
+  width: 45%;
+  /* font-size: 1.6rem; */
+}
+button {
+  border-left: 0;
+}
+
+button:hover {
+  background: #181818;
 }
 </style>
