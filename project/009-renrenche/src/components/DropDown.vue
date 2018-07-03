@@ -1,8 +1,8 @@
 <template>
     <div @mouseleave="show_menu=false" class="dropdown">
-        <div @mouseenter="show_menu=true" class="drop-title">车龄</div>
+        <div @mouseenter="show_menu=true" class="drop-title">{{selected[displayKey]||'请选择'}}</div>
         <div v-if="show_menu" class="drop-item">
-            <div @click="select(index)" v-for="(row,index) in  list" :key='index'>{{row[displayKey]}}</div>
+            <div @click="select(row)" v-for="(row,index) in  list" :key='index'>{{row[displayKey]}}</div>
         </div>
     </div>
 </template>
@@ -13,17 +13,20 @@ export default {
     selectItem: {},
     displayKey: {
       default: "name"
-    }
+    },
+    
   },
   data() {
     return {
+      selected:{},
       show_menu: false
     };
   },
   methods: {
-    select(index) {
-      console.log("index", index);
-      if (this.selectItem) this.selectItem(index);
+    select(row) {
+      this.selected = row;
+      console.log("row", row);
+      if (this.selectItem) this.selectItem(row);
     }
   }
 };
@@ -32,6 +35,7 @@ export default {
 .dropdown {
   position: relative;
   display: inline-block;
+  margin: 10px;
 }
 
 .drop-title,

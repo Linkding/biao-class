@@ -15,7 +15,7 @@
                             <button type="submit">🔍</button>
                         </form> -->
                         <div class="tool-bar">
-                            <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建用户</span></button>
+                            <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建车系</span></button>
                              
                         </div>
                         <form v-if="show_form" @submit="cou($event)">
@@ -25,9 +25,18 @@
                             </div>
                             <div class="input-control">
                                 <label>品牌号</label>
-                                <select v-model="current.brand_id">
+                                <DropDown :list="brand_list" :selectItem="set_brand_id"/>
+                                <!-- <select v-model="current.brand_id">
                                     <option v-for="brand in brand_list" :key="brand.id" :value="brand.id">{{brand.name}}</option>
-                                </select>
+                                </select> -->
+                                <!-- <input type="text" v-model="current.brand_id"> -->
+                            </div>
+                             <div class="input-control">
+                                <label>车型</label>
+                                <DropDown :list="design_list" :selectItem="set_design_id"/>
+                                <!-- <select v-model="current.brand_id">
+                                    <option v-for="brand in brand_list" :key="brand.id" :value="brand.id">{{brand.name}}</option>
+                                </select> -->
                                 <!-- <input type="text" v-model="current.brand_id"> -->
                             </div>
                             <div class="input-control">
@@ -40,12 +49,14 @@
                                 <thead>
                                     <th>车系</th>
                                     <th>品牌号</th>
+                                    <th>车型号</th>
                                     <th>操作</th>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(row,index) in list" :key="index">
                                     <td>{{row.name}}</td>
-                                    <td>{{row.brand_id}}</td>
+                                    <td>{{row.$brand.name}}</td>
+                                    <td>{{row.$design ? row.$design.name:'-'}}</td>
                                     <td>
                                         <button @click="update(row)">编辑</button>
                                         <button @click="remove(row.id)">删除</button>
@@ -72,6 +83,11 @@ export default {
   data() {
     return {
         searchable:['name'],
+        design_list:[],
+         with: [
+        { model: "brand", type: "has_one" },
+        { model: "design", type: "has_one" }
+      ],
     };
   },
   mixins:[AdminPage],
@@ -81,10 +97,34 @@ export default {
             .then(r=>{
                 this.brand_list = r.data;
             })
-      } 
+      },
+      read_design(){
+          api("design/read")
+            .then(r=>{
+                this.design_list = r.data;
+            })
+      },
+      read_brand_by_id(){
+          api('brand/read',{where:{
+              id:'1',
+          }})
+            .then(r=>{
+                console.log(r.data);
+            })
+      },
+      set_brand_id(row){
+          this.$set(this.current,'brand_id',row.id);
+      },
+      set_design_id(row){
+          this.$set(this.current,'design_id',row.id);
+          console.log('this.current',this.current);
+          
+      }
   },
   mounted() {
       this.read_brand();
+      this.read_design();
+      this.read_brand_by_id();
   },
 };
 </script>

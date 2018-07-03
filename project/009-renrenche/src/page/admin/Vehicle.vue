@@ -9,9 +9,9 @@
                 <div class="col-lg-9">
                     <div class="wrapper">
                         <h2>二手车列表</h2>
+                        <SearchBar :model="model"  :cb="search" :searchable="searchable"/>
                         <div class="tool-bar">
                             <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建二手车</span></button>
-                            <SearchBar :model="model"  :cb="search" :searchable="searchable"/>
                             <!-- <form class="search-bar" @submit="search($event)">
                                 <input type="search" placeholder="请输入关键字" autofocus v-model="keyword">
                                 <button type="submit">🔍</button>
@@ -138,9 +138,7 @@ input {
   width: 45%;
   /* font-size: 1.6rem; */
 }
-button {
-  border-left: 0;
-}
+
 
 button:hover {
   background: #181818;

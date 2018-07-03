@@ -15,8 +15,15 @@
       },
     },
   };
-
-  api('MODEL/CREATE', model);
+  let m = {
+    model:'model',
+    property:'design_id',
+    structure:{
+      type:'integer',
+      nullable:true,
+    }
+  }
+  api('MODEL/CREATE_PROPERTY', m);
 
   // api('MODEL/READ', model);
 

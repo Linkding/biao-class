@@ -4,9 +4,10 @@ import Pagination from "../components/Pagination";
 import AdminNav from "../components/AdminNav";
 import api from "../lib/api";
 import SearchBar from '../components/SearchBar'; 
+import DropDown from '../components/DropDown'; 
 
 export default {
-  components: { Nav, AdminNav, Pagination,SearchBar },
+  components: { Nav, AdminNav, Pagination,SearchBar,DropDown },
   data() {
     return {
       total: 0, //共计多少条数据
@@ -26,9 +27,15 @@ export default {
       this.read(page);
     },
     read(page = 1) {
+
       if (page == this.current_page && page != 1) return; //点击当前页，不操作。如果当前页是1，则会请求，主要是首次加载就是第一页，不能将第一页情况卡死
 
-      api(`${this.model}/read`, { limit: this.limit, page: page }).then(r => {
+      api(`${this.model}/read`, { 
+        limit: this.limit,
+         page: page,
+         sort_by:['id','up'],
+         with:this.with, })
+         .then(r => {
         this.list = r.data;
         this.total = r.total;
         this.last_page = r.last_page;

@@ -15,6 +15,7 @@ import Vehicle from './page/admin/Vehicle';
 import User from './page/admin/User';
 import Brand from './page/admin/Brand';
 import Model from './page/admin/Model';
+import Design from './page/admin/Design';
 
 
 import Me from './page/settings/Me';
@@ -47,6 +48,7 @@ const router = new VueRouter({
         {path:'user',component:User},
         {path:'brand',component:Brand},
         {path:'model',component:Model},
+        {path:'design',component:Design},
       ]
     }
   ]

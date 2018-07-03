@@ -40,7 +40,6 @@
     </div>
 </template>
 <script>
-
 export default {
   props: {
     limit: {
@@ -67,7 +66,7 @@ export default {
       }
       this.current_page = page;
     },
-    pre() {
+    prev() {
       if (this.is_first_page) return;
       this.change(--this.current_page);
     },
@@ -93,3 +92,12 @@ export default {
   mounted() {}
 };
 </script>
+<style scoped>
+.pagination {
+  text-align: center;
+  padding: 10px 0;
+}
+.pagination .active {
+  background: #D9E1E5;
+}
+</style>

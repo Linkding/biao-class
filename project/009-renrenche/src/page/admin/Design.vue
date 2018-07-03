@@ -8,18 +8,18 @@
                 </div>
                 <div class="col-lg-9">
                     <div class="wrapper">
-                        <h2>品牌管理</h2>
+                        <h2>车型管理</h2>
                         <SearchBar :model="model"  :cb="search" :searchable="searchable"/>
                         <!-- <form class="search-bar" @submit="search($event)">
                             <input type="search" placeholder="请输入关键字" autofocus v-model="keyword">
                             <button type="submit">🔍</button>
                         </form> -->
                         <div class="tool-bar">
-                            <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建品牌</span></button>
+                            <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建车型</span></button>
                         </div>
                         <form v-if="show_form" @submit="cou($event)">
                             <div class="input-control">
-                                <label>品牌名</label>
+                                <label>车型名</label>
                                 <input type="text" v-model="current.name">
                             </div>
                             <div class="input-control">
@@ -30,8 +30,8 @@
                         <div class="table">
                             <table>
                                 <thead>
-                                    <th>品牌号</th>
-                                    <th>品牌</th>
+                                    <th>车型号</th>
+                                    <th>车型</th>
                                     <th>操作</th>
                                 </thead>
                                 <tbody>
@@ -58,7 +58,7 @@ import AdminPage from '../../mixin/AdminPage';
 
 export default {
   created() {
-    this.model = "brand";
+    this.model = "design";
   },
   data() {
     return {

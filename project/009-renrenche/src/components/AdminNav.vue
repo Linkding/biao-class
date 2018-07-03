@@ -4,8 +4,9 @@
         <router-link class="nav-item" to="/admin/vehicle">车辆管理</router-link>
         <router-link class="nav-item" to="/admin/brand">品牌管理</router-link>
         <router-link class="nav-item" to="/admin/model">车系管理</router-link>
-        <a href="#" class="nav-item">安全设置</a>
-        <a href="#" class="nav-item">买卖设置</a>
+        <router-link class="nav-item" to="/admin/design">车型管理</router-link>
+        <!-- <a href="#" class="nav-item">安全设置</a>
+        <a href="#" class="nav-item">买卖设置</a> -->
     </div>
 </template>
 
