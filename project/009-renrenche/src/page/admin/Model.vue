@@ -55,7 +55,7 @@
                                 <tbody>
                                     <tr v-for="(row,index) in list" :key="index">
                                     <td>{{row.name}}</td>
-                                    <td>{{row.$brand.name}}</td>
+                                    <td>{{row.$brand? row.$brand.name:'-'}}</td>
                                     <td>{{row.$design ? row.$design.name:'-'}}</td>
                                     <td>
                                         <button @click="update(row)">编辑</button>

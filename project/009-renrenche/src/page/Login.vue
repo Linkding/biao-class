@@ -9,7 +9,7 @@
                         <div class="error">用户名或密码有误</div>
                     </div>
                     <div class="input-control">
-                        <input id="username" type="text" placeholder="用户名">
+                        <input v-validator="'username|required|min_length:4|max_length:6'" id="username" type="text" placeholder="用户名">
                     </div>
                     <div class="input-control">
                         <input id="password" type="password" placeholder="密码">
@@ -28,6 +28,7 @@
 <script>
     import Nav from '../components/Nav';
     import '../css/auth.css';
+    import validator from '../directive/validator';
     export default {
         components:{Nav}
     }
