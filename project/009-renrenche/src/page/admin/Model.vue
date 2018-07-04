@@ -25,7 +25,7 @@
                             </div>
                             <div class="input-control">
                                 <label>品牌号</label>
-                                <DropDown :list="brand_list" :selectItem="set_brand_id"/>
+                                <DropDown :list="brand_list" :selectItem="set_brand_id" ref="edit_brand"/>
                                 <!-- <select v-model="current.brand_id">
                                     <option v-for="brand in brand_list" :key="brand.id" :value="brand.id">{{brand.name}}</option>
                                 </select> -->
@@ -33,7 +33,7 @@
                             </div>
                              <div class="input-control">
                                 <label>车型</label>
-                                <DropDown :list="design_list" :selectItem="set_design_id"/>
+                                <DropDown :list="design_list" :selectItem="set_design_id" ref="edit_design"/>
                                 <!-- <select v-model="current.brand_id">
                                     <option v-for="brand in brand_list" :key="brand.id" :value="brand.id">{{brand.name}}</option>
                                 </select> -->
@@ -104,14 +104,6 @@ export default {
                 this.design_list = r.data;
             })
       },
-      read_brand_by_id(){
-          api('brand/read',{where:{
-              id:'1',
-          }})
-            .then(r=>{
-                console.log(r.data);
-            })
-      },
       set_brand_id(row){
           this.$set(this.current,'brand_id',row.id);
       },
@@ -124,7 +116,6 @@ export default {
   mounted() {
       this.read_brand();
       this.read_design();
-      this.read_brand_by_id();
   },
 };
 </script>

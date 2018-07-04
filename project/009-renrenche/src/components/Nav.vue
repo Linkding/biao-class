@@ -1,7 +1,7 @@
 <template>
     <div :style="{marginBottom: this.pushDown ? '20px': 0,}" class="nav-global">
        <div class="row container">
-            <div class="col-lg-1"><a href="#"><img src="../assets/logo/logo01.png" alt="#"></a></div>
+            <router-link to="/" class="col-lg-1"><a href="#"><img src="../assets/logo/logo01.png" alt="#"></a></router-link>
            <div class="col-lg-6 left">
                <a href="#" class="nav-item">item</a>
                <a href="#" class="nav-item">item</a>
