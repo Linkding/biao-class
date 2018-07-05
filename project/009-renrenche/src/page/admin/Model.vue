@@ -109,8 +109,6 @@ export default {
       },
       set_design_id(row){
           this.$set(this.current,'design_id',row.id);
-          console.log('this.current',this.current);
-          
       }
   },
   mounted() {

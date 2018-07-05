@@ -9,13 +9,27 @@
                         <div class="error">用户名已存在</div>
                     </div>
                     <div class="input-control">
-                        <input id="username" type="text" placeholder="用户名">
+                        <input id="username" type="text" 
+                            v-validator="'required|username|min_length:4|max_length:6|not_exist:user,username'"
+                            error-el="#username-error"
+                            error-lang="zh"
+                        placeholder="whh" autocomplete="off">
+                        <div class="error-list">
+                            <div id="username-error"></div>
+                        </div>
                     </div>
                     <div class="input-control">
-                        <input id="password" type="password" placeholder="密码">
+                        <input v-validator="'required|min_length:6|max_length:64'"
+                        error-el="#password-error"
+                        id="password"
+                        type="password"
+                        placeholder="密码">
+                        <div class="error-list">
+                            <div id="password-error"></div>
+                        </div>
                     </div>
                      <div class="input-control">
-                        <input id="password" type="password" placeholder="重复密码">
+                        <input id="repassword" type="password" placeholder="重复密码">
                     </div>
                     <div class="input-control"> 
                         <button type="submit">注册</button>
@@ -30,8 +44,11 @@
 
 <script>
     import Nav from '../components/Nav';
+    import validator from '../directive/validator';
+
     import '../css/auth.css';
     export default {
+        directives:{validator},
         components:{Nav}
     }
 </script>
