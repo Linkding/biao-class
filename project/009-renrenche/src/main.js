@@ -23,6 +23,7 @@ import Me from './page/settings/Me';
 import SettingNav from './components/SettingNav';
 import DropDown from './components/DropDown';
 import SearchBar from './components/SearchBar';
+import Location from './components/Location';
 
 Vue.config.productionTip = false;
 
@@ -30,25 +31,26 @@ Vue.use(VueRouter);
 
 
 const router = new VueRouter({
-  routes:[
-    {path:'/',component:Home},
-    {path:'/detail',component:Detail},
-    {path:'/login',component:Login},
-    {path:'/singup',component:Singup},
-    {path:'/searchresult',component:SearchResult},
-    {path:'/vehicle',component:Vehicle},
-    {path:'/me',component:Me},
-    {path:'/settingnav',component:SettingNav},
-    {path:'/dropdown',component:DropDown},
-    {path:'/searchbar',component:SearchBar},
+  routes: [
+    { path: '/', component: Home },
+    { path: '/detail', component: Detail },
+    { path: '/login', component: Login },
+    { path: '/singup', component: Singup },
+    { path: '/searchresult', component: SearchResult },
+    { path: '/vehicle', component: Vehicle },
+    { path: '/me', component: Me },
+    { path: '/settingnav', component: SettingNav },
+    { path: '/dropdown', component: DropDown },
+    { path: '/searchbar', component: SearchBar },
+    { path: '/location', component: Location },
     {
-      path:'/admin',component:AdminBase,
-      children:[
-        {path:'vehicle',component:Vehicle},
-        {path:'user',component:User},
-        {path:'brand',component:Brand},
-        {path:'model',component:Model},
-        {path:'design',component:Design},
+      path: '/admin', component: AdminBase,
+      children: [
+        { path: 'vehicle', component: Vehicle },
+        { path: 'user', component: User },
+        { path: 'brand', component: Brand },
+        { path: 'model', component: Model },
+        { path: 'design', component: Design },
       ]
     }
   ]
@@ -56,5 +58,5 @@ const router = new VueRouter({
 
 new Vue({
   render: h => h(Root),
-  router:router,
+  router: router,
 }).$mount('#root');

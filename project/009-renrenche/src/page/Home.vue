@@ -2,11 +2,12 @@
   <div>
       <Nav/>
       <div class="first-screen">
-        <img src="../assets/home/first-screen.webp" alt="">
+        <!-- <img src="../assets/first_screen.jpg" alt=""> -->
+        <!-- <img src="../assets/home/first-screen.webp" alt=""> -->
       </div>
       <div class="quick_check">
         <div class="container">
-          <div class="col-lg-1">
+          <div class="col-lg-2 wrap">
             <span class="buy">买</span>
             <span class="row tip">1年/2万公里质保</span>
           </div>
@@ -50,7 +51,7 @@
               <SearchBar/>
             </div>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-3">
             <span class="col-lg-3 sell">卖</span>
             <div class="col-lg-9 right">
               <a href="" style="margin-top: 15px; display: inline-block;" class="btn btn-primary btn-fat">极速卖车</a>
@@ -123,17 +124,17 @@
       <!-- 车 列表 -->
       <div class="vehicle-list">
         <div class="container">
-          <div class="col-lg-3">
-            <div class="card">
+          <div class="col-lg-3" v-for="(row,index) in list" :key="index">
+            <div class="card" >
                 <div class="thumbnail">
-                  <img src="../assets/home/vehicle-list-thumbnail1.webp" alt="">
+                  <img :src="row.preview[0].url" alt="">
                 </div>
                 <div class="detail">
-                  <div class="title">大众-高尔夫 2014款 1.6L 自动舒适型</div>
-                  <div class="desc">2015年02月 / 3.07万公里</div>
+                  <div class="title">{{row.title}}</div>
+                  <div class="desc">{{row.birth_day}} / {{row.consumed_distance}}万公里</div>
                   <div class="other">
-                    <span class="price">11.5万</span>
-                    <span class="f-pay">首付3.5万</span>
+                    <span class="price">{{row.price}}万</span>
+                    <span class="f-pay">首付{{row.price }}万</span>
                     <!-- <span class="btn btn-primary btn-fat">购买</span> -->
                   </div>
                 </div>
@@ -147,20 +148,60 @@
 <script>
 import Nav from "../components/Nav.vue";
 import SearchBar from "../components/SearchBar";
-
+import api from "../lib/api";
 
 export default {
-  components: { Nav,SearchBar }
+  components: { Nav, SearchBar },
+  data() {
+    return {
+      list: [],
+      model: "vehicle"
+    };
+  },
+  methods: {
+    read() {
+      api(`${this.model}/read`).then(r => {
+        this.list = r.data;
+      });
+    }
+  },
+  mounted() {
+    this.read();
+  }
 };
 </script>
 <style scoped>
+.first-screen {
+  background-image: url(../assets/first_screen.jpg);
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+  -moz-background-size: cover;
+  min-height: 420px;
+  opacity: 0.8;
+}
+
 .quick_check {
   padding: 20px;
 }
 
+.quick_check .container {
+  background: #fff;
+  padding: 20px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow:  3px 4px  10px rgba(0, 0, 0, 0.04);
+  border-radius: 5px;
+}
+
+.quick_check .container .wrap {
+  padding:0px 10px;
+}
+
 .buy,
 .sell {
-  color: #fd521d;
+  color: #0B5A81;
   font-size: 4rem;
   font-weight: bold;
 }
@@ -173,6 +214,7 @@ export default {
   display: inline-block;
   padding: 0px 6px;
 }
+
 .link-group {
   padding-left: 20px;
 }
@@ -182,6 +224,9 @@ export default {
   font-size: 0.9rem;
 }
 
+.link-group  span {
+  padding: 0 10px;
+}
 .link-group input {
   width: 45%;
 }
@@ -195,20 +240,18 @@ export default {
 .link-group button {
   border-left: 0;
 }
+
 .link-group button:hover {
   background: #fd521d;
 }
 
 .guaruntee,
-.guaruntee .col-lg-4
-{
-  
+.guaruntee .col-lg-4 {
   padding: 15px 15px 15px 0;
   background: #ddd;
 }
 
-
-.guaruntee .col-lg-5 .card{
+.guaruntee .col-lg-5 .card {
   padding-right: 0px;
 }
 
@@ -238,23 +281,25 @@ export default {
   padding: 10px;
   font-size: 1.6rem;
   text-align: center;
-  border: 1px solid  rgba(0, 0, 0, 0.06)
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.vehicle-nav .item:hover{
-  background: rgba(0, 0, 0, 0.4)
+.vehicle-nav .item:hover {
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .vehicle-list .card {
-  padding: 3px;
-  margin: 10px 0;
+  background: #fff;
+  padding: 5px;
+  margin: 10px 3px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .vehicle-list .card:hover {
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, .08);
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.08);
   /* border: 1px solid rgba(0, 0, 0, 0.06); */
 }
-.vehicle-list .detail{
+.vehicle-list .detail {
   padding: 10px 20px;
 }
 
@@ -281,7 +326,7 @@ export default {
 .vehicle-list .detail .other > * {
   padding-right: 10px;
 }
-.vehicle-list .detail .other .price{
+.vehicle-list .detail .other .price {
   font-size: 1.3rem;
   font-weight: 650;
   color: #f95523;

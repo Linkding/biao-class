@@ -1,13 +1,14 @@
 <template>
     <div @mouseleave="show_menu=false" class="dropdown">
         <input type="search"
-          v-if="api"
           @keyup="show_menu=true"
+          @focus="show_menu=true"
           v-model="keyword"
+          placeholder="请搜索"
         >
         <div v-if="list.length" @click="show_menu=true" class="drop-title">{{selected ? selected[displayKey]:'请选择'}}</div>
         <div v-if="show_menu && result.length" class="drop-item">
-            <div @click="select(row)" v-for="(row,index) in  list" :key='index'>{{row[displayKey]}}</div>
+            <div @click="select(row)" v-for="(row,index) in  result" :key='index'>{{row[displayKey]}}</div>
         </div>
     </div>
     <!-- <div @mouseleave="show_menu=false" class="dropdown">
@@ -18,112 +19,126 @@
     </div> -->
 </template>
 <script>
-import  api from '../lib/api';
-
+import api from "../lib/api";
 export default {
   props: {
-    api:{},
+    api: {},
     list: {
-      defalut(){
-        return[]
+      default() {
+        return [];
       }
     },
-    defalut:{},
-    onSelect:{},
-    primaryKey:{
-      defalut:'id',
+    default: {},
+    onSelect: {},
+    primaryKey: {
+      default: "id"
     },
     selectItem: {},
     displayKey: {
       default: "name"
-    },
+    }
   },
   data() {
     return {
-      api_conf:{},
-      result:[],
-      selected:'',
+      api_conf: {},
+      result: [],
+      selected: "",
       show_menu: false,
-      keyword:'',
-      timer:null,
+      keyword: "",
+      timer: null
     };
   },
   methods: {
-    parse_api(){
-      let api_conf = this.api;
-      if(typeof api_conf != 'string')
-        return Object.assign({},api);
-      api_conf = api_prop.split('.');
+    test(){
+      console.log('11')
+    },
+    parse_api() {
+      let api_prop = this.api;
+      if (typeof api_prop != "string") return Object.assign({}, api);
+      api_prop = api_prop.split(".");
       let model = api_prop[0];
       let property = api_prop[1];
 
-      property = property.split(',');
+      property = property.split(",");
 
       return {
         model,
-        property,
-      }
+        property
+      };
     },
-    select(row) {
+    //model模块，触发编辑时候，调用
+    on_edit_model(row) {
+      if (!row) this.selected = {};
       this.selected = row;
-      if (this.selectItem) this.selectItem(row);
     },
-    on_edit(row){
-      if(!row)
+    //vehicle模块，触发编辑时候，调用
+    on_edit_vehicle(row) {
+      if (!row) 
         this.selected = {};
       this.selected = row;
     },
-    set_default(){
-      let key = this.defalut;
-      if(key){
-        let def = this.list.find(row=>{
+    set_default() {
+      let key = this.default;
+      if (key) {
+        let def = this.list.find(row => {
           return row[this.primaryKey] == key;
         });
         this.select(def);
       }
     },
-    select(row){
-      this.show_menu = false;
-      this.selected =  row;
+    select(row) {
+      // this.show_menu = false;
+      this.selected = row;
+      console.log('row',row);
+      
       this.keyword = row[this.displayKey];
+      if (this.onSelect) 
+        this.onSelect(row);
     },
-
-  },
-  mounted() {
-    // this.set_default();
-    let list = this.list;
-    // console.log('this.list.length',this.list.length)
-    this.api_conf = this.parse_api();
-    list && (this.result = this.list);
-  },
-  watch:{
-    keyword(){
+    filter() {
+      this.result = Object.assign([], this.list);
+      this.result = this.result.filter(row => {
+        return row[this.displayKey].indexOf(this.keyword) !== -1;
+      });
+    },
+    search() {
       let condition = {};
 
       let property = this.api_conf.property;
 
-      if(!property)
-        return;
-      property.forEach(prop=>{
+      if (!property) return;
+
+      property.forEach(prop => {
         condition[prop] = this.keyword;
       });
 
-      clearTimeout(this.timer);//清除计时器
+      clearTimeout(this.timer); //清除计时器
 
-      this.timer = setTimeout(()=>{
-        api(`${this.api_conf.model}/search`,{or:condition})
-          .then(r=>{
-            this.result= r.data;
-          });
-      },300);
+      this.timer = setTimeout(() => {
+        api(`${this.api_conf.model}/search`, { or: condition }).then(r => {
+          this.result = r.data;
+        });
+      }, 300);
+    }
+  },
+  mounted() {
+    this.set_default();
+    this.api_conf = this.parse_api();
 
+    let list = this.list;
+    list && (this.result = this.list); //为什么要用result引用list
+  },
+  watch: {
+    keyword() {
+      if (this.api) this.search();
+      else this.filter();
     },
-    defalut:{
-      deep:true,
-      handler(){
+    default: {
+      deep: true,
+      handler() {
         this.set_default();
       }
-    },
+    }
   }
 };
 </script>
@@ -143,27 +158,24 @@ export default {
   /* border: 1px solid #e6e6e6; */
 }
 
-
 .drop-title,
 .drop-item {
-  border: 1px solid #D9E1E5;
+  border: 1px solid #d9e1e5;
 }
 
-.dropdown:hover .drop-item, 
+.dropdown:hover .drop-item,
 .dropdown:hover .drop-title {
-    border-bottom: 0;
-    border-color: #0B5A81;
-
+  border-bottom: 0;
+  border-color: #0b5a81;
 }
 
 .drop-item > *:hover {
-    background: #0B5A81;
-    color: #fff;
+  background: #0b5a81;
+  color: #fff;
 }
 
 .drop-item {
   position: absolute;
   z-index: 1;
 }
-
 </style>

@@ -3,11 +3,11 @@ import Nav from "../components/Nav";
 import Pagination from "../components/Pagination";
 import AdminNav from "../components/AdminNav";
 import api from "../lib/api";
-import SearchBar from '../components/SearchBar'; 
-import DropDown from '../components/DropDown'; 
+import SearchBar from "../components/SearchBar";
+import DropDown from "../components/DropDown";
 
 export default {
-  components: { Nav, AdminNav, Pagination,SearchBar,DropDown },
+  components: { Nav, AdminNav, Pagination, SearchBar, DropDown },
   data() {
     return {
       total: 0, //共计多少条数据
@@ -15,11 +15,13 @@ export default {
       current_page: 1, //当前页码
       limit: 5,
       show_form: false,
-      current: {},
+      current: {
+        preview: []
+      },
       list: [],
       edit_mode: false,
-      keyword:'',
-      model:null,
+      keyword: "",
+      model: null
     };
   },
   methods: {
@@ -27,15 +29,14 @@ export default {
       this.read(page);
     },
     read(page = 1) {
-
       if (page == this.current_page && page != 1) return; //点击当前页，不操作。如果当前页是1，则会请求，主要是首次加载就是第一页，不能将第一页情况卡死
 
-      api(`${this.model}/read`, { 
+      api(`${this.model}/read`, {
         limit: this.limit,
-         page: page,
-         sort_by:['id','up'],
-         with:this.with, })
-         .then(r => {
+        page: page,
+        sort_by: ["id", "up"],
+        with: this.with
+      }).then(r => {
         this.list = r.data;
         this.total = r.total;
         this.last_page = r.last_page;
@@ -57,40 +58,46 @@ export default {
     update(row) {
       this.current = row;
       this.show_form = true;
-      
-      this.$nextTick(()=>{
-        this.$refs.edit_brand.on_edit(row.$brand);
-        this.$refs.edit_design.on_edit(row.$design);
-      })
+
+      this.$nextTick(() => {
+        if(this.model == 'vehicle')
+          this.edit_vehicle(row);
+        else if(this.model == 'model')
+          this.edit_model(row);
+      });
+    },
+    edit_model(row) {
+      this.$refs.edit_brand.on_edit(row.$brand);
+      this.$refs.edit_design.on_edit(row.$design);
+    },
+    edit_vehicle(row) {
+      this.$refs.edit_vehicle_brand.on_edit(row.$brand);
+      this.$refs.edit_vehicle_model.on_edit(row.$model);
+      this.$refs.edit_vehicle_design.on_edit(row.$design);
     },
     cancel() {
-      this.current = "";
+      this.current = {preview:[]};
       this.show_form = false;
     },
-    search(keyword){
-
-      let param ={
-        or:{},
+    search(keyword) {
+      let param = {
+        or: {}
       };
 
-      this.searchable.forEach(prop=>{
+      this.searchable.forEach(prop => {
         param.or[prop] = keyword;
       });
       // console.log('this.searchable',this.searchable);
       // console.log('param',param);
-      
-      
-      api(`${this.model}/search`,param
-      ).then(r=>{
-         this.list = r.data;
-         this.total = r.total;
-      })
-    },
-   
+
+      api(`${this.model}/search`, param).then(r => {
+        this.list = r.data;
+        this.total = r.total;
+      });
+    }
   },
   mounted() {
-    if(!this.model)
-        throw new Error('请在模型中配置model！')
+    if (!this.model) throw new Error("请在模型中配置model！");
     this.read();
   }
 };

@@ -7,7 +7,7 @@
 html {
     font-family: 'Microsoft YaHei',SimHei, sans-serif;
     font-size: 15px;
-    background: #D9E1E5;
+    background: #ececec;
 }
 
 img {
@@ -241,7 +241,7 @@ tbody tr:hover {
     color: #E08109;
     color: #181818;
     color: #0B5A81;
-    color: #D9E1E5;
+    color: #ececec;
     color: #FFFFFF;
 }
 
