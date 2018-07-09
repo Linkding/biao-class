@@ -94,5 +94,18 @@
   //     type : 'json',
   //   },
   // });
-
+  api('MODEL/UPDATE_PROPERTY', {
+    model     : 'vehicle',
+    property  : 'deadline',
+    structure : {
+      type : 'date',
+    },
+  });
+  api('MODEL/UPDATE_PROPERTY', {
+    model     : 'vehicle',
+    property  : 'birth_day',
+    structure : {
+      type : 'date',
+    },
+  });
 </script>

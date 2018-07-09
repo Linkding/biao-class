@@ -8,7 +8,7 @@ import Root from './Root.vue';
 import Home from './page/Home'
 import Detail from './page/Detail.vue';
 import Login from './page/Login';
-import Singup from './page/Singup';
+import Signup from './page/Signup';
 import SearchResult from './page/SearchResult';
 import AdminBase from './page/admin/Base';
 import Vehicle from './page/admin/Vehicle';
@@ -35,7 +35,7 @@ const router = new VueRouter({
     { path: '/', component: Home },
     { path: '/detail', component: Detail },
     { path: '/login', component: Login },
-    { path: '/singup', component: Singup },
+    { path: '/signup', component: Signup },
     { path: '/searchresult', component: SearchResult },
     { path: '/vehicle', component: Vehicle },
     { path: '/me', component: Me },

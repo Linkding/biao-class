@@ -67,23 +67,26 @@
                                 </div>
                                 <button @click="current.preview.push({})" type="button">+</button>
                             </div>
-                            <div class="input-control">
-                                <label>过户次数</label>
-                                <input type="number"
-                                     v-validator="'positive'"
-                                     error-el="#exchange_times-error"
-                                 v-model="current.exchange_times">
-                                 <div class="error-list">
-                                     <div id="exchange_times-error"></div>
-                                 </div>
-                            </div>
-                            <div class="input-control">
-                                <label>第一次上牌时间</label>
-                                <input type="date" v-model="current.birthday">
-                            </div>
-                            <div class="input-control">
-                                <label>预期出售时间</label>
-                                <input type="date" v-model="current.deadline">
+                            <div class="input-box">
+                                <div class="input-control">
+                                    <label>过户次数</label>
+                                    <input type="number"
+                                        v-validator="'positive'"
+                                        error-el="#exchange_times-error"
+                                    v-model="current.exchange_times">
+                                    <div class="error-list">
+                                        <div id="exchange_times-error"></div>
+                                    </div>
+                                </div>
+                                {{'上牌时间'+ current.birth_day}}
+                                <div class="input-control">
+                                    <label>第一次上牌时间</label>
+                                    <input type="date" v-model="current.birth_day">
+                                </div>
+                                <div class="input-control">
+                                    <label>预期出售时间</label>
+                                    <input type="date" v-model="current.deadline">
+                                </div>
                             </div>
                             <div class="input-control">
                                 <label>车况</label>
@@ -115,32 +118,36 @@
                                     ref="edit_vehicle_publisher"
                                 />
                             </div>
-                            {{'品牌id：'+current.brand_id}}
-                            <div class="input-control">
-                                <label>品牌</label>
-                                <DropDown :list="brand_list"
-                                    :onSelect="set_brand_id"
-                                    ref="edit_vehicle_brand"
-                                />
+                            <div class="input-box">
+                                <div class="input-control">
+                                    <label>品牌</label>
+                                    <DropDown :list="brand_list"
+                                        :onSelect="set_brand_id"
+                                        ref="edit_vehicle_brand"
+                                    />
+                                </div>
+                                <div class="input-control">
+                                    <label>车系</label>
+                                    <DropDown :list="model_list"
+                                        :api="'model.name'"
+                                        :onSelect="set_model_id"
+                                        ref="edit_vehicle_model"
+                                        
+                                    />
+                                </div>
+                                <div class="input-control">
+                                    <label>车型</label>
+                                    <DropDown :list="design_list"
+                                        :onSelect="set_design_id"
+                                        ref="edit_vehicle_design"
+                                        
+                                    />
+                                </div>
                             </div>
-                            {{'车系id：'+current.model_id}}
+                            {{'地址id:' + current.location_id}}
                             <div class="input-control">
-                                <label>车系</label>
-                                <DropDown :list="model_list"
-                                    :api="'model.name'"
-                                    :onSelect="set_model_id"
-                                    ref="edit_vehicle_model"
-                                    
-                                />
-                            </div>
-                            {{'车型id：'+current.design_id}}
-                            <div class="input-control">
-                                <label>车型</label>
-                                <DropDown :list="design_list"
-                                    :onSelect="set_design_id"
-                                    ref="edit_vehicle_design"
-                                    
-                                />
+                                <label>所属位置</label>
+                                <Location :onSelect="set_location_id"/>
                             </div>
                             <div class="input-control">
                                 <label class="dib">促销
@@ -269,7 +276,11 @@ export default {
     },
     set_design_id(row) {
       this.$set(this.current, "design_id", row.id);
-    }
+    },
+    set_location_id(row){
+        if(row.type == 'city')
+            this.$set(this.current,"location_id",row.id)
+    },
   },
   mounted() {
     this.read_model();
@@ -299,7 +310,11 @@ input {
   width: 45%;
   /* font-size: 1.6rem; */
 }
-
+.input-control input {
+    font-size: 1rem;
+    width: 100%;
+    padding: 10px;
+}
 .input-group button {
   background: #fff;
   margin: 0;
@@ -319,7 +334,9 @@ input {
 .input-group > *:last-child {
   width: 20%;
 }
-
+.input-box > * {
+    display: inline-block;
+}
 button:hover {
   background: #181818;
 }

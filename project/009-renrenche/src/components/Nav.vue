@@ -3,14 +3,14 @@
        <div class="row container">
             <router-link to="/" class="col-lg-1"><a href="#"><img src="../assets/logo/logo01.png" alt="#"></a></router-link>
            <div class="col-lg-6 left">
-               <a href="#" class="nav-item">item</a>
-               <a href="#" class="nav-item">item</a>
-               <a href="#" class="nav-item">item</a>
+               <a href="#" class="nav-item">首页</a>
+               <router-link to="/searchresult" href="#" class="nav-item">买车</router-link>
+               <a href="#" class="nav-item">卖车</a>
                <a href="#" class="nav-item">item</a>
            </div>
            <div class="col-lg-5 right">
-               <a href="#" class="nav-item">item</a>
-               <a href="#" class="nav-item">item</a>
+               <router-link to="/login" class="nav-item">登录</router-link>
+               <router-link to="/signup" href="#" class="nav-item">注册</router-link>
                <a href="#" class="nav-item tel">400-666-6666</a>
            </div>
        </div>

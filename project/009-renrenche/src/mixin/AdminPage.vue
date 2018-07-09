@@ -5,9 +5,10 @@ import AdminNav from "../components/AdminNav";
 import api from "../lib/api";
 import SearchBar from "../components/SearchBar";
 import DropDown from "../components/DropDown";
+import Location from "../components/Location";
 
 export default {
-  components: { Nav, AdminNav, Pagination, SearchBar, DropDown },
+  components: { Nav, AdminNav, Pagination, SearchBar, DropDown,Location },
   data() {
     return {
       total: 0, //共计多少条数据
@@ -60,20 +61,22 @@ export default {
       this.show_form = true;
 
       this.$nextTick(() => {
-        if(this.model == 'vehicle')
-          this.edit_vehicle(row);
-        else if(this.model == 'model')
+        if(this.model == 'vehicle'){
+          this.edit_vehicle(row)          
+        }
+        else if(this.model == 'model'){
           this.edit_model(row);
+        }
       });
     },
     edit_model(row) {
-      this.$refs.edit_brand.on_edit(row.$brand);
-      this.$refs.edit_design.on_edit(row.$design);
+      this.$refs.edit_brand.on_edit_model(row.$brand);
+      this.$refs.edit_design.on_edit_model(row.$design);
     },
     edit_vehicle(row) {
-      this.$refs.edit_vehicle_brand.on_edit(row.$brand);
-      this.$refs.edit_vehicle_model.on_edit(row.$model);
-      this.$refs.edit_vehicle_design.on_edit(row.$design);
+      this.$refs.edit_vehicle_brand.on_edit_vehicle(row.$brand);
+      this.$refs.edit_vehicle_model.on_edit_vehicle(row.$model);
+      this.$refs.edit_vehicle_design.on_edit_vehicle(row.$design);
     },
     cancel() {
       this.current = {preview:[]};
