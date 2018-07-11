@@ -9,7 +9,7 @@
                 <div class="col-lg-9">
                     <div class="wrapper">
                         <h2>品牌管理</h2>
-                        <SearchBar :model="model"  :cb="search" :searchable="searchable"/>
+                        <SearchBar :model="model"  :isSearch="false" :onSubmit="search" :searchable="searchable"/>
                         <!-- <form class="search-bar" @submit="search($event)">
                             <input type="search" placeholder="请输入关键字" autofocus v-model="keyword">
                             <button type="submit">🔍</button>

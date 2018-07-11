@@ -3,12 +3,12 @@
         <Nav/>
         <!-- 基本信息 -->
         <div class="row basis">
-            <div class="container">
+            <div class="container" >
                 <div class="breadcrumb">
-                    西安二手车 > 西安二手车出售 > 大众 > 高尔夫 > 大众-高尔夫 2014款 1.7L 自动舒适型
+                    {{detail.title}}
                 </div>
                 <div class="row header">
-                    <div class="col-lg-6 title">大众-高尔夫 2014款 1.7L 自动舒适型</div>
+                    <div class="col-lg-6 title">{{detail.title}}</div>
                     <div class="col-lg-6 search right">
                         <form>
                             <input type="text" placeholder="搜索喜欢的车型">
@@ -19,7 +19,7 @@
                 <div class="row main">
                     <div class="col-lg-6 photo">
                         <div class="slider">
-                            <img src="../assets/detail/slide-01.jpg" alt="">
+                            <img :src="detail.preview ? detail.preview[select_preview].url : ''" alt="">
                         </div>
                         <div class="thumbnail-list">
                             <div class="col-lg-1 prev"> <i class="fa fa-chevron-left" aria-hidden="true"></i> </div>
@@ -41,19 +41,19 @@
                         </div>
                     </div>
                     <div class="col-lg-6 sell-info">
-                        <div class="title">大众-高尔夫 2014款 1.7L 自动舒适型</div>
+                        <div class="title">{{detail.title}}</div>
                         <div class="quote">
                             <div class="first-row">
                                 <div class="col-lg-2">
                                     卖家报价: 
                                 </div>
-                                <span class="price currency">9.50万</span>
-                                <span class="tax-inclusive">新车含税15.11万</span>
+                                <span class="price currency">{{detail.price}}万</span>
+                                <span class="tax-inclusive">新车含税{{detail.price}}万</span>
                                 <span>降价提醒</span>
                             </div>
                             <div class="second-row">
                                 <div class="col-lg-2">分期买:  </div>
-                                <span >首付 : <span class="price">2.85万 </span></span>
+                                <span >首付 : <span class="price">{{detail.price *0.3}}万 </span></span>
                                 <span>月供 : <span class="price">2409元 </span></span>
                                 <span class="block">分期详情></span>
                             </div>
@@ -72,11 +72,11 @@
                         </div>
                         <div class="info">
                             <div class="col-lg-3">
-                                <div class="main-item">2015年02月</div>
+                                <div class="main-item">{{detail.birth_day|only_day}}</div>
                                 <div class="des-item">上牌时间</div>
                             </div>
                             <div class="col-lg-3">
-                                <div class="main-item">3.08万公里</div>
+                                <div class="main-item">{{detail.consumed_distance}}万公里</div>
                                 <div class="des-item">公里数</div>    
                             </div>
                             <div class="col-lg-2">
@@ -586,55 +586,77 @@
 
 <script>
 import Nav from "../components/Nav";
-
+import api from "../lib/api";
 export default {
-  components: { Nav }
+  components: { Nav },
+  data(){
+      return {
+          detail:{},
+          select_preview:0,
+      }
+  },
+  mounted() {
+      let id = this.get_id();
+      this.find(id);
+      
+
+  },
+  methods:{
+      get_id(){
+         return this.$route.params.id 
+      },
+      find(id){
+          api('vehicle/find',{id})
+            .then(r=>{
+                this.detail = r.data
+                console.log('find this.list',this.list);
+                
+            })
+      }
+  }
 };
 </script>
 
 <style scoped>
 .fa {
-    padding-right: 10px;
-    font-size: 1rem;
+  padding-right: 10px;
+  font-size: 1rem;
 }
 
 .fa.fa-lightbulb-o,
 .fa.fa-thumbs-up {
-    color: #fd521d;
+  color: #fd521d;
 }
 
 .fa.fa-lightbulb-o {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 .fa.fa-thumbs-up {
-    font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 .fa.fa-chevron-left,
 .fa.fa-chevron-right {
-    font-size: 2rem;
-    padding-top: 20px;
+  font-size: 2rem;
+  padding-top: 20px;
 }
 
 .fa.fa-phone {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
-
-
 .fa.fa-heart-o {
-    color: rgb(41, 64, 192);
+  color: rgb(41, 64, 192);
 }
 
 .fa.fa-mobile {
-    color: rgb(13, 144, 219);
-    font-size: 1.2rem;
+  color: rgb(13, 144, 219);
+  font-size: 1.2rem;
 }
 
 /* ==================== */
 .price {
-    color: orangered;
+  color: orangered;
 }
-
 
 .basis > * {
   font-size: 1rem;
@@ -645,17 +667,17 @@ export default {
   padding: 15px 0;
 }
 .basis .thumbnail-list {
-    padding: 10px 0;
+  padding: 10px 0;
 }
-.basis .thumbnail-list .thumbnail >* {
-    padding: 0 10px;
+.basis .thumbnail-list .thumbnail > * {
+  padding: 0 10px;
 }
 .basis .header {
-    padding: 20px 0;
+  padding: 20px 0;
 }
 
 .basis .sell-info {
-    padding-left: 50px;
+  padding-left: 50px;
 }
 
 .basis .header .title,
@@ -664,7 +686,7 @@ export default {
   font-weight: 400;
 }
 .basis .search input {
-    width: 40%;
+  width: 40%;
 }
 
 /* .basis .search input,
@@ -675,261 +697,258 @@ export default {
 } */
 
 .basis .search button {
-    border-left: 0px;
-    width: 8%;
-    
+  border-left: 0px;
+  width: 8%;
 }
 
-.basis .search button:hover{
-    background: orangered;
+.basis .search button:hover {
+  background: orangered;
 }
 
 .basis .sell-info .title {
-    padding: 20px 0px;
+  padding: 20px 0px;
 }
 
 .basis .sell-info .quote {
-    background: rgba(0, 0, 0, .03);
+  background: rgba(0, 0, 0, 0.03);
 }
 .basis .sell-info .quote > * {
-    padding: 10px;
+  padding: 10px;
 }
 
-.basis .sell-info .quote .col-lg-2{
-    text-align: right;
-    margin-right: 20px;
+.basis .sell-info .quote .col-lg-2 {
+  text-align: right;
+  margin-right: 20px;
 }
 
 .basis .sell-info .tax-inclusive {
-    font-size: 0.1rem;
-    font-weight: 100;
+  font-size: 0.1rem;
+  font-weight: 100;
 }
 .basis .sell-info .quote .currency,
- .basis .sell-info .link-btn .tel  {
-     color: orangered;
- }
- 
- .basis .sell-info .quote .currency{
-    font-size: 1.6rem;
-    font-weight: 600;
+.basis .sell-info .link-btn .tel {
+  color: orangered;
 }
 
-.basis .sell-info .quote  span {
-    padding: 0 10px;
+.basis .sell-info .quote .currency {
+  font-size: 1.6rem;
+  font-weight: 600;
 }
 
+.basis .sell-info .quote span {
+  padding: 0 10px;
+}
 
 .basis .sell-info .quote .third-row {
-   padding-top: 10px;
+  padding-top: 10px;
 }
 .basis .sell-info .quote .second-row {
-    border-bottom: 2px solid #fff;
-    padding-bottom: 25px;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 25px;
 }
 
-.basis .sell-info .quote .explain{
-    padding: 0;
-    color: rgba(0, 0, 0, .4);
-    font-size: 0.5rem;
+.basis .sell-info .quote .explain {
+  padding: 0;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 0.5rem;
 }
 .basis .sell-info .quote .server-item {
-    font-size: 0.5rem;
+  font-size: 0.5rem;
 }
 .block {
-    font-size: 0.6rem;
-    background: orangered;
-    width: 50px;
-    padding: 6px;
-    color: #fff;
+  font-size: 0.6rem;
+  background: orangered;
+  width: 50px;
+  padding: 6px;
+  color: #fff;
 }
 
 /* ========.info======== */
 .basis .sell-info .info {
-    font-size: 1.5rem;
-    padding: 20px 10px;
+  font-size: 1.5rem;
+  padding: 20px 10px;
 }
 
 .basis .sell-info .info > * {
-    padding-left: 10px; 
-    border-right: 1px solid rgba(0, 0, 0, .1)
+  padding-left: 10px;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
-.basis .sell-info .info .main-item{
-    font-size: 1.3rem;
-    font-weight: 500;
+.basis .sell-info .info .main-item {
+  font-size: 1.3rem;
+  font-weight: 500;
 }
 
 .basis .sell-info .info .des-item {
-    font-size: 0.4rem;
-    color: rgba(0, 0, 0, .4)
+  font-size: 0.4rem;
+  color: rgba(0, 0, 0, 0.4);
 }
 
 /* ===========link-btn======== */
 .basis .sell-info .link-btn {
-    padding: 15px 0;
+  padding: 15px 0;
 }
 .basis .sell-info .link-btn .btn-primary {
-    width: 150px;
-    text-align: center;
-    border-radius: 5px;
+  width: 150px;
+  text-align: center;
+  border-radius: 5px;
 }
-.basis .sell-info .link-btn a{
-    color: #fff;    
+.basis .sell-info .link-btn a {
+  color: #fff;
 }
 
 .basis .sell-info .link-btn .sm-item {
-    color: rgba(0, 0, 0, .3);
-    font-size: 0.5rem;
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 0.5rem;
 }
 
 .basis .sell-info .link-btn .tel {
-    font-size: 1.3rem;
-    font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 .basis .sell-info .last-row {
-    padding: 20px 0;
-    padding-right: 20px;
-    text-align: center;
+  padding: 20px 0;
+  padding-right: 20px;
+  text-align: center;
 }
 
-.basis .sell-info .last-row  .col-lg-4{
-    border-right: 1px solid rgba(0, 0, 0, .1);
+.basis .sell-info .last-row .col-lg-4 {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* ============sell-point========= */
 .sell-point {
-    margin: 20px;
+  margin: 20px;
 }
-.sell-point .container{
-    border: 1px solid rgba(0, 0, 0, .1);
-    border-top: 2px solid #fd521d;
+.sell-point .container {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 2px solid #fd521d;
 }
 .sell-point .col-lg-5,
 .sell-point .col-lg-7 {
-    padding: 20px 40px;
+  padding: 20px 40px;
 }
 
 .sell-point .col-lg-5 .title {
-    border-left: 6px solid #fd521d;
-    padding-left: 10px;
+  border-left: 6px solid #fd521d;
+  padding-left: 10px;
 }
 
 .sell-point .col-lg-7 > * {
-    font-size: 0.7rem;
+  font-size: 0.7rem;
 }
 
-.sell-point  .first  {
-    border-bottom: 1px solid rgba(0, 0, 0, .1);
-    padding-bottom: 20px;
+.sell-point .first {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 20px;
 }
-.sell-point  .first table {
-    padding: 15px;
+.sell-point .first table {
+  padding: 15px;
 }
-.sell-point  .first  td{
-   padding-right: 15px;
+.sell-point .first td {
+  padding-right: 15px;
 }
 
 .sell-point .col-lg-7 .bold {
-    padding: 20px 0 ;
-    padding-right: 15px;
-    font-size: 1rem;
-    font-weight: 500;
+  padding: 20px 0;
+  padding-right: 15px;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .sell-point .second {
-    margin: 10px 0;
+  margin: 10px 0;
 }
 
 .sell-point .second > * {
-    padding: 10px 0;
+  padding: 10px 0;
 }
 
 .sell-point .second .suggest {
-    font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
 .sell-point .second a {
-    padding: 10px 20px;
-    margin: 0 20px;
+  padding: 10px 20px;
+  margin: 0 20px;
 }
 /* =============vehicle-detail=========== */
 .certificate .container,
 .vehicle-detail .container,
-.bargin .container{
-    border: 1px solid rgba(0, 0, 0, .4);
+.bargin .container {
+  border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
 .certificate,
 .vehicle-detail {
-    margin: 10px 0;
+  margin: 10px 0;
 }
 .certificate .header {
-    padding: 10px 0;
-    margin: 10px 0;
-    border-bottom: 1px dashed rgba(0, 0, 0, .1)
+  padding: 10px 0;
+  margin: 10px 0;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
 }
 
 .certificate .header .title,
 .vehicle-detail .seller .header .title,
 .vehicle-detail .outward .header .title,
 .vehicle-detail .engine .header .title,
-.report .header .title{
-    font-size: 1.2rem;
-    text-align: center;
+.report .header .title {
+  font-size: 1.2rem;
+  text-align: center;
 }
 
 .vehicle-detail .seller .header .desc,
 .vehicle-detail .outward .header .desc,
 .vehicle-detail .engine .header .desc,
 .report .header .desc {
-    font-size: 0.8rem;
-    text-align: center;
+  font-size: 0.8rem;
+  text-align: center;
 }
 .certificate .header .right {
-    font-size: 0.5rem;
+  font-size: 0.5rem;
 }
 
 .vehicle-detail .title-one {
-    font-size: 1.5rem;
-    text-align: center;
+  font-size: 1.5rem;
+  text-align: center;
 }
- .vehicle-detail .seller{
-    padding: 20px 60px;
+.vehicle-detail .seller {
+  padding: 20px 60px;
 }
-.vehicle-detail  .photo-group .left {
-    padding: 10px 10px 10px 0;
-}
-
-.vehicle-detail  .photo-group .right {
-    padding: 10px 0 10px 10px;
+.vehicle-detail .photo-group .left {
+  padding: 10px 10px 10px 0;
 }
 
-.vehicle-detail  .photo-group .thumbnail {
-    margin-right: -10px ;
-}
-.vehicle-detail  .photo-group .thumbnail > * {
-    padding: 10px 10px 10px 0;
+.vehicle-detail .photo-group .right {
+  padding: 10px 0 10px 10px;
 }
 
-.vehicle-detail .thumbnail-group > * ,
+.vehicle-detail .photo-group .thumbnail {
+  margin-right: -10px;
+}
+.vehicle-detail .photo-group .thumbnail > * {
+  padding: 10px 10px 10px 0;
+}
+
+.vehicle-detail .thumbnail-group > *,
 .vehicle-detail .thumbnail-group .thumbnail .col-lg-6 {
-    padding: 10px;
+  padding: 10px;
 }
 
 /* ==============report===== */
 .report .container {
-    padding: 10px 30px;
+  padding: 10px 30px;
 }
 .report table {
-    border-collapse: collapse;
+  border-collapse: collapse;
 }
 .report table td {
-    font-size: 1rem;
-    border: 1px solid rgba(0, 0, 0, 1)
+  font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, 1);
 }
-.report .summary{
-    font-size: 1.1rem;
-    background: rgba(0, 0, 0, .1);
+.report .summary {
+  font-size: 1.1rem;
+  background: rgba(0, 0, 0, 0.1);
 }
-
 </style>

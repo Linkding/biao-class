@@ -1,0 +1,47 @@
+.vehicle-list .card {
+    background: #fff;
+    padding: 5px;
+    margin: 10px 3px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  
+  .vehicle-list .card:hover {
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.08);
+    /* border: 1px solid rgba(0, 0, 0, 0.06); */
+  }
+  .vehicle-list .detail {
+    padding: 10px 20px;
+  }
+  
+  .vehicle-list .detail > * {
+    padding: 7px 0;
+  }
+  
+  .vehicle-list .detail .title {
+    font-size: 1.2rem;
+    color: #495056;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  
+  .vehicle-list .detail .desc,
+  .vehicle-list .detail .other .f-pay {
+    color: #7a838d;
+  }
+  
+  .vehicle-list .detail .desc {
+    font-size: 0.9rem;
+  }
+  .vehicle-list .detail .other > * {
+    padding-right: 10px;
+  }
+  .vehicle-list .detail .other .price {
+    font-size: 1.3rem;
+    font-weight: 650;
+    color: #f95523;
+  }
+  
+  .vehicle-list .detail .other .f-pay {
+    font-size: 0.6rem;
+  }

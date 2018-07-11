@@ -1,6 +1,6 @@
 <template>
-    <form class="search-bar" @submit="search($event)">
-        <input type="search" placeholder="请输入关键字" autofocus v-model="keyword">
+    <form class="search-bar" @submit="submit($event);search($event)">
+        <input @keyup="change()" type="search" placeholder="请输入关键字" autofocus v-model="keyword">
         <button type="submit">🔍</button>
     </form>
 </template>
@@ -9,15 +9,19 @@ import api from "../lib/api";
 
   export default {
     props:{
+      isSearch:{
+        default:true,
+      },
       model:{
         default:'model',
       },
-      searchable:{
+      searchable:{ //搜索的属性，eg：标题等
         default:''
       },
-      cb:{
+      onSubmit:{
         default (){}
       },
+      onChange(){},
     },
     data(){
       return {
@@ -25,12 +29,27 @@ import api from "../lib/api";
       }
     },
     methods:{
+      change(){
+        if(this.onChange)
+          this.onChange(this.keyword);
+      },
+      submit(e){
+        e.preventDefault();
+
+        if(this.onSubmit)
+          this.onSubmit(this.keyword)
+      },
       search(e){
         e.preventDefault();
-        
-        if(!this.cb)
-          return
-        this.cb(this.keyword);
+        if(this.isSearch){
+          this.$router.push({
+            path:'/search',
+            query:{keyword:this.keyword},
+          })
+        }
+        // if(!this.cb)
+        //   return
+        // this.cb(this.keyword);
       }
     }
   }

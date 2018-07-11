@@ -52,6 +52,9 @@ export default {
       default() {
         console.log(1);
       }
+    },
+    currentPage:{
+      default:1,
     }
   },
   data() {
@@ -89,7 +92,11 @@ export default {
       return Math.ceil(this.totalCount / this.limit);
     }
   },
-  mounted() {}
+  watch:{
+    currentPage(n){
+      this.current_page = n;
+    },
+  }
 };
 </script>
 <style scoped>

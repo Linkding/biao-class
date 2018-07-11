@@ -6,10 +6,10 @@ import VueRouter from 'vue-router';
 import Vue from 'vue';
 import Root from './Root.vue';
 import Home from './page/Home'
-import Detail from './page/Detail.vue';
+import Detail from './page/Detail';
 import Login from './page/Login';
 import Signup from './page/Signup';
-import SearchResult from './page/SearchResult';
+import Search from './page/Search';
 import AdminBase from './page/admin/Base';
 import Vehicle from './page/admin/Vehicle';
 import User from './page/admin/User';
@@ -29,14 +29,19 @@ Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 
+Vue.filter('only_day',function(value){
+  if(!value)
+    return value;
+  return value.split(' ')[0];
+})
 
 const router = new VueRouter({
   routes: [
     { path: '/', component: Home },
-    { path: '/detail', component: Detail },
+    { path: '/detail/:id', component: Detail },
     { path: '/login', component: Login },
     { path: '/signup', component: Signup },
-    { path: '/searchresult', component: SearchResult },
+    { path: '/search', component: Search },
     { path: '/vehicle', component: Vehicle },
     { path: '/me', component: Me },
     { path: '/settingnav', component: SettingNav },
@@ -60,3 +65,4 @@ new Vue({
   render: h => h(Root),
   router: router,
 }).$mount('#root');
+

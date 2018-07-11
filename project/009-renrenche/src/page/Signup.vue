@@ -43,26 +43,56 @@
 </template>
 
 <script>
-    import Nav from '../components/Nav';
-    import validator from '../directive/validator';
+import Nav from "../components/Nav";
+import validator from "../directive/validator";
 
-    import '../css/auth.css';
-    export default {
-        directives:{validator},
-        components:{Nav}
-    }
+export default {
+  directives: { validator },
+  components: { Nav }
+};
 </script>
 <style scoped>
-    .header {
-        background-image: url('../assets/login/1300x400.png');
-    }
-    
-    .main-form {
-        top:130px;
-        right: 80px;
-        padding: 10px 15px;
-    }
-   
+.header {
+  background-image: url("../assets/login/1300x400.png");
+}
 
-   
+.main-form {
+  top: 130px;
+  right: 80px;
+  padding: 10px 15px;
+}
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.header {
+  height: 400px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background: #111;
+}
+
+.main-form {
+  width: 300px;
+  background: #fff;
+  position: absolute;
+}
+
+.main-form > * {
+  padding: 5px 0;
+}
+
+.main-form input,
+.main-form button {
+  width: 100%;
+  font-size: 1rem;
+  padding: 8px;
+}
+
+.main-form button {
+  background: #e08109;
+  color: #fff;
+}
 </style>

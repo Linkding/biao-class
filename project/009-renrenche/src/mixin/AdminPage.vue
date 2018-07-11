@@ -30,12 +30,12 @@ export default {
       this.read(page);
     },
     read(page = 1) {
-      if (page == this.current_page && page != 1) return; //点击当前页，不操作。如果当前页是1，则会请求，主要是首次加载就是第一页，不能将第一页情况卡死
+      // if (page == this.current_page && page != 1) return; //点击当前页，不操作。如果当前页是1，则会请求，主要是首次加载就是第一页，不能将第一页情况卡死
 
       api(`${this.model}/read`, {
         limit: this.limit,
         page: page,
-        sort_by: ["id", "up"],
+        sort_by: ["id", "down"],
         with: this.with
       }).then(r => {
         this.list = r.data;
@@ -48,7 +48,7 @@ export default {
       e.preventDefault();
       let action = this.current.id ? "update" : "create";
       api(`${this.model}/${action}`, this.current).then(r => {
-        this.read();
+        this.read(this.current_page);
       });
     },
     remove(id) {

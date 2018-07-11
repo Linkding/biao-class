@@ -9,7 +9,7 @@
                 <div class="col-lg-10">
                     <div class="wrapper">
                         <h2>二手车列表</h2>
-                        <SearchBar :model="model"  :cb="search" :searchable="searchable"/>
+                        <SearchBar :model="model" :isSearch="false" :onSubmit="search" :searchable="searchable"/>
                         <div class="tool-bar">
                             <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建二手车</span></button>
                             <!-- <form class="search-bar" @submit="search($event)">
@@ -109,26 +109,28 @@
                                 </div>
                             </div>
                             {{'发布人id：'+current.publisher_id}}
-                             <div class="input-control">
-                                <label>发布人</label>
-                                <DropDown 
-                                    :api="'user.username,real_name'"
-                                    displayKey="username"
-                                    :onSelect="set_publisher_id"
-                                    ref="edit_vehicle_publisher"
-                                />
-                            </div>
                             <div class="input-box">
                                 <div class="input-control">
-                                    <label>品牌</label>
+                                    <label>发布人</label>
+                                    <DropDown 
+                                        :list="user_list"
+                                        displayKey="username"
+                                        :onSelect="set_publisher_id"
+                                        :showInput="true"
+                                        ref="edit_vehicle_publisher"
+                                    />
+                                </div>
+                                <div class="input-control">
+                                    <label>品牌 {{current.brand_id}}</label>
                                     <DropDown :list="brand_list"
                                         :onSelect="set_brand_id"
                                         ref="edit_vehicle_brand"
                                     />
                                 </div>
                                 <div class="input-control">
-                                    <label>车系</label>
+                                    <label>车系 {{current.model_id}}</label>
                                     <DropDown :list="model_list"
+                                        :showInput="true"
                                         :api="'model.name'"
                                         :onSelect="set_model_id"
                                         ref="edit_vehicle_model"
@@ -136,7 +138,7 @@
                                     />
                                 </div>
                                 <div class="input-control">
-                                    <label>车型</label>
+                                    <label>车型 {{current.design_id}}</label>
                                     <DropDown :list="design_list"
                                         :onSelect="set_design_id"
                                         ref="edit_vehicle_design"
@@ -340,4 +342,5 @@ input {
 button:hover {
   background: #181818;
 }
+
 </style>
