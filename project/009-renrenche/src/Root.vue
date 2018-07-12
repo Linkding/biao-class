@@ -7,9 +7,7 @@
     <!-- <Login/> -->
     <!-- <Detail/> -->
     <!-- <Home/> -->
-    <!-- <DropDown :selectItem="yo" displayKey='nickname' :list="[
-                      {name:'whh',key:'王花',nickname:'wowow'},
-                      {name:'lss',key:'lss',nickname:'wowow'}]"/> -->
+    <!-- <DropDown :api="'vehicle.title'" :showInput="true" :displayKey="'title'"/> -->
     <!-- <SearchBar/> -->
     <!-- <SearchResult/> -->
     <!-- <Vehicle/> -->
@@ -19,10 +17,12 @@
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
 import Home from './page/Home.vue';
+import DropDown from './components/DropDown.vue';
 
 
 export default {
   name: 'root',
+  // components:{DropDown},
   methods:{
     yo(i){
       console.log(i)

@@ -36,7 +36,7 @@ export default {
         limit: this.limit,
         page: page,
         sort_by: ["id", "down"],
-        with: this.with
+        with: this.with,
       }).then(r => {
         this.list = r.data;
         this.total = r.total;
@@ -66,6 +66,8 @@ export default {
         }
         else if(this.model == 'model'){
           this.edit_model(row);
+        }else if(this.model == 'report'){
+          this.edit_report(row);
         }
       });
     },
@@ -77,6 +79,9 @@ export default {
       this.$refs.edit_vehicle_brand.on_edit_vehicle(row.$brand);
       this.$refs.edit_vehicle_model.on_edit_vehicle(row.$model);
       this.$refs.edit_vehicle_design.on_edit_vehicle(row.$design);
+    },
+    edit_report(row){
+      this.$refs.edit_report.on_edit_report(row.$vehicle);
     },
     cancel() {
       this.current = {preview:[]};

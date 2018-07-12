@@ -24,19 +24,19 @@
 import api from "../lib/api";
 export default {
   props: {
-    itemTitle: {},
-    showInput: {
+    itemTitle: {}, //显示选线默认名字
+    showInput: {   //是否显示搜索框
       default:false,
     },
-    api: {},
-    list: {
+    api: {},       //指定搜索api参数，model名，字段等
+    list: {        //指定显示选项的数据
       default() {
         return [];
       }
     },
     default: {},
-    onSelect: {},
-    primaryKey: {
+    onSelect: {},  //点击选项时候，父级提供的回调
+    primaryKey: {   //
       default: "id"
     },
     displayKey: {
@@ -82,6 +82,10 @@ export default {
       if (!row) this.selected = {};
       this.selected = row;
     },
+    on_edit_report(row){
+      if(!row) this.selected = {};
+      this.selected = row;
+    },
     set_default() {
       let key = this.default;
       if (key) {
@@ -120,12 +124,13 @@ export default {
       this.timer = setTimeout(() => {
         api(`${this.api_conf.model}/search`, { or: condition }).then(r => {
           this.result = r.data;
+                    
         });
       }, 300);
     }
   },
   mounted() {
-    this.set_default();
+    // this.set_default();
     this.api_conf = this.parse_api();
 
     let list = this.list;
@@ -164,7 +169,7 @@ export default {
     vertical-align: middle;
 }
 .drop-area {
-  opacity: .8;
+  opacity: .9;
 }
 .dropdown {
   position: relative;

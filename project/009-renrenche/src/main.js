@@ -16,6 +16,7 @@ import User from './page/admin/User';
 import Brand from './page/admin/Brand';
 import Model from './page/admin/Model';
 import Design from './page/admin/Design';
+import Report from './page/admin/Report';
 
 
 import Me from './page/settings/Me';
@@ -29,10 +30,19 @@ Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 
-Vue.filter('only_day',function(value){
-  if(!value)
+Vue.filter('only_day', function (value) {
+  if (!value)
     return value;
   return value.split(' ')[0];
+})
+
+Vue.filter('percentage', function (value) {
+  if (!value)
+    return 0;
+
+  // return value.toFixed(2) * 100  + '%';
+  // console.log('value',value)
+  return Number(value * 100).toFixed(2) + '%';
 })
 
 const router = new VueRouter({
@@ -56,6 +66,7 @@ const router = new VueRouter({
         { path: 'brand', component: Brand },
         { path: 'model', component: Model },
         { path: 'design', component: Design },
+        { path: 'report', component: Report },
       ]
     }
   ]

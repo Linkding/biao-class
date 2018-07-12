@@ -4,7 +4,7 @@
             <router-link to="/" class="col-lg-1"><a href="#"><img src="../assets/logo/logo01.png" alt="#"></a></router-link>
            <div class="col-lg-3 left">
                <router-link to="/" class="nav-item">首页</router-link>
-               <router-link to="/searchresult" href="#" class="nav-item">买车</router-link>
+               <router-link to="/search" href="#" class="nav-item">买车</router-link>
                <a href="#" class="nav-item">卖车</a>
            </div>
            <div class="col-lg-4">

@@ -64,7 +64,6 @@ export default {
       }).then(r => {
         let data = r.data;
         this.location[type] = data;
-        console.log("this.location", this.location);
         return data;
       });
     },

@@ -29,6 +29,7 @@
 import Nav from "../components/Nav";
 import validator from "../directive/validator";
 export default {
+  directives:{validator},
   components: { Nav }
 };
 </script>
