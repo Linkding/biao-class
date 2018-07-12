@@ -1,16 +1,20 @@
 <template>
   <div id="app">
-    <Home/>
+    <!-- <Home/> -->
+    <Login/>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import Home from './components/Home';
+import Home from './page/Home';
+import Login from './page/Login';
+
 export default {
   name: 'app',
   components: {
     Home,
+    Login,
   }
 }
 </script>

@@ -11,7 +11,7 @@
                         <div class="col-lg-2 right"><i class="fa fa-times" aria-hidden="true"  @click="close_trade_mask()"></i></div>
                     </div>
                     <div>
-                        <form v-if="show_trade_form" @submit="cod_trade($event)">
+                        <form v-if="show_trade_form" @submit="cou_trade($event)">
                             <div class="input-control">
                                 <select v-model="current_trade.account_name">
                                     <option v-for="(account,index) in account_list" :key="index" :value="account.name">{{account.name}}</option>
@@ -63,17 +63,21 @@
         <div class="container">
             <div>
                 <div class=" search-bar">
-                    <form @submit="cod_stock($event)">
+                    <form @submit="cou_stock($event)">
                         <div class="input-control">
-                            <input type="text" placeholder="股票名称" v-model="current_stock.st_name">
+                            <input type="text" placeholder="股票代码" v-model="current_stock.code">
                         </div>
                         <div class="input-control">
-                            <input type="text" placeholder="股票代码" v-model="current_stock.st_num">
+                            <input type="text" placeholder="股票名称" v-model="current_stock.name">
                         </div>
                         <div class="input-control">
                             <button type="submit">添加</button>
                         </div>
                     </form>
+                </div>
+                <div class="banner">
+                    <div class="col-lg-3">持有市值：{{total_value}}</div>
+                    <div class="col-lg-3">总盈亏：{{total_value}}</div>
                 </div>
                 <table>
                     <thead class="thead">
@@ -95,18 +99,19 @@
                     </thead>
                     <tbody>
                         <tr id="stock-list" v-for="(row ,index) in stock_list" :key="index">
-                            <td>{{ row.st_name }}</td>
-                            <td>{{ row.st_num }}</td>
-                            <td>{{ row.new_price || '-' }}</td>
+                            <td>{{ row.name }}</td>
+                            <td>{{ row.code }}</td>
+                            <td>{{ row.new_price || '-' }} <button @click="read_real">点击</button></td>
+                            <!-- <td><input type="text" v-model="row.new_price"></td> -->
                             <td>{{ row.change || '-'  }}</td>
                             <td>{{ row.close|| '-'  }}</td>
                             <td>{{ row.cost || '-' }}</td>
                             <td>{{ row.shares || '-' }}</td>
-                            <td>{{ row.mark_value|| '-'  }}</td>
-                            <td>{{ row.position || '-' }}</td>
+                            <td>{{  math_round(row.new_price ,row.shares)  || '-'}}</td>
+                            <td>{{ toPercent(math_round(row.cost,row.shares)/total_value )|| '-' }}</td>
                             <td>{{ row.gain_loss|| '-'  }}</td>
                             <td>
-                                <i class="fa fa-calculator" aria-hidden="true" @click="on_show_trade(row.st_name,row.st_num)" ></i>
+                                <i class="fa fa-calculator" aria-hidden="true" @click="on_show_trade(row.name,row.code,index)" ></i>
                             </td>
                             <td>
                                 <i class="fa fa-times" aria-hidden="true" @click="remove_stock(row.id)"></i>
@@ -118,7 +123,6 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 </template>
@@ -142,51 +146,81 @@ export default {
     };
   },
   methods: {
+    read_real() {
+      http.api().then(r => {
+        // this.real = r;
+        console.log('r',r);
+        
+      });
+    },
+    //四舍五入计算
+    math_round(p1, p2) {
+      return helper.math_round(p1 * p2);
+    },
+    //转换百分比
+    toPercent(num) {
+      return helper.toPercent(num);
+    },
+    //关闭trade
     close_trade_mask() {
       this.show_trade = false;
-      this.init_stock();
     },
+    //取消trade表单编辑
     cancel_input_trade() {
       this.show_trade_form = false;
       this.current_trade = {};
     },
-    on_show_trade(name, number) {
+    on_show_trade(name, code, index) {
       this.show_trade = true;
       this.on_click_stock.name = name;
-      this.on_click_stock.number = number;
+      this.on_click_stock.number = code;
+      this.on_click_stock.index = index;
 
-      this.read_trade(number);
+      this.read_trade(code);
     },
-    cod_trade(e) {
+    cou_trade(e) {
       e.preventDefault();
-
+      //更新前，获取对应股票的id和名字
       this.current_trade.stock_id = this.on_click_stock.number;
       this.current_trade.stock_name = this.on_click_stock.name;
 
       let action = this.current_trade.id ? "update" : "create";
-
-      http(`trade/${action}`, this.current_trade).then(r => {
+      http.post(`trade/${action}`, this.current_trade).then(r => {
         this.read_trade(this.on_click_stock.number);
         this.current_trade = {};
       });
+
+      //更新后，将对应股的二次运算数据重算
+      this.update_cal_stock(this.on_click_stock.index, this.trade_list);
     },
-    cod_stock(e) {
+    update_cal_stock(index, list) {
+      //计算股票总数
+      this.stock_list[index].shares = helper.math_round(
+        helper.sum_arr_by_prop(list, "shares")
+      );
+      // //计算股票成本
+      this.stock_list[index].cost = helper.math_round(
+        helper.sum_arr_by_props(list, "cost", "shares") /
+          this.stock_list[index].shares
+      );
+    },
+    cou_stock(e) {
       e.preventDefault();
       let action = this.current_stock.id ? "update" : "create";
-      http(`stock/${action}`, this.current_stock).then(r => {
+      http.post(`stock/${action}`, this.current_stock).then(r => {
         this.current_stock = {};
         this.init_stock();
       });
     },
     remove_trade(id, code) {
       if (confirm("确定需要删除吗？"))
-        http("trade/delete", { id }).then(r => {
+        http.post("trade/delete", { id }).then(r => {
           this.read_trade(code);
         });
     },
     remove_stock(id) {
       if (confirm("确定需要删除吗？"))
-        http("stock/delete", { id }).then(r => {
+        http.post("stock/delete", { id }).then(r => {
           this.read_stock();
         });
     },
@@ -195,57 +229,50 @@ export default {
       this.show_trade_form = true;
     },
     read_stock() {
-      http("stock/read").then(r => {
+      http.post("stock/read").then(r => {
         this.stock_list = r.data.data;
-        console.log("this.stock_list", this.stock_list);
       });
     },
     read_account() {
-      http("account/read").then(r => {
+      http.post("account/read").then(r => {
         this.account_list = r.data.data;
-        console.log("this.account_list", this.account_list);
       });
     },
-    read_trade(code, on_success) {
-      http("trade/search", { or: { stock_id: code } }).then(r => {
+    read_trade(code, index, on_success) {
+      http.post("trade/search", { or: { stock_id: code } }).then(r => {
         this.trade_list = r.data.data;
-        if (on_success) on_success(this.trade_list);
+        if (on_success) on_success(index, this.trade_list);
       });
     },
     init_stock() {
-      http("stock/read").then(r => {
+      http.post("stock/read").then(r => {
         //获取stock数据
         this.stock_list = r.data.data;
-        console.log("this.stock_list", this.stock_list);
         //获取所有的股票代码，并取得对应的trade数据,并计算得出需要二次运算得出的值
-        this.get_stock_code();
+        this.cal_stock_data();
       });
     },
-    get_stock_code() {
+    cal_stock_data() {
       let stock_list = this.stock_list;
 
       for (let i = 0; i < stock_list.length; i++) {
-        let code = stock_list[i].st_num;
-        this.stock_code_list.push(code);
+        let code = stock_list[i].code;
 
-        function on_success(list) {
-            //计算股票总数
-            stock_list[i].shares = helper.sum_arr_by_prop(list, "shares");
-            //计算股票成本
-            stock_list[i].cost = helper.math_round(
-            helper.sum_arr_by_props(list, "cost", "shares") /
-                stock_list[i].shares
-            );
-         };
-        this.read_trade(code, on_success);
+        this.read_trade(code, i, this.update_cal_stock);
       }
-      console.log("this.stock_list", this.stock_list);
-    },
+    }
+  },
+  computed: {
+    total_value: function() {
+      let result = helper.sum_arr_by_props(this.stock_list, "cost", "shares");
+      return helper.math_round(result);
+    }
   },
   mounted() {
     this.read_account();
     // this.read_trade()
     this.init_stock();
+    // this.read_real();
   }
 };
 </script>
@@ -304,5 +331,12 @@ table thead {
 .search-bar {
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.banner {
+  padding: 10px;
+  font-size: 1.1rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-top: 0;
 }
 </style>

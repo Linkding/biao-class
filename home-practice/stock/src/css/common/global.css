@@ -14,9 +14,10 @@ img {
     display: block;
 }
 
-span , a {
+span, a {
     display: inline-block;
 }
+
 a {
     text-decoration: none;
     display: inline-block;
@@ -32,8 +33,9 @@ hr {
     display: block;
     height: 0;
     border: 0;
-    border-bottom:1px solid rgba(0, 0, 0, .05)
+    border-bottom: 1px solid rgba(0, 0, 0, .05)
 }
+
 .left {
     text-align: left;
 }
@@ -51,7 +53,6 @@ hr {
     display: inline-block;
     vertical-align: top;
     font-size: 1rem;
-
     /*==========*/
     /*border: 1px solid #ccc;*/
     /*min-height: 30px;*/
@@ -109,67 +110,56 @@ hr {
     .col-sm-1 {
         width: 8.333333333%;
     }
-
     .col-sm-2 {
         width: 16.666666666%;
     }
-
     .col-sm-3 {
         width: 25%;
     }
-
     .col-sm-4 {
         width: 33.3333333333%;
     }
-
     .col-sm-5 {
         width: 41.6666666666%;
     }
-
     .col-sm-6 {
         width: 50%;
     }
-
     .col-sm-7 {
         width: 58.33333333%;
     }
-
     .col-sm-8 {
         width: 66.666666666%;
     }
-
     .col-sm-9 {
         width: 75%;
     }
-
     .col-sm-10 {
         width: 83.33333333333%;
     }
-
     .col-sm-11 {
         width: 91.66666666666%;
     }
-
     .col-sm-12 {
         width: 100%;
     }
 }
 
 /* ==========btn========= */
-input,
-button {
-  padding: 4px;
-  font-size: 1rem;
-  border: 1px solid rgba(0, 0, 0, .1);
-  vertical-align: top;
-  outline: 0;
+
+input, button {
+    padding: 4px;
+    font-size: 1rem;
+    border: 1px solid rgba(0, 0, 0, .1);
+    vertical-align: top;
+    outline: 0;
 }
 
 .input-control {
     display: inline-block;
 }
 
-.input-control > *{
+.input-control>* {
     vertical-align: middle;
     padding-right: 8px;
     font-size: 1rem;
@@ -179,6 +169,7 @@ button {
     display: block;
     padding: 2px;
 }
+
 .btn-primary {
     /* background: #fd521d; */
     color: #1e1e1e;
@@ -189,14 +180,14 @@ button {
     padding-right: 40px;
 }
 
-  /* =============table========== */
-  table {
+/* =============table========== */
+
+table {
     border-collapse: collapse;
     width: 100%;
 }
 
-th,
-td {
+th, td {
     font-size: 1rem;
     padding: 10px;
     text-align: center;
@@ -215,10 +206,11 @@ tbody tr:hover {
 }
 
 /* ===========色板============ */
+
 .color {
-color:#A7AEB8;
-color:#E2D4C0;
-color:#CBA58C;
-color:#C31021;
-color:#0B0B0B;
+    color: #A7AEB8;
+    color: #E2D4C0;
+    color: #CBA58C;
+    color: #C31021;
+    color: #0B0B0B;
 }
