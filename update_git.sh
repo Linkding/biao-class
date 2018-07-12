@@ -1,1 +1,1 @@
-git add . && git commit -m "$1" && git push -u origin master
+git add $1 && git commit -m "$2" && git push -u origin master

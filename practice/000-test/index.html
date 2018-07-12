@@ -1,37 +1,24 @@
-<li>表格合并行</li>  
-    <table id="root" border="2" bordercolor="black" width="300" cellspacing="0" cellpadding="5"> 
-        <tr>
-          <th>股票</th>
-          <th>账户</th>
-          <th>股票数量</th>
-          <th>成本</th>
-        </tr>  
-        <tr>  
-            <td  rowspan="6">中国平安 601318</td>  
-            <td>东方财富-xx</td>  
-            <td>1000</td>  
-            <td>10</td>  
-        </tr>  
-        <tr>  
-            <td>东方财富-xx</td>  
-            <td>1000</td>  
-            <td>10</td>  
-        </tr> 
-        <tr>  
-            <td>东方财富-xx</td>  
-            <td>1000</td>  
-            <td>10</td>  
-        </tr>
-    </table>  
-    <script src="https://cdn.bootcss.com/vue/2.5.15/vue.js"></script>
-    <script>
-      var vm = new Vue({
+<div id="root">
+        <p>FullName: {{fullName}}</p>
+        <p>FirstName: <input type="text" v-model="firstName"></p>
+  </div>
+  
+ 
+  
+ 
+<script src="https://cdn.bootcss.com/vue/2.5.15/vue.js"></script>
+<script>
+    new Vue({
         el: '#root',
-        data:{
-          
+        data: {
+            firstName: 'Dawei',
+            lastName: 'Lou',
+            fullName: ''
         },
-        methods:{
-
-        }
-      })
-    </script>
+        watch: {
+            firstName(newName, oldName) {
+            this.fullName = newName + ' ' + this.lastName;
+            }
+        } 
+    })
+</script>

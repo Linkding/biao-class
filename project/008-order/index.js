@@ -510,7 +510,9 @@ const AdminOrder = Vue.component('admin-order', {
     },
     methods: {
         change_status(id, status) {
-            http.post('order/update', { id, status });
+            console.log('id',id);
+            console.log('status',status);
+            http.post('order/update', { id, status });// {id,status} => {id:id,status:status}
         },
 
     },

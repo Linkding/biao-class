@@ -133,32 +133,62 @@ const AdminPage = {
 
 }
 const Home = Vue.component('home', {
-    template: `
+    template: 
+    `
     <div>
-        <div class="col login">
-            <router-link to="/login">管理员登录</router-link>
-        </div>
-        <h1>欢迎来到背背山吃饭大学</h1>
-        <div class="row dish" v-for="(dish,index) in dish_list">
-            <div class="col-lg-4 thumbnail">
-                <img :src="dish.cover_url || default_cover_url" alt=""/>
-            </div>
-            <div class="col-lg-5 detail">
-                <div class="name">{{dish.name}}</div>
-                <div class="description">{{dish.description}}</div>
-            </div>
-            <div class="col-lg-3 tool-set">
-                <button @click="decrement(index)">-</button>
-                <input type="number" v-model="dish.$count">
-                <button @click="increment(index)">+</button>
+        <div class="row global nav">
+            <div class="container">
+                <div class="col-lg-3 title">
+                    <h3>Linkding 点餐系统</h3>    
+                </div>
+                <div class="col-lg-9 login">
+                    <router-link to="/login">管理员登录</router-link>
+                </div>
             </div>
         </div>
-        <button @click="submit_order()">提交订单</button>
-        
+        <div class="container">
+            <h1>选些可心的下饭菜</h1>
+            <button @click="show_form = !show_form">
+                <span v-if="show_form">收起</span>
+                <span v-else> 看看今天有啥好吃的 </span>
+             </button>
+            <div class="row dish" v-for="(dish,index) in dish_list" v-show="show_form">
+                <div class="col-lg-4 thumbnail">
+                    <img :src="dish.cover_url || default_cover_url" alt=""/>
+                </div>
+                <div class="col-lg-5 detail">
+                    <div class="name">{{dish.name}}</div>
+                    <div class="description">{{dish.description}}</div>
+                    <div class="price"><span class="price-icon">￥</span></sp>{{dish.price}}</div>
+                </div>
+                <div class="col-lg-3 tool-set">
+                    <button @click="decrement(index)">-</button>
+                    <input type="number" v-model="dish.$count">
+                    <button @click="increment(index)">+</button>
+                </div>
+            </div>
+            <div @click="show_order = !show_order" class="cart-trigger">🛒 共计：{{order.total_fee}} </div>
+            <div class="footer">
+                <div class="col-lg-4 order-detail" v-if="show_order">
+                    <div @click="show_order=false" class="close"></div>
+                    <h4>订单详情</h4>
+                    <div v-if="order.dish_info.length">
+                        <p v-for="dish in order.dish_info">
+                        菜品：{{dish_list[dish.dish_id].name}}
+                        数量：{{dish.count}}
+                        </p>
+                    </div>
+                    <div v-else class="empty-holder">你啥都还没点</div>
+                    <button @click="submit_order()" v-if="order.total_fee">提交订单</button>
+                </div>
+            </div>
+        </div>
     </div>
     `,
     data() {
         return {
+            show_order:false,
+            show_form:false,
             dish_list: [
                 // { name: '豆腐', description: '谁家豆腐', cover_url: "http://s2.cdn.xiachufang.com/836e9ed2882711e6a9a10242ac110002_640w_628h.jpg?imageView2/2/w/660/interlace/1/q/90" },
                 // { name: '黄瓜', description: "你的男朋友", cover_url: "http://s2.cdn.xiachufang.com/70d9f7a686fd11e6a9a10242ac110002_435w_652h.jpg?imageView2/2/w/660/interlace/1/q/90" },
@@ -177,35 +207,42 @@ const Home = Vue.component('home', {
     methods: {
         //获取菜单
         read_dish() {
-            http.post('dish/read')
+            http.post('dish/read',{key_by:'id'})
                 .then(r => {
                     this.dish_list = r.data.data;
                     this.reset_order();
                 })
         },
 
+        //将dish_list里每一项增加$count键，并赋值为0；
         reset_order() {
             // this.order = {table_id:this.order.table_id};
-            //将dish_list里每一项增加$count键，并赋值为0；
-            let len = this.dish_list.length;
-            for (let i = 0; i < len; i++) {
-                Vue.set(this.dish_list[i], "$count", 0);//vue实例化后，新增的属性需要使用$set方法来添加，才会更新到视图；
+            let list = this.dish_list;
+            for (let key in list) {
+                Vue.set(list[key], "$count", 0);//vue实例化后，新增的属性需要使用$set方法来添加，才会更新到视图；
             }
         },
 
         increment(index) {
             this.dish_list[index].$count++;
+            
             // console.log('this.dish_list',this.dish_list);
         },
         decrement(index) {
+            // this.dish_list[index].$count--;
             this.dish_list[index].$count--;
+            //数量不能小于0
+            let count = this.dish_list[index].$count
+            if(count <= 0)
+                this.dish_list[index].$count = 0; 
+            
         },
 
         submit_order() {
             this.prepare_order_info();
             this.order.status = "created";
 
-            this.main_order_id()
+            this.main_order_id() //main_order_id 会返回 { false || id}
                 .then(id => {
                     if (id)
                         this.order.parent_id = id; //如果已经存在这个父级主单，则次订单设定parent_id,标记为加单
@@ -234,37 +271,71 @@ const Home = Vue.component('home', {
         },
         prepare_order_info() {
             let info = [];
+            let list = this.dish_list;
+            for(let key in list){
+                let dish = list[key]
+                    , count = dish.$count
+                    ;
+                if(!count)
+                    continue;
 
-            this.dish_list.forEach(dish => {
-                let count = dish.$count;
-                if (!count)
-                    return;
                 info.push({
-                    dish_id: dish.id,
-                    count: parseInt(count),
-                });
-            });
+                        name: dish.name,
+                        dish_id: dish.id,
+                        count:parseInt(count),
+                    })
+                }
+                
+            console.log("info",info)
             this.order.dish_info = info;
         }
     },
     mounted() {
         this.read_dish();
         this.order.table_id = this.$route.query.table_id
+    },
+    watch:{
+        dish_list:{
+            deep:true,
+            handler(){
+                let total = 0;
+                this.prepare_order_info();
+                let dishes = this.order.dish_info;
+
+                if(!dishes)
+                    return;
+                
+                dishes.forEach(dish=>{
+                    let count = dish.count;
+                    let price = this.dish_list[dish.dish_id].price;
+                    total += count * price;
+                });
+                this.order.total_fee = total;
+            }
+        }
     }
 
 })
 
 const Admin = Vue.component('admin', {
     template: `
-    <div class="admin row">
-        <div class="col-lg-3 nav">
-            <router-link to="/admin/table">桌号管理</router-link>
-            <router-link to="/admin/dish">菜品管理</router-link>
-            <router-link to="/admin/order">订单管理</router-link>
-            <a @click="logout()">登出</a>
+    <div>
+        <div class="row global nav">
+            <div class="col-lg-3 title">
+                <h3>Linkding 点餐系统</h3>    
+            </div>
         </div>
-        <div class="col-lg-9 main">
-            <router-view></router-view>
+        <div class="admin row">
+            <div class="col-lg-2 nav">
+                <router-link to="/">首页</router-link>
+                <router-link to="/admin/table">桌号管理</router-link>
+                <router-link to="/admin/dish">菜品管理</router-link>
+                <router-link to="/admin/order">订单管理</router-link>
+                <a @click="logout()">登出</a>
+            </div>
+            <div class="col-lg-9 main">
+                <router-view></router-view>
+            </div>
         </div>
     </div>
     `,
@@ -279,24 +350,26 @@ const Admin = Vue.component('admin', {
 const Login = Vue.component('login', {
     template:
         `
-    <div class="admin">
-        <h1>登录</h1>
-        <form @submit="login($event)" novalidate>
-            <div class="error" v-if="error.length">
-                <div v-for="e in error">{{e}}</div>
-            </div>
-            <div class="input-wrap">
-                <label>用户名</label>
-                <input type="text" v-model="user.username">
-            </div>
-            <div class="input-wrap">
-                <label>密码</label>
-                <input type="password" v-model="user.password">
-            </div>
-            <div class="input-wrap">
-                <button>登录</button>
-            </div>
-        </form>
+    <div class="container">
+        <div class="admin login">
+            <h1>登录</h1>
+            <form @submit="login($event)" novalidate>
+                <div class="error" v-if="error.length">
+                    <div v-for="e in error">{{e}}</div>
+                </div>
+                <div class="input-wrap">
+                    <label>用户名</label>
+                    <input type="text" v-model="user.username">
+                </div>
+                <div class="input-wrap">
+                    <label>密码</label>
+                    <input type="password" v-model="user.password">
+                </div>
+                <div class="input-wrap">
+                    <button>登录</button>
+                </div>
+            </form>
+        </div>
     </div>
     `,
     data() {
@@ -365,13 +438,6 @@ const AdminOrder = Vue.component('admin-order', {
                 <button>提交</button>
             </div>
         </form>
-
-        <div class="sub-set row">
-            <form @submit="search($event)" class="col-lg-4 col-sm-12">
-                <input type="search" v-model="keyword" placeholder="关键字"> 
-                <button type="submit" hidden>搜索</button>
-            </form>
-        </div>
         <table v-if="list.length" class="list">
         <thead>
             <tr>
@@ -386,7 +452,12 @@ const AdminOrder = Vue.component('admin-order', {
             <tr v-for="row in list">
                 <td>{{row.id}}</td>
                 <td>{{row.table_id}}</td>
-                <td>{{row.dish_info }}</td>
+                <td>
+                    <span v-for="dish in row.dish_info">
+                        <span>菜品：{{dish.name}}</span>
+                        <span>数量：{{dish.count}}</span>
+                    </span>
+                </td>
                 <td>{{row.parent_id||'-'}}</td>
                 <td>
                     <select @change="change_status(row.id,row.status)" v-model="row.status">
@@ -508,7 +579,7 @@ const AdminDish = Vue.component('admin-dish', {
                 <span class="empty-holder" v-else>暂无图片</span>
             </td>
             <td>
-                <button @click="current = row">更新</button>
+                <button @click="current = row;show_form=true">更新</button>
                 <button @click="remove(row.id)">删除</button>
             </td>
         </tr>
@@ -638,7 +709,7 @@ const AdminTable = Vue.component('admin-table', {
                 <td>{{row.name}}</td>
                 <td>{{row.capacity}}</td>
                 <td>
-                    <button @click="current = row">更新</button>
+                    <button @click="current = row;show_form=true">更新</button>
                     <button @click="remove(row.id)">删除</button>
                 </td>
             </tr>
@@ -724,9 +795,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    console.log('to', to);
-    console.log('from', from);
-    console.log('next', next);
     let is_logged_in = logged_in();
     let going_admin_page = /^\/admin/.test(to.fullPath);
 
