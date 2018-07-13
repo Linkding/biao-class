@@ -45,6 +45,8 @@ export default {
       });
     },
     cou(e) {
+      console.log('111',111);
+      
       e.preventDefault();
       let action = this.current.id ? "update" : "create";
       api(`${this.model}/${action}`, this.current).then(r => {

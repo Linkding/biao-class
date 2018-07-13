@@ -7,7 +7,7 @@
                 <div class="breadcrumb">
                     {{detail.title}}
                 </div>
-                <div class="row header">
+                <!-- <div class="row header">
                     <div class="col-lg-6 title">{{detail.title}}</div>
                     <div class="col-lg-6 search right">
                         <form>
@@ -15,7 +15,7 @@
                             <button type="submit">🔍</button>
                         </form>
                     </div>
-                </div>
+                </div> -->
                 <div class="row main">
                     <div class="col-lg-6 photo">
                         <div class="slider">
@@ -42,20 +42,35 @@
                     </div>
                     <div class="col-lg-6 sell-info">
                         <div class="title">{{detail.title}}</div>
+                        <div class="info">
+                            <div class="col-lg-4">
+                                <div class="main-item">{{detail.birth_day|only_day}}</div>
+                                <div class="des-item">上牌时间</div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="main-item">{{detail.consumed_distance}}万公里</div>
+                                <div class="des-item">公里数</div>    
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="main-item">国四</div> 
+                                <div class="des-item">外迁查询</div>
+                            </div>
+                            <div class="col-lg-1">
+                                <div class="main-item">1.6L</div>
+                                <div class="des-item">排量</div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="main-item">陕A</div>
+                                <div class="des-item">上牌城市</div>
+                            </div>
+                        </div>
                         <div class="quote">
                             <div class="first-row">
-                                <div class="col-lg-2">
-                                    卖家报价: 
+                                <div>
+                                    车主报价: <span class="price currency">{{detail.price}}万</span>
                                 </div>
-                                <span class="price currency">{{detail.price}}万</span>
-                                <span class="tax-inclusive">新车含税{{detail.price}}万</span>
-                                <span>降价提醒</span>
-                            </div>
-                            <div class="second-row">
-                                <div class="col-lg-2">分期买:  </div>
-                                <span >首付 : <span class="price">{{detail.price *0.3}}万 </span></span>
-                                <span>月供 : <span class="price">2409元 </span></span>
-                                <span class="block">分期详情></span>
+                                <!-- <span class="tax-inclusive">新车含税{{detail.price}}万</span>
+                                <span>降价提醒</span> -->
                             </div>
                             <div class="third-row">
                                 <div class="col-lg-2">服务费:  </div>
@@ -68,28 +83,6 @@
                                 <span class="server-item">整车质保</span>
                                 <span class="server-item">14天可退</span>
                                 <span class="server-item">249项车况检测</span>
-                            </div>
-                        </div>
-                        <div class="info">
-                            <div class="col-lg-3">
-                                <div class="main-item">{{detail.birth_day|only_day}}</div>
-                                <div class="des-item">上牌时间</div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="main-item">{{detail.consumed_distance}}万公里</div>
-                                <div class="des-item">公里数</div>    
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="main-item">国四</div> 
-                                <div class="des-item">外迁查询</div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="main-item">1.6L</div>
-                                <div class="des-item">排量</div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="main-item">陕A</div>
-                                <div class="des-item">上牌城市</div>
                             </div>
                         </div>
                         <div class="link-btn">
@@ -652,13 +645,15 @@ export default {
   color: rgb(13, 144, 219);
   font-size: 1.2rem;
 }
-
+* {
+    background: #fff;
+}
 /* ==================== */
 .price {
   color: orangered;
 }
 
-.basis > * {
+.basis  {
   font-size: 1rem;
 }
 
@@ -713,7 +708,7 @@ export default {
   background: rgba(0, 0, 0, 0.03);
 }
 .basis .sell-info .quote > * {
-  padding: 10px;
+  /* padding: 10px; */
 }
 
 .basis .sell-info .quote .col-lg-2 {
@@ -765,14 +760,15 @@ export default {
 
 /* ========.info======== */
 .basis .sell-info .info {
-  font-size: 1.5rem;
-  padding: 20px 10px;
+  font-size: 1.1rem;
+  padding: 20px 0px;
 }
 
 .basis .sell-info .info > * {
-  padding-left: 10px;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  padding:0 5px;
+  /* border-right: 1px solid rgba(0, 0, 0, 0.1); */
 }
+
 .basis .sell-info .info .main-item {
   font-size: 1.3rem;
   font-weight: 500;

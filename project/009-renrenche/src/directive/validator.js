@@ -24,6 +24,18 @@ function parse_string_rule (str) {
 
 // 各种验证规则
 const valid = {
+  //电话号码验证
+  phone(val,lang){
+    const lang_conf = {
+      zh : '手机号不合法',
+      en : 'Invalid username',
+    };
+    const re = /1[34578][012356789]\d{8}|134[012345678]\d{7}/ ;
+    let r = re.test(val);
+    if(!r)
+      throw lang_conf[lang];
+    return true;
+  },
   /**
    * 是否为正数
    * @param val

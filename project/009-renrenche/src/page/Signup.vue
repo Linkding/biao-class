@@ -5,9 +5,9 @@
             <div class="container">
                 <form class="main-form">
                     <h1>注册</h1>
-                    <div class="error-list">
+                    <!-- <div class="error-list">
                         <div class="error">用户名已存在</div>
-                    </div>
+                    </div> -->
                     <div class="input-control">
                         <input id="username" type="text" 
                             v-validator="'required|username|min_length:4|max_length:6|not_exist:user,username'"
@@ -31,8 +31,18 @@
                      <div class="input-control">
                         <input id="repassword" type="password" placeholder="重复密码">
                     </div>
+                    <div class="input-control phone-valid">
+                        <input  class="col-lg-7" type="text" placeholder="手机号"
+                            v-validator="'required|phone'"
+                            error-el="#phone-error"
+                        >
+                        <button type="submit" class="col-lg-5" disabled>获取验证码</button>
+                        <div class="error-list">
+                            <div id="phone-error"></div>
+                        </div>
+                    </div>
                     <div class="input-control"> 
-                        <button type="submit">注册</button>
+                        <button type="submit">注册</button>          
                     </div>
                     <!-- <div class="input-control small muted">没有账号？<a href="">注册</a></div> -->
                 </form>
@@ -48,7 +58,13 @@ import validator from "../directive/validator";
 
 export default {
   directives: { validator },
-  components: { Nav }
+  components: { Nav },
+  data(){
+      return {
+          phone_valid:false,
+          
+      }
+  }
 };
 </script>
 <style scoped>
@@ -71,7 +87,6 @@ h1 {
   height: 400px;
   background-repeat: no-repeat;
   background-size: contain;
-  background: #111;
 }
 
 .main-form {
@@ -94,5 +109,11 @@ h1 {
 .main-form button {
   background: #e08109;
   color: #fff;
+}
+.phone-valid button {
+    width: 40%;
+}
+.phone-valid input {
+    width: 60%;
 }
 </style>

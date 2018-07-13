@@ -17,34 +17,38 @@
                         <div class="tool-bar">
                             <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建质检</span></button>
                         </div>
+                        
                         <form v-if="show_form" @submit="cou($event)">
-                            <div>
-                                <div class="col-lg-7">
-                                    <button @click="check_all()">全部通过</button>
-                                    <button @click="check_random()">随机通过</button>
-                                    <button @click="check_all(false)">全部取消</button>
-                                </div>
-                                <div class="col-lg-5 check_count right">共有{{total_check}}个检测项</div>
+                          <div class="input-control">
+                                <label>选择检测车辆</label>
+                                <DropDown 
+                                      :list="vehicle_list"
+                                      :api="'vehicle.title'" 
+                                      :showInput="true" 
+                                      :displayKey="'title'" 
+                                      :onSelect="set_vehicle_id" 
+                                      ref="edit_report"
+                                  />
                             </div>
-                           <div class="input-control">
-                               <label>选择检测车辆</label>
-                               <DropDown 
-                                    :list="vehicle_list"
-                                    :api="'vehicle.title'" 
-                                    :showInput="true" 
-                                    :displayKey="'title'" 
-                                    :onSelect="set_vehicle_id" 
-                                    ref="edit_report"
-                                />
-                           </div>
-                           <div v-if="prop.display_name" class="col-lg-4 input-control" v-for="(prop,key) in structure" :key="key">
-                               <input  type="checkbox" v-model="current[key]">
-                               <label  >{{prop.display_name}}</label>
-                           </div>
-                           <div class="input-control">
-                                <button class="btn-primary" type="submit">提交</button>
-                                <button @click="cancel()" class="btn-primary" type="button">取消</button>
+                          <fieldset :disabled="!current.vehicle_id">
+                              <div>
+                                  <div class="col-lg-7">
+                                      <button @click="check_all()">全部通过</button>
+                                      <button @click="check_random()">随机通过</button>
+                                      <button @click="check_all(false)">全部取消</button>
+                                  </div>
+                                  <div class="col-lg-5 check_count right">共有{{total_check}}个检测项</div>
+                              </div>
+                            
+                            <div v-if="prop.display_name" class="col-lg-4 input-control" v-for="(prop,key) in structure" :key="key">
+                                <input  type="checkbox" v-model="current[key]">
+                                <label  >{{prop.display_name}}</label>
                             </div>
+                            <div class="input-control">
+                                  <button class="btn-primary" type="submit">提交</button>
+                                  <button @click="cancel()" class="btn-primary" type="button">取消</button>
+                              </div>
+                          </fieldset>
                         </form>
                         <div class="table">
                             <table>
@@ -131,7 +135,7 @@ export default {
         this.compute_total_check();
       });
     },
-    check_all(check= true) {
+    check_all(check = true) {
       this.each_prop((prop, key) => {
         if (!prop.display_name) return;
         this.$set(this.current, key, check);
@@ -166,6 +170,9 @@ export default {
 };
 </script>
 <style scoped>
+fieldset {
+  border: 1px solid rgba(0, 0, 0, .09);
+}
 .check_count {
   padding: 10px;
 }

@@ -5,9 +5,9 @@
             <div class="container">
                 <form class="main-form">
                     <h1>登录</h1>
-                    <div class="error-list">
+                    <!-- <div class="error-list">
                         <div class="error">用户名或密码有误</div>
-                    </div>
+                    </div> -->
                     <div class="input-control">
                         <input v-validator="'username|required|min_length:4|max_length:6'" id="username" type="text" placeholder="用户名">
                     </div>
@@ -17,7 +17,7 @@
                     <div class="input-control"> 
                         <button type="submit">登录</button>
                     </div>
-                    <div class="input-control small muted">没有账号？<a href="#/singup">注册</a></div>
+                    <div class="input-control small muted">没有账号？<a href="#/signup">注册</a></div>
                 </form>
             </div>
         </div>
@@ -53,7 +53,6 @@ h1 {
   height: 400px;
   background-repeat: no-repeat;
   background-size: contain;
-  background: #111;
 }
 
 .main-form {
@@ -62,9 +61,6 @@ h1 {
   position: absolute;
 }
 
-.main-form > * {
-  padding: 5px 0;
-}
 
 .main-form input,
 .main-form button {
@@ -77,4 +73,5 @@ h1 {
   background: #e08109;
   color: #fff;
 }
+
 </style>
