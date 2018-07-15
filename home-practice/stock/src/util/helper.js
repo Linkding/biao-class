@@ -4,6 +4,8 @@ let helper = {
     avg_arr,
     math_round,
     toPercent,
+    set,
+    get,
 }
 //计算单个属性之和
 function sum_arr_by_prop(arr, prop) {
@@ -38,5 +40,14 @@ function toPercent(point){
     var str=Number(point*100).toFixed(2);
     str+="%";
     return str;
+}
+
+function set(key,val){
+    let data = JSON.stringify(val);
+    localStorage.setItem(key,data);
+}
+function get(key){
+    let data = localStorage.getItem(key);
+    return JSON.parse(data);
 }
 export default helper

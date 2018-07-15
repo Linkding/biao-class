@@ -5,20 +5,15 @@
                 <div class="close" @click="toggle_login"><i class="fa fa-times" aria-hidden="true"></i></div>
             </div>
             <div class="main">
-                <div v-if="show_login_form" class="header">
+                <div class="header">
                     <span @click="is_active_login=true ; is_active_2=false" :class="{'col-lg-2':true, 'login':true,'active':is_active_login}">账号登录</span>
                     <span @click="is_active_login=false ; is_active_2=true"  :class="{'col-lg-2':true, 'login':true,'active':is_active_2}">账号验证</span>
-                    <span class="col-lg-8 signup right" @click="toggle_auth">注册</span>
+                    <span class="col-lg-8 signup right">注册</span>
                 </div>
-                <div v-if="show_sign_form" class="header">
-                    <span @click="is_active_login=true ; is_active_2=false" :class="{'col-lg-2':true, 'login':true,'active':is_active_login}">注册</span>
-                    <span @click="is_active_login=false ; is_active_2=true"  :class="{'col-lg-2':true, 'login':true,'active':is_active_2}">账号验证</span>
-                    <span class="col-lg-8 signup right" @click="toggle_auth">登录</span>
-                </div>
-                <form v-if="show_login_form" @submit="submit($event)">
+                <form @submit="submit($event)">
                     <div class="input-control">
                         <input id="username"
-                            v-validator="'required|max_length:10|username'"
+                            v-validator="'required|max_length:10|username|not_exist:user,name'"
                             error-el="#username_error"
                             error-lang="zh"
                              type="text" placeholder="用户名"
@@ -42,33 +37,6 @@
                         <button type="submit">登录</button>
                     </div>
                 </form>
-                <form v-if="show_sign_form" @submit="submit($event)">
-                    <div class="input-control">
-                        <input id="username"
-                            v-validator="'required|max_length:10|username'"
-                            error-el="#username_error"
-                            error-lang="zh"
-                             type="text" placeholder="用户名"
-                             v-model="current.name">
-                        <div class="error-list">
-                            <div id="username_error"></div>
-                        </div>
-                    </div>
-                    <div class="input-control">
-                        <input id="password" type="password" 
-                            v-validator="'required|min_length:2|max_length:24'"
-                            error-el="#password-error"
-                             placeholder="密码"
-                             >
-
-                        <div class="error-list">
-                            <div id="password-error"></div>
-                        </div>
-                    </div>
-                    <div class="input-control">
-                        <button type="submit">注册</button>
-                    </div>
-                </form>
             </div>
 
         </div>
@@ -86,16 +54,10 @@ export default {
       is_active_2: false,
       current: {},
       user_id:'',
-      show_login: false,
-      show_sign_form:false,
-      show_login_form:true,
+      show_login: false
     };
   },
   methods: {
-    toggle_auth(){
-        this.show_sign_form = !this.show_sign_form;
-        this.show_login_form = !this.show_login_form;
-    },
     toggle_login() {
       this.show_login = !this.show_login;
     },

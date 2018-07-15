@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Login ref="onShow"/>
         <div class="mask" v-if="show_trade">
              <div class="add_trade">
                 <div class="row header">
@@ -63,6 +64,8 @@
         <div class="container">
             <div>
                 <div class=" search-bar">
+                  <div class="col-lg-8">
+                    
                     <form @submit="cou_stock($event)">
                         <div class="input-control">
                             <input type="text" placeholder="股票代码" v-model="current_stock.code">
@@ -74,6 +77,11 @@
                             <button type="submit">添加</button>
                         </div>
                     </form>
+                  </div>
+                  <div class="col-lg-4 right">
+                    <button @click="test()" type="submit">测试按钮</button>
+                    <button @click="toggle_login">登录</button>
+                  </div>
                 </div>
                 <div class="banner">
                     <div class="col-lg-3">持有市值：{{total_value}}</div>
@@ -101,13 +109,12 @@
                         <tr id="stock-list" v-for="(row ,index) in stock_list" :key="index">
                             <td>{{ row.name }}</td>
                             <td>{{ row.code }}</td>
-                            <td>{{ row.new_price || '-' }} <button @click="read_real">点击</button></td>
-                            <!-- <td><input type="text" v-model="row.new_price"></td> -->
+                            <td>{{row.price}}</td>
                             <td>{{ row.change || '-'  }}</td>
                             <td>{{ row.close|| '-'  }}</td>
                             <td>{{ row.cost || '-' }}</td>
                             <td>{{ row.shares || '-' }}</td>
-                            <td>{{  math_round(row.new_price ,row.shares)  || '-'}}</td>
+                            <td>{{  math_round(row.price ,row.shares)  || '-'}}</td>
                             <td>{{ toPercent(math_round(row.cost,row.shares)/total_value )|| '-' }}</td>
                             <td>{{ row.gain_loss|| '-'  }}</td>
                             <td>
@@ -129,28 +136,44 @@
 <script>
 import http from "../util/http";
 import helper from "../util/helper";
-// import Trade from "./Trade";
+import Login from "./Login";
 
 export default {
+  components: { Login },
   data() {
     return {
-      show_trade_form: false,
-      show_trade: false,
+      show_trade_form: false, //输入trade数据表单
+      show_trade: false, //trade面板
       on_click_stock: {}, //保存点击所对应股票的名字和代码
       current_trade: {},
       current_stock: {},
       trade_list: [],
       account_list: [],
       stock_list: [],
-      stock_code_list: []
+      stock_code_list: [],
+      real: [],
     };
   },
   methods: {
+    test(){
+      console.log('this.stock_code_list',this.stock_code_list);
+      
+      http.api(this.stock_code_list)
+        .then(r=>{
+          this.real = r.data;
+          this.meger_real_to_stock();
+        })
+    },
+    //显示登录页面
+    toggle_login() {
+      this.$nextTick(() => {
+        this.$refs.onShow.toggle_login();
+      });
+    },
     read_real() {
       http.api().then(r => {
-        // this.real = r;
-        console.log('r',r);
-        
+        this.real = r.data;
+        console.log("r", r);
       });
     },
     //四舍五入计算
@@ -181,7 +204,7 @@ export default {
     cou_trade(e) {
       e.preventDefault();
       //更新前，获取对应股票的id和名字
-      this.current_trade.stock_id = this.on_click_stock.number;
+      this.current_trade.stock_code = this.on_click_stock.number;
       this.current_trade.stock_name = this.on_click_stock.name;
 
       let action = this.current_trade.id ? "update" : "create";
@@ -206,6 +229,7 @@ export default {
     },
     cou_stock(e) {
       e.preventDefault();
+      this.current_stock.user_id = helper.get('user_id');
       let action = this.current_stock.id ? "update" : "create";
       http.post(`stock/${action}`, this.current_stock).then(r => {
         this.current_stock = {};
@@ -230,24 +254,24 @@ export default {
     },
     read_stock() {
       http.post("stock/read").then(r => {
-        this.stock_list = r.data.data;
+        this.stock_list = r.data;
       });
     },
     read_account() {
       http.post("account/read").then(r => {
-        this.account_list = r.data.data;
+        this.account_list = r.data;
       });
     },
     read_trade(code, index, on_success) {
-      http.post("trade/search", { or: { stock_id: code } }).then(r => {
-        this.trade_list = r.data.data;
+      http.post("trade/search", { or: { stock_code: code } }).then(r => {
+        this.trade_list = r.data;
         if (on_success) on_success(index, this.trade_list);
       });
     },
     init_stock() {
       http.post("stock/read").then(r => {
         //获取stock数据
-        this.stock_list = r.data.data;
+        this.stock_list = r.data;
         //获取所有的股票代码，并取得对应的trade数据,并计算得出需要二次运算得出的值
         this.cal_stock_data();
       });
@@ -257,14 +281,24 @@ export default {
 
       for (let i = 0; i < stock_list.length; i++) {
         let code = stock_list[i].code;
-
+        this.stock_code_list.push(code);//保存股票代码列表，留用
         this.read_trade(code, i, this.update_cal_stock);
       }
-    }
+    },
+    meger_real_to_stock() {
+      let real_len = this.real.length;
+      for (let i = 0; i < real_len; i++) {
+        let stock_length = this.stock_list.length;
+        for (let r = 0; r < stock_length; r++) {
+          if (this.real[i].code == this.stock_list[r].code)
+            this.$set(this.stock_list[r],'price',this.real[i].close)
+        }
+      }
+    },
   },
   computed: {
     total_value: function() {
-      let result = helper.sum_arr_by_props(this.stock_list, "cost", "shares");
+      let result = helper.sum_arr_by_props(this.stock_list, "price", "shares");
       return helper.math_round(result);
     }
   },
@@ -273,6 +307,14 @@ export default {
     // this.read_trade()
     this.init_stock();
     // this.read_real();
+  },
+  watch: {
+    real: {
+      deep: true,
+      handler(n) {
+        this.meger_real_to_stock();
+      }
+    }
   }
 };
 </script>

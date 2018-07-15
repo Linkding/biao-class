@@ -1,0 +1,19 @@
+.nav-side {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .05);
+    margin-right: 10px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, .05)
+}
+
+.nav-item {
+    font-size: 1.1rem;
+    color: #555;
+    display: block;
+    padding: 10px 20px;
+}
+.nav-item:active {
+    background: rgba(0, 0, 0, .05);
+}
+.nav-item:hover{
+    background: rgba(0, 0, 0, .05);
+}

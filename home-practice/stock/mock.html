@@ -1,7 +1,22 @@
 <script src="node_modules/axios/dist/axios.js"></script>
 <script src="http.js"></script>
 <script>
-    // http.post('trade/create',{stock_id:601601});
+    // http.post('stock/read')
+    // http.post('stock/create_many',{
+    //     data:[
+    //     {"user_id":1,'id':13},
+    //     {"user_id":1,'id':11},
+    //     {"user_id":1,'id':10},
+    //     {"user_id":1,'id':9},
+    //     {"user_id":1,'id':8},
+    //     {"user_id":1,'id':7},
+    //     {"user_id":1,'id':6},
+    //     {"user_id":1,'id':5},
+    //     {"user_id":1,'id':4},
+    //     {"user_id":1,'id':3},
+    //     {"user_id":1,'id':2},
+    //     ]
+    // });
     // http.post('trade/read').then(r=>{console.log(r.data.data)})
 
     // http.post('MODEL/DELETE',{
@@ -11,14 +26,17 @@
     //     .then(r=>{
     //         console.log(r);
     //     })
-    http.post('MODEL/CREATE_PROPERTY',{
-        model:'user',
-        property:'password',
-        structure:{
-            type:'password',
-            nullable:false,
-        }
-    })
+    // http.post('MODEL/CREATE_PROPERTY',{
+    //     force:true,
+    //     model:'stock',
+    //     property:'user_id',
+    //     structure:{
+    //         type:'integer',
+    //         nullable:false,
+    //     }
+    // })
+    // http.post('captcha/sms', { phone : 13760613343 });
+    // http.post('captcha/mail', { email : '2413557718@qq.com' })
 </script>
 <script>
     //  http.post('MODEL/CREATE',{
@@ -69,55 +87,50 @@
     //         },
     //     ]
     // });
-    // http.post('MODEL/CREATE',{
-    //     name:'trade',
-    //     force:true,
-    //     structure:[
-    //         {
-    //             name:'user_id',
-    //             type:'integer',
-    //             nullable:true,
-    //         },
-    //         {
-    //             name:'user',
-    //             type:'text',
-    //             nullable:true,
-    //         },
-    //         {
-    //             name:'stock_id',
-    //             type:'string',
-    //             nullable:true,
-    //         },
-    //         {
-    //             name:'stock_name',
-    //             type:'text',
-    //             nullable:true,
-    //         },
-    //         {
-    //             name:'account_id',
-    //             type:'integer',
-    //             nullable:true,
-    //         },
-    //         {
-    //             name:'account_name',
-    //             type:'text',
-    //             nullable:true,
-    //         },
-    //         {
-    //             name:'cost',//成本
-    //             type:'float',
-    //             nullable:true,
-    //         },
-    //         {
-    //             name:'shares',//股数
-    //             type:'integer',
-    //             nullable:true,
-    //         },
-    //         {
-    //             name:'created_at',
-    //             type:'dateTime',
-    //             nullable:true,
-    //         }
-    //     ]
-    // });
+    http.post('MODEL/CREATE',{
+        name:'trade',
+        force:true,
+        structure:[
+            {
+                name:'user_id',
+                type:'integer',
+                nullable:true,
+            },
+            {
+                name:'stock_code',
+                type:'string',
+                nullable:true,
+            },
+            {
+                name:'stock_name',
+                type:'text',
+                nullable:true,
+            },
+            {
+                name:'account_id',
+                type:'integer',
+                nullable:true,
+            },
+            {
+                name:'account_belong',//账户归属人
+                type:'text',
+                nullable:true,
+            },
+            {
+                name:'cost',//成本
+                type:'float',
+                nullable:true,
+            },
+            {
+                name:'shares',//股数
+                type:'integer',
+                nullable:true,
+            },
+            {
+                name:'created_at',
+                type:'dateTime',
+                nullable:true,
+            }
+        ]
+    });
 </script>
