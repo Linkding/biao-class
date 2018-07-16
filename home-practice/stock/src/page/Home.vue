@@ -79,13 +79,15 @@
                     </form>
                   </div>
                   <div class="col-lg-4 right">
-                    <button @click="test()" type="submit">测试按钮</button>
                     <button @click="toggle_login">登录</button>
                   </div>
                 </div>
                 <div class="banner">
                     <div class="col-lg-3">持有市值：{{total_value}}</div>
                     <div class="col-lg-3">总盈亏：{{total_value}}</div>
+                    <div class="col-lg-6 right">
+                      <button  @click="test()" type="submit"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                    </div>
                 </div>
                 <table>
                     <thead class="thead">
@@ -203,9 +205,10 @@ export default {
     },
     cou_trade(e) {
       e.preventDefault();
-      //更新前，获取对应股票的id和名字
+      //更新前，获取对应股票的id和名字,以及用户id
       this.current_trade.stock_code = this.on_click_stock.number;
       this.current_trade.stock_name = this.on_click_stock.name;
+      this.current_trade.user_id = helper.get('user_id');
 
       let action = this.current_trade.id ? "update" : "create";
       http.post(`trade/${action}`, this.current_trade).then(r => {
@@ -380,5 +383,12 @@ table thead {
   font-size: 1.1rem;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-top: 0;
+}
+.banner > *{
+  vertical-align: middle;
+  
+}
+.banner button:hover {
+  background: #E2D4C0;
 }
 </style>

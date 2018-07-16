@@ -18,9 +18,6 @@
                 <form v-if="show_login_form" @submit="submit($event)">
                     <div class="input-control">
                         <input id="username"
-                            v-validator="'required|max_length:10|username'"
-                            error-el="#username_error"
-                            error-lang="zh"
                              type="text" placeholder="用户名"
                              v-model="current.name">
                         <div class="error-list">
@@ -29,11 +26,7 @@
                     </div>
                     <div class="input-control">
                         <input id="password" type="password" 
-                            v-validator="'required|min_length:2|max_length:24'"
-                            error-el="#password-error"
-                             placeholder="密码"
-                             >
-
+                             placeholder="密码">
                         <div class="error-list">
                             <div id="password-error"></div>
                         </div>
