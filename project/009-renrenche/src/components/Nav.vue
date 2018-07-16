@@ -11,8 +11,14 @@
               <SearchBar/> 
            </div>
            <div class="col-lg-4 right">
+             <span v-if="!uinfo">
                <router-link to="/login" class="nav-item">登录</router-link>
                <router-link to="/signup" href="#" class="nav-item">注册</router-link>
+             </span>
+             <span v-else>
+               <span class="nav-item">{{uinfo.username ||uinfo.phone}}</span>
+               <span class="nav-item" @click="logout">退出</span>
+             </span>
                <a href="#" class="nav-item tel">400-666-6666</a>
            </div>
        </div>
@@ -20,9 +26,20 @@
 </template>
 <script>
 import SearchBar from "./SearchBar";
+import session from '../lib/session';
 
 export default {
   components:{SearchBar},
+  data(){
+    return {
+      uinfo:session.uinfo(),
+    }
+  },
+  methods:{
+    logout(){
+      session.logout();
+    }
+  },
   props: {
     pushDown: {
       default: false

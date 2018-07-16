@@ -24,15 +24,37 @@ function parse_string_rule (str) {
 
 // 各种验证规则
 const valid = {
-  //电话号码验证
-  phone(val,lang){
+  /** 是否为电话
+  /* @param val
+  /* @param lang
+  */
+  cellphone(val,lang){
     const lang_conf = {
       zh : '手机号不合法',
       en : 'Invalid username',
     };
+
     const re = /1[34578][012356789]\d{8}|134[012345678]\d{7}/ ;
     let r = re.test(val);
-    if(!r)
+
+    if(!r || !this.numeric(val,lang) || !this.length(val,lang,11))
+      throw lang_conf[lang];
+
+    return true;
+  },
+  /*判断长度
+  /* @param val
+  /* @param lang
+  /* @param len 长度
+  */
+  length(val,lang,len){
+    const lang_conf = {
+      zh : '长度不合法，电话长度应为' + len,
+      en : 'Invalid field length, length should equals to ' + len,
+    };
+
+    val = val.toString();
+    if(!val.length  == len)
       throw lang_conf[lang];
     return true;
   },

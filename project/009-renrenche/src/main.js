@@ -39,9 +39,6 @@ Vue.filter('only_day', function (value) {
 Vue.filter('percentage', function (value) {
   if (!value)
     return 0;
-
-  // return value.toFixed(2) * 100  + '%';
-  // console.log('value',value)
   return Number(value * 100).toFixed(2) + '%';
 })
 

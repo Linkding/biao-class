@@ -21,7 +21,22 @@
 
   // api('MODEL/CREATE', model);
 
-  api('MODEL/READ');
+  // api('MODEL/READ');
 
-  // api('MODEL/DELETE', { name : 'model' });
+  api('MODEL/CREATE_PROPERTY', { 
+    model:'user',
+    property:'phone',
+    structure:{
+      type : 'string',
+      nullable:true,
+    }  
+  });
+  api('MODEL/CREATE_PROPERTY', { 
+    model:'user',
+    property:'mail',
+    structure:{
+      type : 'string',
+      nullable:true,
+    }  
+  });
 </script>
