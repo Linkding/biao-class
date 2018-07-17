@@ -34,6 +34,7 @@
 import Nav from "../components/Nav";
 import validator from "../directive/validator";
 import api from '../lib/api';
+import session from '../lib/session';
 
 export default {
   directives:{validator},
@@ -68,9 +69,8 @@ export default {
                     }
                     this.login_failed = false;
                     delete row.password;
-                    localStorage.setItem('uinfo',JSON.stringify(row))
-                    console.log(3);
-                    this.$router.push('/')
+                    
+                    session.login(row);
                 })
       },
   }
@@ -113,7 +113,7 @@ h1 {
 }
 
 .main-form button {
-  background: #e08109;
+  background: #0B5A81;
   color: #fff;
 }
 

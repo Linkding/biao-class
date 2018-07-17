@@ -32,11 +32,14 @@
                             <div id="password-error"></div>
                         </div>
                     </div>
-                     <!-- <div class="input-control">
-                        <input id="repassword" type="password" placeholder="重复密码">
-                    </div> -->
-                    <div v-if="signup_by == 'phone'" class="input-control">
+                     <div class="input-control">
+                        <input id="repassword" type="password" placeholder="重复密码"
+                          v-validator="'required|shadow:#password'"
+                        >
+                    </div>
+                    <div v-if="signup_by == 'phone'" :key="'phone'" class="input-control">
                         <input  class="col-lg-7" type="text" placeholder="手机号"
+                            v-validator="'required|cellphone'"
                             error-el="#phone-error"
                             v-model="current.phone"
                         >
@@ -44,8 +47,9 @@
                             <div id="phone-error"></div>
                         </div>
                     </div>
-                    <div v-if="signup_by == 'mail'" class="input-control">
+                    <div v-if="signup_by == 'mail'" :key="'mail'" class="input-control">
                         <input  class="col-lg-7" type="text" placeholder="邮箱"
+                            v-validator="'required|mail'"
                             error-el="#mail-error"
                             v-model="current.mail"
                         >
@@ -54,15 +58,20 @@
                         </div>
                     </div>
                     <div class="input-control">
-                        <input style="width:70%" type="number" placeholder="验证码"
-                            v-model="current.vcode"
-                            >
-                        <button style="width:30%" type="button"  :disabled="captcha.countdown != 0" @click="send_code">
-                            <span v-if="captcha.countdown">{{captcha.countdown}}</span>
-                            <span v-else>获取验证码</span>
-                        </button>
+                        <div>
+                            <input style="width:70%" type="number" placeholder="验证码"
+                                v-model="current.vcode"
+                                error-el="#vcode-error"
+                                v-validator="'required'"
+                                >
+                            <button style="width:30%" type="button"  :disabled="captcha.countdown != 0" @click="send_code">
+                                <span v-if="captcha.countdown">{{captcha.countdown}}</span>
+                                <span v-else>获取验证码</span>
+                            </button>
+                        </div>
                         <div class="error-list">
-                        <div v-if="invalid_code" id="vcode-error">验证码有误</div>
+                            <div v-if="invalid_code">验证码有误</div>
+                            <div id="vcode-error"></div>
                         </div>
                     </div>
                     <div class="input-control"> 
@@ -111,8 +120,8 @@ export default {
       !this.current.username &&
         (this.current.username = this.current[this.signup_by]);
       api("user/create", this.current).then(r => {
-        alert("登录成功");
-        this.$router.push("/");
+        alert("注册成功，请重新登录");
+        this.$router.push("/login");
       });
     },
     send_code() {
@@ -183,7 +192,7 @@ h1 {
 }
 
 .main-form button {
-  background: #e08109;
+  background: #E08109;
   color: #fff;
 }
 .main-form .tab-title > * {
@@ -192,12 +201,15 @@ h1 {
   text-align: center;
 }
 .main-form .tab-title .active {
-  border-bottom: 2px solid #e08109;
+  border-bottom: 2px solid #0B5A81;
 }
 .phone-valid button {
   width: 40%;
 }
 .phone-valid input {
   width: 60%;
+}
+.input-control {
+  margin: 0;
 }
 </style>

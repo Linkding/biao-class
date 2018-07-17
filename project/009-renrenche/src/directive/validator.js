@@ -24,40 +24,6 @@ function parse_string_rule (str) {
 
 // 各种验证规则
 const valid = {
-  /** 是否为电话
-  /* @param val
-  /* @param lang
-  */
-  cellphone(val,lang){
-    const lang_conf = {
-      zh : '手机号不合法',
-      en : 'Invalid username',
-    };
-
-    const re = /1[34578][012356789]\d{8}|134[012345678]\d{7}/ ;
-    let r = re.test(val);
-
-    if(!r || !this.numeric(val,lang) || !this.length(val,lang,11))
-      throw lang_conf[lang];
-
-    return true;
-  },
-  /*判断长度
-  /* @param val
-  /* @param lang
-  /* @param len 长度
-  */
-  length(val,lang,len){
-    const lang_conf = {
-      zh : '长度不合法，电话长度应为' + len,
-      en : 'Invalid field length, length should equals to ' + len,
-    };
-
-    val = val.toString();
-    if(!val.length  == len)
-      throw lang_conf[lang];
-    return true;
-  },
   /**
    * 是否为正数
    * @param val
@@ -90,6 +56,29 @@ const valid = {
 
     return true;
   },
+
+  /**
+   * 是否为邮箱
+   * @param val
+   * @param lang
+   */
+  mail (val, lang) {
+    const lang_conf = {
+      zh : '不合法的邮箱',
+      en : 'Invalid email',
+    };
+
+    let re = /[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+/;
+
+    console.log('re.test(val):', re.test(val));
+
+    if (!re.test(val))
+      throw lang_conf[ lang ];
+
+    return true;
+  },
+
+
   /**
    * 是否为数字
    * @param val
@@ -101,10 +90,35 @@ const valid = {
       en : 'Invalid number',
     };
 
-    if ((val) != val)
+    if (parseFloat(val) != val)
       throw lang_conf[ lang ];
 
     return true;
+  },
+
+  cellphone (val, lang) {
+    const lang_conf = {
+      zh : '不合法的手机号',
+      en : 'Invalid phone number',
+    };
+
+    if (!this.numeric(val, lang) || !this.length(val, lang, 11))
+      throw lang_conf[ lang ];
+
+    return true;
+  },
+
+  length (val, lang, len) {
+    const lang_conf = {
+      zh : '不合法的长度，长度需等于' + len + '位',
+      en : 'Invalid field length, length should equals to ' + len,
+    };
+
+    val = val.toString();
+    if (val.length == len)
+      return true;
+
+    throw lang_conf[ lang ];
   },
 
   /**
@@ -127,9 +141,29 @@ const valid = {
     return r;
   },
 
-  not_exist (val, lang, model, property) {
+  /**
+   * 是否与指定input一致
+   * @param val
+   * @return {boolean}
+   */
+  shadow (val, lang, selector) {
+    const lang_conf = {
+      zh : '两次输入不一致',
+      en : 'Inconsistent double inputs',
+    };
+
+    let reference = document.querySelector(selector);
+    let value     = reference.value;
+
+    if (value !== val)
+      throw lang_conf[ lang ];
+
+    return true;
+  },
+
+  not_exist (val, lang, model, property, except) {
     return new Promise((s, j) => {
-      if (!val)
+      if (!val || val == except)
         s();
 
       return api(`${model}/first`, { where : { and : { [ property ] : val } } })
@@ -316,6 +350,7 @@ function go (el_form, el_input, el_error, rule) {
       }
     } catch (e) {
       set_invalid(true, e);
+      break;
     }
   }
 
@@ -344,7 +379,8 @@ export default Vue.directive('validator', {
   inserted : function (el, binding) {
     let debounce_timer;
     // 先拿到字符串验证规则
-    let rule     = binding.value; // 'required|username|min_length:4'
+    let rule = binding.value; // 'required|username|min_length:4'
+
     let selector = el.getAttribute('error-el'); // 用于显示错误信息的选择器
     let error_el = document.querySelector(selector); // 用于显示错误信息的元素
 

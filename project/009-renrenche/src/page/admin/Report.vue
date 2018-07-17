@@ -33,9 +33,9 @@
                           <fieldset :disabled="!current.vehicle_id">
                               <div>
                                   <div class="col-lg-7">
-                                      <button @click="check_all()">全部通过</button>
-                                      <button @click="check_random()">随机通过</button>
-                                      <button @click="check_all(false)">全部取消</button>
+                                      <button @click="check_all()" type="button">全部通过</button>
+                                      <button @click="check_random()" type="button">随机通过</button>
+                                      <button @click="check_all(false)" type="button">全部取消</button>
                                   </div>
                                   <div class="col-lg-5 check_count right">共有{{total_check}}个检测项</div>
                               </div>
