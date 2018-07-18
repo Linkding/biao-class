@@ -18,7 +18,7 @@
                             <img :src="detail.preview ? detail.preview[select_preview].url : ''" alt="">
                         </div>
                         <div class="thumbnail-list" v-for="(row,index) in detail.preview" :key="index" >
-                            <div @click="select_preview = index"><img :src="row.url" alt=""></div>
+                            <div @mouseover="select_preview = index"><img :src="row.url" alt=""></div>
                         </div>
                     </div>
                     <div class="col-lg-6 order-panel">
@@ -88,134 +88,85 @@
                 <h2>车辆详情</h2>
                 <div class="row">
                     <div class="col-lg-6">
-                        <div class="report-panel">
-                            <div class="title">排除重大事故检测</div>
-                            <div>
-                                <div v-for="(ok, key) in report" :key="key"
-                                    v-if="(conf = report_structure[key]) && conf.cat == 'major_accident'"
-                                    :class="'col-lg-4 report-item ' + ( !ok ? 'muted' : '')">
-                                <span v-if="ok" class="fa fa-check"></span>
-                                <span v-else class="fa fa-minus"></span> {{conf.display_name}}
-                                </div>
-                            </div>
-                        </div>
+                        <ReportPanel 
+                            :report='report' 
+                            :reportStructure='report_structure' 
+                            title='排除重大事故检测2' 
+                            cat='major_accident'
+                        />
                     </div>
                     <div class="col-lg-6">
-                        <div class="report-panel">
-                            <div class="title">泡水火烧检测</div>
-                            <div>
-                                <div v-for="(ok, key) in report" :key="key"
-                                    v-if="(conf = report_structure[key]) && conf.cat == 'soaking_and_roasting'"
-                                    :class="'col-lg-4 report-item ' + ( !ok ? 'muted' : '')">
-                                <span v-if="ok" class="fa fa-check"></span>
-                                <span v-else class="fa fa-minus"></span> {{conf.display_name}}
-                                </div>
-                            </div>
-                        </div>
+                        <ReportPanel 
+                            :report='report' 
+                            :reportStructure='report_structure' 
+                            title='外部配置检测' 
+                            cat='surface_peripheral'
+                        />
                     </div>
                     <div class="col-lg-6">
-                        <div class="report-panel">
-                            <div class="title">轻微碰撞检测</div>
-                            <div>
-                                <div v-for="(ok, key) in report" :key="key"
-                                    v-if="(conf = report_structure[key]) && conf.cat == 'minor_crash'"
-                                    :class="'col-lg-4 report-item ' + ( !ok ? 'muted' : '')">
-                                <span v-if="ok" class="fa fa-check"></span>
-                                <span v-else class="fa fa-minus"></span> {{conf.display_name}}
-                                </div>
-                            </div>
-                        </div>
+                        <ReportPanel 
+                            :report='report' 
+                            :reportStructure='report_structure' 
+                            title='泡水火烧检测' 
+                            cat='soaking_and_roasting'
+                        />
                     </div>
                     <div class="col-lg-6">
-                        <div class="report-panel">
-                            <div class="title">易损耗部件检测</div>
-                            <div>
-                                <div v-for="(ok, key) in report" :key="key"
-                                    v-if="(conf = report_structure[key]) && conf.cat == 'consumable'"
-                                    :class="'col-lg-4 report-item ' + ( !ok ? 'muted' : '')">
-                                <span v-if="ok" class="fa fa-check"></span>
-                                <span v-else class="fa fa-minus"></span> {{conf.display_name}}
-                                </div>
-                            </div>
-                        </div>
+                        <ReportPanel 
+                            :report='report' 
+                            :reportStructure='report_structure' 
+                            title='轻微碰撞检测' 
+                            cat='minor_crash'
+                        />
                     </div>
                     <div class="col-lg-6">
-                        <div class="report-panel">
-                            <div class="title">安全系统检测</div>
-                            <div>
-                                <div v-for="(ok, key) in report" :key="key"
-                                    v-if="(conf = report_structure[key]) && conf.cat == 'security_system'"
-                                    :class="'col-lg-4 report-item ' + ( !ok ? 'muted' : '')">
-                                <span v-if="ok" class="fa fa-check"></span>
-                                <span v-else class="fa fa-minus"></span> {{conf.display_name}}
-                                </div>
-                            </div>
-                        </div>
+                        <ReportPanel 
+                            :report='report' 
+                            :reportStructure='report_structure' 
+                            title='易损耗部件检测' 
+                            cat='consumable'
+                        />
                     </div>
                     <div class="col-lg-6">
-                        <div class="report-panel">
-                            <div class="title">外部配置检测</div>
-                            <div>
-                                <div v-for="(ok, key) in report" :key="key"
-                                    v-if="(conf = report_structure[key]) && conf.cat == 'surface_peripheral'"
-                                    :class="'col-lg-4 report-item ' + ( !ok ? 'muted' : '')">
-                                <span v-if="ok" class="fa fa-check"></span>
-                                <span v-else class="fa fa-minus"></span> {{conf.display_name}}
-                                </div>
-                            </div>
-                        </div>
+                        <ReportPanel 
+                            :report='report' 
+                            :reportStructure='report_structure' 
+                            title='安全系统检测' 
+                            cat='security_system'
+                        />
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <ReportPanel 
+                            :report='report' 
+                            :reportStructure='report_structure' 
+                            title='内部配置检测' 
+                            cat='inner_peripheral'
+                        />
                     </div>
                     <div class="col-lg-6">
-                        <div class="report-panel">
-                            <div class="title">内部配置检测</div>
-                            <div>
-                                <div v-for="(ok, key) in report" :key="key"
-                                    v-if="(conf = report_structure[key]) && conf.cat == 'inner_peripheral'"
-                                    :class="'col-lg-4 report-item ' + ( !ok ? 'muted' : '')">
-                                <span v-if="ok" class="fa fa-check"></span>
-                                <span v-else class="fa fa-minus"></span> {{conf.display_name}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="report-panel">
-                            <div class="title">灯光系统检测</div>
-                            <div>
-                                <div v-for="(ok, key) in report" :key="key"
-                                    v-if="(conf = report_structure[key]) && conf.cat == 'lighting_system'"
-                                    :class="'col-lg-4 report-item ' + ( !ok ? 'muted' : '')">
-                                <span v-if="ok" class="fa fa-check"></span>
-                                <span v-else class="fa fa-minus"></span> {{conf.display_name}}
-                                </div>
-                            </div>
-                        </div>
+                        <ReportPanel 
+                            :report='report' 
+                            :reportStructure='report_structure' 
+                            title='灯光系统检测' 
+                            cat='lighting_system'
+                        />
                     </div>
                      <div class="col-lg-6">
-                        <div class="report-panel">
-                            <div class="title">高科技配置检测</div>
-                            <div>
-                                <div v-for="(ok, key) in report" :key="key"
-                                    v-if="(conf = report_structure[key]) && conf.cat == 'high_tech'"
-                                    :class="'col-lg-4 report-item ' + ( !ok ? 'muted' : '')">
-                                <span v-if="ok" class="fa fa-check"></span>
-                                <span v-else class="fa fa-minus"></span> {{conf.display_name}}
-                                </div>
-                            </div>
-                        </div>
+                         <ReportPanel 
+                            :report='report' 
+                            :reportStructure='report_structure' 
+                            title='高科技配置检测' 
+                            cat='high_tech'
+                        />
                     </div>
                     <div class="col-lg-6">
-                        <div class="report-panel">
-                            <div class="title">随车工具检测</div>
-                            <div>
-                                <div v-for="(ok, key) in report" :key="key"
-                                    v-if="(conf = report_structure[key]) && conf.cat == 'tool'"
-                                    :class="'col-lg-4 report-item ' + ( !ok ? 'muted' : '')">
-                                <span v-if="ok" class="fa fa-check"></span>
-                                <span v-else class="fa fa-minus"></span> {{conf.display_name}}
-                                </div>
-                            </div>
-                        </div>
+                        <ReportPanel 
+                            :report='report' 
+                            :reportStructure='report_structure' 
+                            title='随车工具检测' 
+                            cat='tool'
+                        />
                     </div>
                 </div>
             </div>
@@ -225,9 +176,10 @@
 
 <script>
 import Nav from "../components/Nav";
+import ReportPanel from "../components/ReportPanel";
 import api from "../lib/api";
 export default {
-  components: { Nav },
+  components: { Nav,ReportPanel },
   data(){
       return {
           detail:{},
@@ -333,25 +285,5 @@ export default {
 .vehicle-detail h2,
 .vehicle-detail .report-panel  .title {
     text-align: center;
-}
-
-.vehicle-detail .report-panel {
-    border: 1px solid #0B5A81;
-    margin:  5px;
-}
-.vehicle-detail .report-panel  .title {
-    font-size: 1.2rem;
-    background: rgba(0, 0, 0, .09);
-    border-bottom: 1px solid rgba(0, 0, 0, .09);
-    padding: 10px 0;
-}
-.vehicle-detail .report-panel  .report-item {
-    padding: 10px;
-}
-.vehicle-detail .report-panel .report-item.muted {
-    color: #aaa;
-  }
-.fa-check {
-    color: #0B5A81;
 }
 </style>
