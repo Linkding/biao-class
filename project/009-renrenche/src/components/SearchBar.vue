@@ -1,6 +1,6 @@
 <template>
     <form class="search-bar" @submit="submit($event);search($event)">
-        <input @keyup="change()" type="search" placeholder="请输入关键字" autofocus v-model="keyword">
+        <input @keyup="change()" type="search" placeholder="请输入关键字"  v-model="keyword">
         <button type="submit">🔍</button>
     </form>
 </template>

@@ -78,6 +78,26 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row-panel" v-if="!appointed_appo">
+                            <div v-if="!show_appo">
+                                <button @click="show_appo = true">预约看车</button>
+                                &nbsp;<span class="tel">400-080-5027</span>
+                            </div>
+                            <form v-if="show_appo" @submit="submit_appo">
+                                <div class="input-control">
+                                    <label for="appointed_at">预约时间</label>
+                                    <input v-validator="'required'" id="appointed_at" type="date" v-model="appo.appointed_at">
+                                </div>
+                                <div class="input-control btn-group">
+                                    <button type="submit" class="btn-primary">预约</button>
+                                    <button type="button" @click="show_appo=false">取消</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div v-else>
+                            <button>已预约</button>
+                            <p>{{appointed_appo.appointed_at}}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -178,17 +198,21 @@
 import Nav from "../components/Nav";
 import ReportPanel from "../components/ReportPanel";
 import api from "../lib/api";
+import session from '../lib/session';
 export default {
   components: { Nav,ReportPanel },
   data(){
       return {
-          detail:{},
-          select_preview:0,
-          report:{},
-          report_structure:{},
-          with:[
-              {model:'location',type:"has_one"}
-          ]
+            show_appo:false,
+            appo:{},
+            appointed_appo : {},
+            detail:{},
+            select_preview:0,
+            report:{},
+            report_structure:{},
+            with:[
+                {model:'location',type:"has_one"}
+            ]
       }
   },
   mounted() {
@@ -196,33 +220,55 @@ export default {
       this.find(id);
       this.find_report_by_vehicle(id);
       this.get_report_structure();
+      this.prepare_appo_row();
+      this.has_appointed();
   },
   methods:{
-      get_id(){
-         return this.$route.params.id 
-      },
-      find(id){
-          api('vehicle/find',{id,with:this.with})
-            .then(r=>{
-                this.detail = r.data
-                console.log('find this.list',this.list);
+        prepare_appo_row(){
+            this.appo.vehicle_id = this.get_id();
+            // console.log('session.uinfo()',session.uinfo());
+            this.appo.user_id = session.uinfo().id;
+        },
+        submit_appo(e){
+            e.preventDefault();
+            api('appo/create',this.appo)
+                .then(r=>{
+                    this.has_appointed();
+                })
+        },
+        has_appointed(){
+            let row = this.appo;
+            let query = `where("vehicle_id" = ${row.vehicle_id} and "user_id" = ${row.user_id})`;
+            api('appo/read',{query})
+                .then(r=>{
+                    this.appointed_appo = r.data[0];
+                })
+        },
+        get_id(){
+            return this.$route.params.id 
+        },
+        find(id){
+            api('vehicle/find',{id,with:this.with})
+                .then(r=>{
+                    this.detail = r.data
+                    console.log('find this.list',this.list);
+                })
+        },
+        find_report_by_vehicle(vid){
+            api('report/first',{
+                where:{
+                    vehicle_id:vid, 
+                }
+            }).then(r=>{
+                this.report = r.data;
             })
-      },
-      find_report_by_vehicle(vid){
-          api('report/first',{
-              where:{
-                 vehicle_id:vid, 
-              }
-          }).then(r=>{
-              this.report = r.data;
-          })
-      },
-      get_report_structure(){
-          api('MODEL/FIND',{name:'report'})
-            .then(r=>{
-                this.report_structure = r.data.structure;
-            })
-      }
+        },
+        get_report_structure(){
+            api('MODEL/FIND',{name:'report'})
+                .then(r=>{
+                    this.report_structure = r.data.structure;
+                })
+        }
   }
 };
 </script>

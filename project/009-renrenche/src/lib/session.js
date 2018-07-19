@@ -8,14 +8,14 @@ function logout(url){
 }
 function login(row){
     localStorage.setItem('uinfo',JSON.stringify(row))
-    if(row.username == 'admin'){
-        this.$router.push('/admin/user')
-    }else{
-        this.$router.push('/')
-    }
+}
+function is_admin(){
+    let info = this.uinfo();
+    return info && this.uinfo().is_admin;
 }
 export default {
     uinfo,
     logout,
     login,
+    is_admin,
 }

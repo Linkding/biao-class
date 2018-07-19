@@ -17,7 +17,9 @@ import Brand from './page/admin/Brand';
 import Model from './page/admin/Model';
 import Design from './page/admin/Design';
 import Report from './page/admin/Report';
+import Appo from './page/admin/Appo';
 
+import session from './lib/session';
 
 import Me from './page/settings/Me';
 
@@ -25,6 +27,8 @@ import SettingNav from './components/SettingNav';
 import DropDown from './components/DropDown';
 import SearchBar from './components/SearchBar';
 import Location from './components/Location';
+
+import Focus from './directive/focus';
 
 Vue.config.productionTip = false;
 
@@ -64,12 +68,25 @@ const router = new VueRouter({
         { path: 'model', component: Model },
         { path: 'design', component: Design },
         { path: 'report', component: Report },
+        { path: 'appo', component: Appo },
       ]
     }
   ]
 });
 
+router.beforeEach((to, from, next) => {
+  let go_admin = to.fullPath.startsWith('/admin/');
+ 
+  if(go_admin && !session.is_admin()){
+    next('/login')
+  }else {
+    next()
+  }
+});
+
+
 new Vue({
+  directives:{Focus},
   render: h => h(Root),
   router: router,
 }).$mount('#root');
