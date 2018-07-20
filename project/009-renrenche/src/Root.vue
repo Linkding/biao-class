@@ -7,7 +7,7 @@
     <!-- <Login/> -->
     <!-- <Detail/> -->
     <!-- <Home/> -->
-    <!-- <DropDown :api="'vehicle.title'" :showInput="true" :displayKey="'title'"/> -->
+    <!-- <DropDown :list="tmp" :showInput="true" :displayKey="'name'" /> -->
     <!-- <SearchBar/> -->
     <!-- <SearchResult/> -->
     <!-- <Vehicle/> -->
@@ -23,6 +23,15 @@ import DropDown from './components/DropDown.vue';
 export default {
   name: 'root',
   // components:{DropDown},
+  data(){
+    return{
+      tmp:[
+        {name:'lxb1'},
+        {name:'lxb2'},
+        {name:'lxb3'},
+      ]
+    }
+  },
   methods:{
     yo(i){
       console.log(i)
