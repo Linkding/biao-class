@@ -14,10 +14,10 @@
                     <div>市</div>
                     <div :class="{active: lo.id  == current.city,item:true}" @click="select(lo)" v-for="(lo,index) in location.city"  :key="index">{{lo.name}}</div>
                 </div>
-                <div class="col-lg-4 step">
+                <!-- <div class="col-lg-4 step">
                     <div>区</div>
                     <div :class="{active: lo.id  == current.region,item:true}" @click="select(lo)" v-for="(lo,index) in location.region"  :key="index">{{lo.name}}</div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

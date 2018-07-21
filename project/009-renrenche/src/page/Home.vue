@@ -124,11 +124,15 @@
                 </div>
                 <div class="detail">
                   <div class="title">{{row.title}}</div>
-                  <div class="desc">{{row.birth_day}} / {{row.consumed_distance}}万公里</div>
+                  <div class="desc">{{row.birth_day|only_day}} / {{row.consumed_distance}}万公里</div>
                   <div class="other">
-                    <span class="price">{{row.price}}万</span>
-                    <span class="f-pay">首付{{row.price }}万</span>
-                    <router-link :to="'/detail/' + row.id" class="btn">购买</router-link>
+                    <div class="col-lg-6">
+                      <span class="price">{{row.price}}万</span>
+                      <span class="f-pay">首付{{row.price }}万</span>
+                    </div>
+                    <div class="col-lg-6 right">
+                      <router-link :to="'/detail/' + row.id" class="link">详情</router-link>
+                    </div>
                   </div>
                 </div>
             </div>
@@ -347,6 +351,5 @@ export default {
 .vehicle-nav .item:hover {
   background: rgba(0, 0, 0, 0.4);
 }
-
 
 </style>

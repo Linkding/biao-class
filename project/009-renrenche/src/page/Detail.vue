@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row-panel" v-if="!appointed_appo">
+                        <div class="row-panel appo" v-if="!appointed_appo.appointed_at">
                             <div v-if="!show_appo">
                                 <button @click="show_appo = true">预约看车</button>
                                 &nbsp;<span class="tel">400-080-5027</span>
@@ -241,7 +241,8 @@ export default {
             let query = `where("vehicle_id" = ${row.vehicle_id} and "user_id" = ${row.user_id})`;
             api('appo/read',{query})
                 .then(r=>{
-                    this.appointed_appo = r.data[0];
+                    if(r.success)
+                        this.appointed_appo = r.data[0];
                 })
         },
         get_id(){
@@ -327,6 +328,15 @@ export default {
     padding: 0 2px;
 }
 
+.sell-area .order-panel .appo button
+{
+    vertical-align: middle;
+}
+.sell-area .order-panel .appo label,
+.sell-area .order-panel .appo .tel {
+    font-size: 1.1rem;
+    color: #0B5A81;
+}
 /* 车辆详情 */
 .vehicle-detail h2,
 .vehicle-detail .report-panel  .title {

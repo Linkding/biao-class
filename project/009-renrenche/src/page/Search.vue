@@ -113,7 +113,7 @@
                             </div>
                             <div class="detail">
                             <div class="title">{{row.title}}</div>
-                            <div class="desc">{{row.birth_day}} / {{row.consumed_distance}}万公里</div>
+                            <div class="desc">{{row.birth_day|only_day}} / {{row.consumed_distance}}万公里</div>
                             <div class="other">
                                 <span class="price">{{row.price}}万</span>
                                 <span class="f-pay">首付{{row.price }}万</span>
@@ -223,7 +223,6 @@ export default {
           break;
       }
       this.$router.replace({ query });
-      this.search();
     },
     prepare_search_param() {
       let query = this.parse_route_query();
@@ -255,6 +254,8 @@ export default {
         page: p.page
       }).then(r => {
         this.result = r.data;
+        console.log('this.result',this.result);
+        
         this.total = r.total;
       });
     },
@@ -323,7 +324,7 @@ export default {
   },
   mounted() {
     this.search_param = this.$route.query;
-    // this.prepare_search_param();
+    this.prepare_search_param();
     this.read("brand");
     this.read("model", 9);
     this.search();
@@ -364,7 +365,7 @@ export default {
   padding: 0 5px;
 } */
 .range span {
-  padding: 3px;
+  padding: 3px 5px;
 }
 .active {
   background: #0b5a81;
