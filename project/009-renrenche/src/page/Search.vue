@@ -76,7 +76,14 @@
                             更多
                         </div>
                         <div class="col-lg-10 range">
-                            <DropDown  :list="design_list" :itemTitle="'车型'" :onSelect="onSelectDesign" />
+							<div class="col-lg-3">
+                            	<DropDown  :list="design_list" 
+											:itemTitle="'车型'" 
+											:onSelect="onSelectDesign" 
+											:showItemTitle="true" 
+											Width="100"
+								/>
+							</div>
                         </div>
                         <div class="col-lg-1 prop right">全部</div>
                     </div>
@@ -181,7 +188,6 @@ export default {
         this.$router.replace({query})
     },
     onSelectDesign(row) {
-      console.log(222);
       this.set_condition("design_id", row.id);
     },
     read_design() {
@@ -353,10 +359,10 @@ export default {
   vertical-align: middle;
 }
 
-.range > * {
+/* .range > * {
   margin: 0 5px;
   padding: 0 5px;
-}
+} */
 .range span {
   padding: 3px;
 }

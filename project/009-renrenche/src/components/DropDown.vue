@@ -1,14 +1,14 @@
 <template>
-    <div @mouseleave="show_menu = false" class="row dropdown">
+    <div @mouseleave="show_menu = false" class="row dropdown" :style="{width:Width + 'px'}">
         <input  v-if="showInput" type="search"
           @keyup="show_menu=true"
           @focus="show_menu=true"
           v-model="keyword"
           placeholder="请搜索"
         >
-        <div v-if="show_menu" class="drop-area">
+        <div @mouseenter="show_menu=true" class="drop-area">
           <div v-if="showItemTitle"   class="drop-title">{{selected?selected[displayKey]:itemTitle?itemTitle:'请选择'}}</div>
-          <div v-if=" result.length" class="drop-item">
+          <div v-if="result.length&& show_menu" class="drop-item">
               <div @click="select(row)" v-for="(row,index) in  result" :key='index'>{{row[displayKey]}}</div>
           </div>
         </div>
@@ -18,6 +18,7 @@
 import api from "../lib/api";
 export default {
   props: {
+    Width:'',
     showItemTitle:{default:false}, //是否显示下拉框标题
     itemTitle: {}, //下拉选项框默认标题名字
     showInput: {   //是否显示搜索框
@@ -96,8 +97,10 @@ export default {
     // 点击选项时触发的函数
     select(row) {
       this.selected = row;
+
+      if(this.showInput)
+        this.keyword = row[this.displayKey];
       
-      this.keyword = row[this.displayKey];
       if (this.onSelect)
         this.onSelect(row);
     },
@@ -152,6 +155,8 @@ export default {
     list(n) {
       this.list = n;
       this.result = this.list;
+      console.log('this.result111',this.result);
+      
     },
     change_item_title() {
       if (!itemTitle) {
@@ -166,29 +171,37 @@ export default {
 };
 </script>
 <style>
+.drop-area,
+.dropdown input,
+.drop-title,
+.drop-item {
+  width: 100%;
+}
 .drop-area {
+  z-index: 20;
+  position: absolute;
   opacity: .9;
 }
 .dropdown {
   position: relative;
-  display: inline-block;
+  /* display: inline-block; */
   /* margin: 10px; */
 }
 .dropdown input {
-  width: 100%;
   padding: 3px 5px;
   display: inline-block;
 }
 .drop-title,
 .drop-item {
   background: #fff;
-  width: 100%;
   padding: 2px;
   display: block;
   font-size: 1rem;
   border: 1px solid #d9e1e5;
 }
-
+.dropdown:hover .drop-title {
+  border-bottom: 0;
+}
 .dropdown:hover .drop-item,
 .dropdown:hover .drop-title {
   border-color: #0b5a81;

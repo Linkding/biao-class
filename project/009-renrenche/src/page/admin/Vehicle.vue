@@ -122,14 +122,17 @@
                                 </div>
                                 <div class="input-control">
                                     <label>品牌 {{current.brand_id}}</label>
-                                    <DropDown :list="brand_list"
+                                    <DropDown 
+                                        :list="brand_list"
+                                        :showInput="true"
                                         :onSelect="set_brand_id"
                                         ref="edit_vehicle_brand"
                                     />
                                 </div>
                                 <div class="input-control">
                                     <label>车系 {{current.model_id}}</label>
-                                    <DropDown :list="model_list"
+                                    <DropDown 
+                                        :list="model_list"
                                         :showInput="true"
                                         :api="'model.name'"
                                         :onSelect="set_model_id"
@@ -139,7 +142,9 @@
                                 </div>
                                 <div class="input-control">
                                     <label>车型 {{current.design_id}}</label>
-                                    <DropDown :list="design_list"
+                                    <DropDown
+                                        :showInput="true"
+                                        :list="design_list"
                                         :onSelect="set_design_id"
                                         ref="edit_vehicle_design"
                                         
@@ -338,6 +343,7 @@ input {
 }
 .input-box > * {
     display: inline-block;
+    padding-right:10px;
 }
 button:hover {
   background: #181818;

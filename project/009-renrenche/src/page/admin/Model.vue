@@ -25,7 +25,12 @@
                             </div>
                             <div class="input-control">
                                 <label>品牌号</label>
-                                <DropDown :list="brand_list" :onSelect="set_brand_id" ref="edit_brand"/>
+                                <DropDown 
+                                    :showInput="true"
+                                    :list="brand_list" 
+                                    :onSelect="set_brand_id"
+                                    ref="edit_brand"
+                                />
                                 <!-- <select v-model="current.brand_id">
                                     <option v-for="brand in brand_list" :key="brand.id" :value="brand.id">{{brand.name}}</option>
                                 </select> -->
@@ -33,7 +38,12 @@
                             </div>
                              <div class="input-control">
                                 <label>车型</label>
-                                <DropDown :list="design_list" :onSelect="set_design_id" ref="edit_design"/>
+                                <DropDown 
+                                    :showInput="true"
+                                    :list="design_list" 
+                                    :onSelect="set_design_id" 
+                                    ref="edit_design"
+                                />
                                 <!-- <select v-model="current.brand_id">
                                     <option v-for="brand in brand_list" :key="brand.id" :value="brand.id">{{brand.name}}</option>
                                 </select> -->
