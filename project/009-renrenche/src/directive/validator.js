@@ -385,9 +385,9 @@ export default Vue.directive('validator', {
     // 先拿到字符串验证规则
     let rule = binding.value; // 'required|username|min_length:4'
 
-    let selector = el.getAttribute('error-el'); // 用于显示错误信息的选择器
-    let error_el = document.querySelector(selector); // 用于显示错误信息的元素
-
+    let selector = el.getAttribute('error-el'); // 用于显示错误信息的选择器 'error-el="#name-error"'
+    let error_el = document.querySelector(selector); // 用于显示错误信息的元素 'document.querySelector('#name-error')'
+    //如果没有定义error-el，则创建一个
     if (!error_el) {
       error_el = document.createElement('div');
       error_el.classList.add('error-list');
@@ -398,7 +398,7 @@ export default Vue.directive('validator', {
     if (typeof rule === 'string')
       rule = parse_string_rule(binding.value); // {required: true, min_length: 4}
 
-    // @var {HTMLFormElement} 当前指令所属表单
+    // @var {HTMLFormElement} 当前指令(validator)所属表单
     let el_form = el.closest('form');
 
     // 将表单内所有input的状态存在当前<input>所在的<form>上，如果没有存过，就初始化
