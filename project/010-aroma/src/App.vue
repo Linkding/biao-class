@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Home/>
+    <router-view></router-view>
+    <!-- <Home/> -->
+    <!-- <Search/> -->
     <!-- <img src="./assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
@@ -9,13 +11,15 @@
 <script>
 import HelloWorld from './components/HelloWorld.vue'
 import Home from './page/Home.vue'
+import Search from './page/Search.vue'
 
 export default {
   name: 'app',
-  components: {
-    HelloWorld,
-    Home,
-  }
+  // components: {
+  //   HelloWorld,
+  //   Home,
+  //   Search,
+  // }
 }
 </script>
 
