@@ -58,11 +58,11 @@
                     </div>
                     <div v-show="cat_panel == 'winetool'" class="winetool">
                         <div class="panel">
-                            <div class="col-lg-1 title">功能</div> 
+                            <div class="col-lg-1 title">类型</div> 
                             <div class="col-lg-11 link-group">
-                                <span>开瓶器</span>
                                 <span>泡杯</span>
                                 <span>醒酒器</span>
+                                <span>开瓶器</span>
                                 <span>酒架</span>
                                 <span>瓶嘴</span>
                             </div>
@@ -98,6 +98,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div>
+
             </div>
         </div>
     </div>

@@ -1,22 +1,38 @@
+<script src="../../node_modules/axios/dist/axios.js"></script>
+<script src="./api.js"></script>
 <script>
-    let wine={
+    let model={
         name:'wine',
         structure:{
-            name:{
+            name:{            //名字
                 type:'string',
                 nullable:true,
             },
-            year:{
+            year:{             //年份
                 type:'string',
                 nullable:true,
             },
-            type_id:{
+            breed_id:{          //葡萄品种id
+                type:'integer',
+                nullable:true,
+            },
+            location_id:{      //地区id
+                type:'integer',
+                nullable:true,
+            },
+            price:{            //价格
+                type:'integer',
+                nullable:true,
+            },
+            new:{            //是否是新酒
+                type:'boolean',
+                nullable:true,
+            },
+            store:{            //库存
                 type:'integer',
                 nullable:true,
             },
         }
     }
-    api('MODEL/CREATE',{
-        
-    })
+    api('MODEL/CREATE',model)
 </script>

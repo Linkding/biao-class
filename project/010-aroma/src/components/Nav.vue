@@ -1,5 +1,5 @@
 <template>
-    <div :class="['container' , 'nav' , is_poa?'poa':'']">
+    <div :style="{marginBottom: this.pushDown ? '20px': 0,}" :class="['container' , 'nav' , is_poa?'poa':'']">
         <div class="col logo">
             <img src="../assets/img/logo02.png" alt="">
         </div>
@@ -20,6 +20,9 @@
         props:{
             is_poa:{
                 default:false,
+            },
+            pushDown: {
+                default: false
             }
         }
     }

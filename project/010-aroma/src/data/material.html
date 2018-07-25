@@ -1,0 +1,14 @@
+<script src="../../node_modules/axios/dist/axios.js"></script>
+<script src="./api.js"></script>
+<script>
+        let model={
+            name:'material',        //酒具材质
+            structure:{
+                name:{            //材质名称
+                    type:'string',
+                    nullable:true,
+                },
+            }
+        }
+        api('MODEL/CREATE',model)
+    </script>

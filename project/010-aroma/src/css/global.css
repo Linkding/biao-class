@@ -147,29 +147,28 @@ hr {
 
 /* ==========btn========= */
 
-input, button {
-    padding: 4px;
-    font-size: 1rem;
-    border: 1px solid rgba(0, 0, 0, .1);
-    vertical-align: top;
-    outline: 0;
+input,
+button {
+  padding: 5px;
+  font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, .1);
+  vertical-align: top;
+  outline: 0;
 }
 
 .input-control {
-    display: inline-block;
+    margin: 10px 0;
 }
 
-.input-control>* {
+.input-control > *{
     vertical-align: middle;
-    padding-right: 8px;
-    font-size: 1rem;
+    /* padding-right: 8px; */
 }
 
 .input-control label {
     display: block;
     padding: 2px;
 }
-
 .btn-primary {
     /* background: #fd521d; */
     color: #1e1e1e;
