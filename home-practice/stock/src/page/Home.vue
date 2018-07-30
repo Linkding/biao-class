@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Login ref="onShow"/>
+        <Login ref="onShow" @afterLogin="after_login_success"/>
         <div class="mask" v-if="show_trade">
              <div class="add_trade">
                 <div class="row header">
@@ -9,17 +9,19 @@
                         <div class="col-lg-5"> 
                             <button @click="show_trade_form = !show_trade_form">+添加交易</button>
                         </div>
-                        <div class="col-lg-2 right"><i class="fa fa-times" aria-hidden="true"  @click="close_trade_mask()"></i></div>
+                        <div class="col-lg-2 right" @click="close_trade_mask">
+                          <i class="fa fa-times" aria-hidden="true"></i>
+                        </div>
                     </div>
                     <div>
                         <form v-if="show_trade_form" @submit="cou_trade($event)">
                             <div class="input-control">
-                                <select v-model="current_trade.account_name">
-                                    <option v-for="(account,index) in account_list" :key="index" :value="account.name">{{account.name}}</option>
+                                <select v-model="current_trade.account_id">
+                                    <option v-for="(account,index) in account_list" :key="index" :value="account.id">{{account.name}}</option>
                                 </select>
                             </div>
                             <div class="input-control">
-                                <input type="text" placeholder="姓名" v-model="current_trade.user"/>
+                                <input type="text" placeholder="账户归属人" v-model="current_trade.account_belong"/>
                             </div>
                                 <div class="input-control">
                                 <input type="text" placeholder="股数" v-model="current_trade.shares"/>
@@ -48,13 +50,13 @@
                     <tbody>
                         <tr v-for="(row,index) in trade_list" :key="index">   
                             <td>{{index + 1}}</td>
-                            <td>{{row.account_name}}</td>
-                            <td>{{row.user}}</td>
+                            <td>{{row.$account.name}}</td>
+                            <td>{{row.account_belong}}</td>
                             <td>{{row.shares}}</td>
                             <td>{{row.cost}}</td>
                             <td>
                                 <span><button @click="update_trade(row)">更新</button></span>
-                                <span><button @click="remove_trade(row.id,on_click_stock.number)">删除</button></span>
+                                <span><button @click="remove_trade(row.id,on_click_stock.code)">删除</button></span>
                             </td>
                         </tr>
                     </tbody>
@@ -64,10 +66,10 @@
         <div class="container">
             <div>
                 <div class=" search-bar">
-                  <div class="col-lg-8">
-                    
+                  <div class="col-lg-8">                    
                     <form @submit="cou_stock($event)">
                         <div class="input-control">
+                            <!-- <DropDown :showInput="true" :api="'stack.code'"/> -->
                             <input type="text" placeholder="股票代码" v-model="current_stock.code">
                         </div>
                         <div class="input-control">
@@ -78,15 +80,21 @@
                         </div>
                     </form>
                   </div>
-                  <div class="col-lg-4 right">
-                    <button @click="toggle_login">登录</button>
+                  <div class="col-lg-4 right log" >
+                      <div v-if="username">
+                        <span class="username">{{username}}</span>
+                        <span class="logout" @click="logout">退出</span>
+                      </div>
+                      <button v-else @click="toggle_login">登录</button>
                   </div>
                 </div>
                 <div class="banner">
                     <div class="col-lg-3">持有市值：{{total_value}}</div>
                     <div class="col-lg-3">总盈亏：{{total_value}}</div>
                     <div class="col-lg-6 right">
-                      <button  @click="test()" type="submit"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                      <button  @click="update_real()" type="button">
+                          <i class="fas fa-sync-alt"></i>
+                      </button>
                     </div>
                 </div>
                 <table>
@@ -120,13 +128,19 @@
                             <td>{{ toPercent(math_round(row.cost,row.shares)/total_value )|| '-' }}</td>
                             <td>{{ row.gain_loss|| '-'  }}</td>
                             <td>
-                                <i class="fa fa-calculator" aria-hidden="true" @click="on_show_trade(row.name,row.code,index)" ></i>
+                              <div  @click="on_show_trade(row.name,row.code,index)" >
+                                <i class="fa fa-calculator" aria-hidden="true"></i>
+                              </div>
                             </td>
                             <td>
-                                <i class="fa fa-times" aria-hidden="true" @click="remove_stock(row.id)"></i>
+                              <div @click="remove_stock(row.id)">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                              </div>
                             </td>
                             <td>
+                              <div>
                                 <i class="fa fa-bars" aria-hidden="true"></i>
+                              </div>
                             </td>
                         </tr>
                     </tbody>
@@ -139,9 +153,11 @@
 import http from "../util/http";
 import helper from "../util/helper";
 import Login from "./Login";
+import Nav from '../components/Nav';
+// import DropDown from '../components/DropDown';
 
 export default {
-  components: { Login },
+  components: { Login,Nav },
   data() {
     return {
       show_trade_form: false, //输入trade数据表单
@@ -154,28 +170,34 @@ export default {
       stock_list: [],
       stock_code_list: [],
       real: [],
+      username:'',
+      user_id:'',
     };
   },
   methods: {
-    test(){
-      console.log('this.stock_code_list',this.stock_code_list);
-      
+    //获取最新股价
+    update_real(){
+      this.get_code_list();
       http.api(this.stock_code_list)
         .then(r=>{
-          this.real = r.data;
-          this.meger_real_to_stock();
+          this.real = r;
+          // this.meger_real_to_stock();
         })
+    },
+    //登录成功后
+    after_login_success(row){
+      this.username = row[0].name;
+      this.init_stock();
+    },
+    //退出
+    logout(){
+      helper.remove_ls('uinfo');
+      this.username = '';
     },
     //显示登录页面
     toggle_login() {
       this.$nextTick(() => {
         this.$refs.onShow.toggle_login();
-      });
-    },
-    read_real() {
-      http.api().then(r => {
-        this.real = r.data;
-        console.log("r", r);
       });
     },
     //四舍五入计算
@@ -195,31 +217,18 @@ export default {
       this.show_trade_form = false;
       this.current_trade = {};
     },
+    //点击打开交易记录
     on_show_trade(name, code, index) {
       this.show_trade = true;
       this.on_click_stock.name = name;
-      this.on_click_stock.number = code;
+      this.on_click_stock.code = code;
       this.on_click_stock.index = index;
 
       this.read_trade(code);
     },
-    cou_trade(e) {
-      e.preventDefault();
-      //更新前，获取对应股票的id和名字,以及用户id
-      this.current_trade.stock_code = this.on_click_stock.number;
-      this.current_trade.stock_name = this.on_click_stock.name;
-      this.current_trade.user_id = helper.get('user_id');
-
-      let action = this.current_trade.id ? "update" : "create";
-      http.post(`trade/${action}`, this.current_trade).then(r => {
-        this.read_trade(this.on_click_stock.number);
-        this.current_trade = {};
-      });
-
-      //更新后，将对应股的二次运算数据重算
-      this.update_cal_stock(this.on_click_stock.index, this.trade_list);
-    },
+    //计算对应股票需要二次运算数据
     update_cal_stock(index, list) {
+      
       //计算股票总数
       this.stock_list[index].shares = helper.math_round(
         helper.sum_arr_by_prop(list, "shares")
@@ -230,9 +239,27 @@ export default {
           this.stock_list[index].shares
       );
     },
+    cou_trade(e) {
+      e.preventDefault();
+      //更新前，获取对应股票的id和名字,以及用户id
+      this.current_trade.stock_code = this.on_click_stock.code;
+      this.current_trade.stock_name = this.on_click_stock.name;
+      this.current_trade.user_id = helper.get('user_id');
+
+      let action = this.current_trade.id ? "update" : "create";
+      http.post(`trade/${action}`, this.current_trade).then(r => {
+        this.read_trade(this.on_click_stock.code,
+                        this.on_click_stock.index,
+                        this.update_cal_stock);
+        this.current_trade = {};
+      });
+
+      //更新后，将对应股的二次运算数据重算
+      // this.update_cal_stock(this.on_click_stock.index, this.trade_list);
+    },
     cou_stock(e) {
       e.preventDefault();
-      this.current_stock.user_id = helper.get('user_id');
+      this.current_stock.user_id = this.user_id;
       let action = this.current_stock.id ? "update" : "create";
       http.post(`stock/${action}`, this.current_stock).then(r => {
         this.current_stock = {};
@@ -242,7 +269,9 @@ export default {
     remove_trade(id, code) {
       if (confirm("确定需要删除吗？"))
         http.post("trade/delete", { id }).then(r => {
-          this.read_trade(code);
+          this.read_trade(code,
+                          this.on_click_stock.index,
+                          this.update_cal_stock);
         });
     },
     remove_stock(id) {
@@ -255,9 +284,16 @@ export default {
       this.current_trade = row;
       this.show_trade_form = true;
     },
-    read_stock() {
-      http.post("stock/read").then(r => {
+    read_stock(on_success) {
+      console.log('11',11);
+      
+      http.post("stock/read",{
+        or:{user_id :this.user_id},
+        limit:50,
+      }).then(r => {
         this.stock_list = r.data;
+        if(on_success)
+          on_success();
       });
     },
     read_account() {
@@ -266,25 +302,33 @@ export default {
       });
     },
     read_trade(code, index, on_success) {
-      http.post("trade/search", { or: { stock_code: code } }).then(r => {
+      http.post("trade/search", { 
+        or: { stock_code: code } ,
+        with:[
+          {model:'account',type:'has_one'},
+          {model:'user',type:'has_one'},
+        ]
+        }).then(r => {
         this.trade_list = r.data;
+        
         if (on_success) on_success(index, this.trade_list);
       });
     },
     init_stock() {
-      http.post("stock/read").then(r => {
-        //获取stock数据
-        this.stock_list = r.data;
-        //获取所有的股票代码，并取得对应的trade数据,并计算得出需要二次运算得出的值
-        this.cal_stock_data();
-      });
+      this.is_login();
+
+      if(this.user_id){
+        this.read_stock(this.cal_stock_data);
+      }else {
+        this.toggle_login();
+      }
+
     },
     cal_stock_data() {
       let stock_list = this.stock_list;
 
       for (let i = 0; i < stock_list.length; i++) {
         let code = stock_list[i].code;
-        this.stock_code_list.push(code);//保存股票代码列表，留用
         this.read_trade(code, i, this.update_cal_stock);
       }
     },
@@ -298,6 +342,27 @@ export default {
         }
       }
     },
+    // 检查是否登录
+    is_login(){
+      let row = helper.get('uinfo');
+      if(!row)
+        return;      
+      this.username = row[0].name;
+      this.user_id = row[0].id;
+    },
+    // 获取当前股票代码
+    get_code_list(){
+      let stock_list = this.stock_list
+          ,len = stock_list.length
+          ;
+      // this.stock_code_list= [];
+
+      for (let i = 0; i < len; i++) {
+        let code = stock_list[i].code;
+        this.stock_code_list.push(code);
+      }
+      
+    }
   },
   computed: {
     total_value: function() {
@@ -307,9 +372,7 @@ export default {
   },
   mounted() {
     this.read_account();
-    // this.read_trade()
     this.init_stock();
-    // this.read_real();
   },
   watch: {
     real: {
@@ -390,5 +453,23 @@ table thead {
 }
 .banner button:hover {
   background: #E2D4C0;
+}
+
+
+.log span {
+  cursor: pointer;
+  vertical-align: middle;
+  margin-right: 8px;
+  padding: 5px;
+}
+
+
+.log .username {
+  font-size: 15px;
+  border-bottom: 1px solid rgba(0,0,0,.5); 
+}
+
+.log .logout {
+  font-size: 10px;
 }
 </style>

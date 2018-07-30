@@ -36,7 +36,7 @@
                                     <th>id</th>
                                     <th>股票代码</th>
                                     <th>股票名称</th>
-                                    <th>用户id</th>
+                                    <th>用户</th>
                                     <th>操作</th>
                                 </thead>
                                 <tbody>
@@ -55,6 +55,7 @@
                         </div>
                         <!-- <pagination :limit="limit" :totalCount="total" :onChange="on_page_change"/> -->
                 </div>
+                 <pagination :limit="limit" :totalCount="total" :onChange="on_page_change"/>
             </div>
         </div>
     </div>

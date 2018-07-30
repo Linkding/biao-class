@@ -1,113 +1,152 @@
 <template>
     <div v-if="show_login" class="mask">
-        <div class="login-wrap">
+        <div :class="'login-wrap ' + (auth_by == 'signup'?'signup':'')">
             <div class="banner">
                 <div class="close" @click="toggle_login"><i class="fa fa-times" aria-hidden="true"></i></div>
             </div>
             <div class="main">
-                <div v-if="show_login_form" class="header">
-                    <span @click="is_active_login=true ; is_active_2=false" :class="{'col-lg-2':true, 'login':true,'active':is_active_login}">账号登录</span>
-                    <span @click="is_active_login=false ; is_active_2=true"  :class="{'col-lg-2':true, 'login':true,'active':is_active_2}">账号验证</span>
-                    <span class="col-lg-8 signup right" @click="toggle_auth">注册</span>
+                <div class="header">
+                    <span @click="auth_by='login'" :class="'col-lg-6 ' + (auth_by == 'login'? 'active':'')">登录</span>
+                    <span @click="auth_by='signup'" :class="'col-lg-6 ' + (auth_by == 'signup'? 'active':'')">注册</span>
                 </div>
-                <div v-if="show_sign_form" class="header">
-                    <span @click="is_active_login=true ; is_active_2=false" :class="{'col-lg-2':true, 'login':true,'active':is_active_login}">注册</span>
-                    <span @click="is_active_login=false ; is_active_2=true"  :class="{'col-lg-2':true, 'login':true,'active':is_active_2}">账号验证</span>
-                    <span class="col-lg-8 signup right" @click="toggle_auth">登录</span>
-                </div>
-                <form v-if="show_login_form" @submit="submit($event)">
+                <form v-if="auth_by == 'login'" :key="'login'" @submit="submit($event)">
                     <div class="input-control">
-                        <input id="username"
-                             type="text" placeholder="用户名"
-                             v-model="current.name">
+                        <input
+                            type="text" placeholder="用户名"
+                            v-model="current.name"
+                            v-validatorLogin="'required'"
+                            error-el="#username_error"
+                            autocomplete="off"
+                        >
                         <div class="error-list">
                             <div id="username_error"></div>
                         </div>
                     </div>
                     <div class="input-control">
                         <input id="password" type="password" 
-                             placeholder="密码">
+                            placeholder="密码"
+                            v-validatorLogin="'required|min_length:2|max_length:6'"
+                            error-el="#password-error" 
+                            v-model="current.password"                           
+                        >
                         <div class="error-list">
                             <div id="password-error"></div>
                         </div>
                     </div>
                     <div class="input-control">
-                        <button type="submit">登录</button>
+                        <button type="submit">
+                            <span >登录</span>
+                        </button>
                     </div>
                 </form>
-                <form v-if="show_sign_form" @submit="submit($event)">
+                <form v-if="auth_by == 'signup'" :key="'signup'" @submit="submit($event)">
                     <div class="input-control">
-                        <input id="username"
-                            v-validator="'required|max_length:10|username'"
+                        <input
+                            type="text" placeholder="用户名"
+                            v-model="current.name"
+                            v-validatorSignup="'required|not_exist:user,name'"
                             error-el="#username_error"
-                            error-lang="zh"
-                             type="text" placeholder="用户名"
-                             v-model="current.name">
+                            autocomplete="off"
+                        >
                         <div class="error-list">
                             <div id="username_error"></div>
                         </div>
                     </div>
                     <div class="input-control">
                         <input id="password" type="password" 
-                            v-validator="'required|min_length:2|max_length:24'"
-                            error-el="#password-error"
-                             placeholder="密码"
-                             >
-
+                            placeholder="密码"
+                            v-validatorSignup="'required|min_length:2|max_length:6'"
+                            error-el="#password-error" 
+                            v-model="current.password"                           
+                        >
                         <div class="error-list">
                             <div id="password-error"></div>
                         </div>
                     </div>
+                    <div  class="input-control">
+                        <input id="repassword" type="password" 
+                            placeholder="重复密码"
+                            v-validatorSignup="'required|shadow:#password'"
+                            error-el="#repassword-error"
+                            v-model="current.repassword"
+                        >
+                        <div class="error-list">
+                            <div id="repassword-error"></div>
+                        </div>
+                    </div>
+                     <div class="input-control">
+                        <input id="mail" type="text" 
+                            placeholder="邮箱"
+                            v-validatorSignup="'required|mail'"
+                            error-el="#mail-error" 
+                            v-model="current.mail"   
+                        >
+                        <div class="error-list">
+                            <div id="mail-error"></div>
+                        </div>
+                    </div>
                     <div class="input-control">
-                        <button type="submit">注册</button>
+                        <button type="submit">
+                            <span >注册</span>
+                        </button>
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </template>
 <script>
-import validator from "../directive/validator";
+import validatorLogin from "../directive/validator";
+import validatorSignup from "../directive/validator";
+
 import http from "../util/http";
 import helper from "../util/helper";
 export default {
-  directives: { validator },
-  data() {
-    return {
-      is_active_login: true,
-      is_active_2: false,
-      current: {},
-      user_id:'',
-      show_login: false,
-      show_sign_form:false,
-      show_login_form:true,
-    };
-  },
-  methods: {
-    toggle_auth(){
-        this.show_sign_form = !this.show_sign_form;
-        this.show_login_form = !this.show_login_form;
+    directives: { validatorLogin,validatorSignup },
+    data() {
+        return {
+            auth_by:'login',
+            current: {},
+            user_id:'',
+            show_login: false,
+        };
     },
-    toggle_login() {
-      this.show_login = !this.show_login;
-    },
-    submit(e) {
-      e.preventDefault();
-      http
-        .post("user/search", {
-          where: {
-            and: { name: this.current.name }
-          }
-        })
-        .then(r => {
-            if(r.data)
-                this.user_id = r.data[0].id;
-                helper.set('user_id',this.user_id);
-                this.show_login = false;
-        });
+    methods: {
+        toggle_login() {
+        this.show_login = !this.show_login;
+        this.current = {};
+        },
+        submit(e) {
+            e.preventDefault();
+            if(this.auth_by=='login'){
+                http.post("user/search", {
+                    where: {
+                        and: { name: this.current.name }
+                    }
+                    }).then(r => {
+                        let row = r.data
+                        if(row)
+                            delete row[0].password
+                            helper.set('uinfo',row);
+                            this.show_login = false;
+                            // 向父组件传递参数
+                            this.$emit('afterLogin',row)
+                    });
+            }else if(this.auth_by == 'signup'){
+                http.post('user/create',this.current)
+                    .then(r=>{
+                        console.log('r.data',r);
+                        console.log('r.success',r.success)
+                        let row = r;
+                        // this.toggle_login();
+                        this.show_login = false;
+                        this.$router.push('/');
+                        // 向父组件传递参数
+                        this.$emit('afterLogin',row)
+                    })
+            }
+        }
     }
-  }
 };
 </script>
 <style scoped>
@@ -135,6 +174,9 @@ export default {
   left: 30%;
   background: #fff;
 }
+.mask .login-wrap.signup {
+    height: 70%
+}
 .banner {
   width: 100%;
   height: 60px;
@@ -148,13 +190,14 @@ export default {
   padding: 5px;
   color: #a7aeb8;
 }
-.header .login,
-.header .signup {
+
+.header >*
+ {
   padding: 8px 0;
-}
-.header .login {
   font-size: 1.2rem;
+  text-align: center;
 }
+
 .header .active {
   border-bottom: 4px solid #cba58c;
   color: #111;

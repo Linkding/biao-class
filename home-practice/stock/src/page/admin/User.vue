@@ -27,12 +27,16 @@
                                 <thead>
                                     <th>id</th>
                                     <th>用户名称</th>
+                                    <th>密码</th>
+                                    <th>邮箱</th>
                                     <th>操作</th>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(row,index) in list" :key="index">
                                     <td>{{row.id}}</td>
                                     <td>{{row.name}}</td>
+                                    <td>{{row.password}}</td>
+                                    <td>{{row.mail}}</td>
                                     <td>
                                         <button @click="update(row)">编辑</button>
                                         <button @click="remove(row.id)">删除</button>

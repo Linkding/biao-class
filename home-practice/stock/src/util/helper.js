@@ -6,6 +6,7 @@ let helper = {
     toPercent,
     set,
     get,
+    remove_ls,
 }
 //计算单个属性之和
 function sum_arr_by_prop(arr, prop) {
@@ -49,5 +50,8 @@ function set(key,val){
 function get(key){
     let data = localStorage.getItem(key);
     return JSON.parse(data);
+}
+function remove_ls(key){
+    localStorage.removeItem(key);
 }
 export default helper

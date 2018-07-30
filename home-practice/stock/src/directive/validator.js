@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import http from '../util/http';
-// 使用此validator,form表单内必填
-//提交按钮必须为'type=submit'
+
 function parse_string_rule (str) {
   let rule = {};
 
@@ -57,6 +56,28 @@ const valid = {
 
     return true;
   },
+
+  /**
+   * 是否为邮箱
+   * @param val
+   * @param lang
+   */
+  mail (val, lang) {
+    const lang_conf = {
+      zh : '不合法的邮箱',
+      en : 'Invalid email',
+    };
+
+    let re = /[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+/;
+
+
+    if (!re.test(val))
+      throw lang_conf[ lang ];
+
+    return true;
+  },
+
+
   /**
    * 是否为数字
    * @param val
@@ -68,10 +89,35 @@ const valid = {
       en : 'Invalid number',
     };
 
-    if ((val) != val)
+    if (parseFloat(val) != val)
       throw lang_conf[ lang ];
 
     return true;
+  },
+
+  cellphone (val, lang) {
+    const lang_conf = {
+      zh : '不合法的手机号',
+      en : 'Invalid phone number',
+    };
+
+    if (!this.numeric(val, lang) || !this.length(val, lang, 11))
+      throw lang_conf[ lang ];
+
+    return true;
+  },
+
+  length (val, lang, len) {
+    const lang_conf = {
+      zh : '不合法的长度，长度需等于' + len + '位',
+      en : 'Invalid field length, length should equals to ' + len,
+    };
+
+    val = val.toString();
+    if (val.length == len)
+      return true;
+
+    throw lang_conf[ lang ];
   },
 
   /**
@@ -94,9 +140,29 @@ const valid = {
     return r;
   },
 
-  not_exist (val, lang, model, property) {
+  /**
+   * 是否与指定input一致
+   * @param val
+   * @return {boolean}
+   */
+  shadow (val, lang, selector) {
+    const lang_conf = {
+      zh : '两次输入不一致',
+      en : 'Inconsistent double inputs',
+    };
+
+    let reference = document.querySelector(selector);
+    let value     = reference.value;
+
+    if (value !== val)
+      throw lang_conf[ lang ];
+
+    return true;
+  },
+
+  not_exist (val, lang, model, property, except) {
     return new Promise((s, j) => {
-      if (!val)
+      if (!val || val == except)
         s();
 
       return http.post(`${model}/first`, { where : { and : { [ property ] : val } } })
@@ -213,7 +279,11 @@ function enable_submit (el_submit) {
 
 function init_form_state (form, lang) {
   let el_submit = form.querySelector('[type=submit]');
-  form.$state   = {
+
+  if (!el_submit)
+    throw 'Missing submit button.';
+
+  form.$state = {
     lang       : lang,
     el_submit  : el_submit,
     input_list : [],
@@ -283,6 +353,7 @@ function go (el_form, el_input, el_error, rule) {
       }
     } catch (e) {
       set_invalid(true, e);
+      break;
     }
   }
 
@@ -296,13 +367,13 @@ function go (el_form, el_input, el_error, rule) {
     if (el_input.getAttribute('dirty') === 'true') {
       el_error.innerHTML = inner_msg;
     }
-    
+
     validate_form(el_form.$state.input_list, el_form.$state.el_submit);
   }
 }
 
 
-export default Vue.directive('validator', {
+export default Vue.directive('validator-login', {
   /**
    * 当此指令插入DOM中的一瞬间
    * @param el
@@ -311,8 +382,8 @@ export default Vue.directive('validator', {
   inserted : function (el, binding) {
     let debounce_timer;
     // 先拿到字符串验证规则
-    
-    let rule     = binding.value; // 'required|username|min_length:4'
+    let rule = binding.value; // 'required|username|min_length:4'
+
     let selector = el.getAttribute('error-el'); // 用于显示错误信息的选择器
     let error_el = document.querySelector(selector); // 用于显示错误信息的元素
 
@@ -341,14 +412,18 @@ export default Vue.directive('validator', {
     // 执行初始验证
     go(el_form, el, error_el, rule);
 
-
-    // 当输入框有字符输入时开始验证
-    el.addEventListener('keyup', () => {
+    function on_input_change () {
       clearTimeout(debounce_timer);
       debounce_timer = setTimeout(() => {
         go(el_form, el, error_el, rule);
       }, 300);
-    });
+    }
+
+
+    // 当输入框有字符输入时开始验证
+    el.addEventListener('keyup', on_input_change);
+    // el.addEventListener('click', on_input_change);
+    el.addEventListener('change', on_input_change);
 
     el.addEventListener('focus', () => {
       el.setAttribute('dirty', 'true');

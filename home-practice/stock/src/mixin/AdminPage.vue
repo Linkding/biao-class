@@ -2,11 +2,11 @@
 import Nav from "../components/Nav";
 import AdminNav from "../components/AdminNav";
 import DropDown from "../components/DropDown";
-import http from '../util/http'
-
+import Pagination from "../components/Pagination";
+import http from "../util/http";
 
 export default {
-  components: { Nav, AdminNav, DropDown},
+  components: { Nav, AdminNav, DropDown, Pagination },
   data() {
     return {
       total: 0, //共计多少条数据
@@ -30,18 +30,20 @@ export default {
     read(page = 1) {
       // if (page == this.current_page && page != 1) return; //点击当前页，不操作。如果当前页是1，则会请求，主要是首次加载就是第一页，不能将第一页情况卡死
 
-      http.post(`${this.model}/read`, {
-        limit: this.limit,
-        page: page,
-        sort_by: ["id", "down"],
-        with: this.with,
-      }).then(r => {
-        this.list = r.data;
-        console.log('this.list',this.list);
-        this.total = r.total;
-        this.last_page = r.last_page;
-        this.current_page = r.current_page;
-      });
+      http
+        .post(`${this.model}/read`, {
+          limit: this.limit,
+          page: page,
+          sort_by: ["id", "down"],
+          with: this.with
+        })
+        .then(r => {
+          this.list = r.data;
+          console.log("this.list", this.list);
+          this.total = r.total;
+          this.last_page = r.last_page;
+          this.current_page = r.current_page;
+        });
     },
     cou(e) {
       e.preventDefault();
@@ -59,16 +61,16 @@ export default {
       this.current = row;
       this.show_form = true;
 
-    //   this.$nextTick(() => {
-    //     if(this.model == 'vehicle'){
-    //       this.edit_vehicle(row)          
-    //     }
-    //     else if(this.model == 'model'){
-    //       this.edit_model(row);
-    //     }else if(this.model == 'report'){
-    //       this.edit_report(row);
-    //     }
-    //   });
+      //   this.$nextTick(() => {
+      //     if(this.model == 'vehicle'){
+      //       this.edit_vehicle(row)
+      //     }
+      //     else if(this.model == 'model'){
+      //       this.edit_model(row);
+      //     }else if(this.model == 'report'){
+      //       this.edit_report(row);
+      //     }
+      //   });
     },
     edit_model(row) {
       this.$refs.edit_brand.on_edit_model(row.$brand);
@@ -79,11 +81,11 @@ export default {
       this.$refs.edit_vehicle_model.on_edit_vehicle(row.$model);
       this.$refs.edit_vehicle_design.on_edit_vehicle(row.$design);
     },
-    edit_report(row){
+    edit_report(row) {
       this.$refs.edit_report.on_edit_report(row.$vehicle);
     },
     cancel() {
-      this.current = {preview:[]};
+      this.current = { preview: [] };
       this.show_form = false;
     },
     search(keyword) {
@@ -110,5 +112,4 @@ export default {
 };
 </script>
 <style scoped>
-
 </style>

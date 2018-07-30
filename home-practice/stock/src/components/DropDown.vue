@@ -1,30 +1,26 @@
 <template>
-    <div @mouseleave="show_menu=false" class="row dropdown">
-        <input class="col-lg-6" v-if="showInput" type="search"
+    <div @mouseleave="show_menu = false" class="row dropdown" :style="{width:Width + 'px'}">
+        <input  v-if="showInput" type="search"
           @keyup="show_menu=true"
           @focus="show_menu=true"
           v-model="keyword"
           placeholder="请搜索"
         >
-        <div class="col-lg-6 drop-area">
-          <div v-if="list.length"  @mouseenter="show_menu=true" class="col-lg-6 drop-title">{{selected?selected[displayKey]:itemTitle?itemTitle:'请选择'}}</div>
-          <div v-if="show_menu && result.length" class="drop-item">
+        <div @mouseenter="show_menu=true" class="drop-area">
+          <div v-if="showItemTitle"   class="drop-title">{{selected?selected[displayKey]:itemTitle?itemTitle:'请选择'}}</div>
+          <div v-if="result.length&& show_menu" class="drop-item">
               <div @click="select(row)" v-for="(row,index) in  result" :key='index'>{{row[displayKey]}}</div>
           </div>
         </div>
     </div>
-    <!-- <div @mouseleave="show_menu=false" class="dropdown">
-        <div @mouseenter="show_menu=true" class="drop-title">{{selected ? selected[displayKey]:'请选择'}}</div>
-        <div v-if="show_menu" class="drop-item">
-            <div @click="select(row)" v-for="(row,index) in  list" :key='index'>{{row[displayKey]}}</div>
-        </div>
-    </div> -->
 </template>
 <script>
 import http from "../util/http";
 export default {
   props: {
-    itemTitle: {}, //显示选线默认名字
+    Width:'',
+    showItemTitle:{default:false}, //是否显示下拉框标题
+    itemTitle: {}, //下拉选项框默认标题名字
     showInput: {   //是否显示搜索框
       default:false,
     },
@@ -59,9 +55,6 @@ export default {
     },
     //处理传入的api值，eg:'[model].[prop,prop]'
     parse_api() {
-      if(!this.api)
-        return;
-        
       let api_prop = this.api;
       if (typeof api_prop != "string") return Object.assign({}, api);
       api_prop = api_prop.split(".");
@@ -75,21 +68,24 @@ export default {
         property
       };
     },
-    //model模块，触发编辑时候，调用
+    //触发model模块编辑事件时调用
     on_edit_model(row) {
       if (!row) this.selected = {};
       this.selected = row;
     },
-    //vehicle模块，触发编辑时候，调用
+    //触发vehicle模块编辑事件时调用
     on_edit_vehicle(row) {
       if (!row) this.selected = {};
       this.selected = row;
     },
+    //触发report模块编辑事件时调用
     on_edit_report(row){
       if(!row) this.selected = {};
       this.selected = row;
     },
     set_default() {
+      //点击编辑事件，选择一个默认的选项
+      //不交互传参
       let key = this.default;
       if (key) {
         let def = this.list.find(row => {
@@ -98,10 +94,13 @@ export default {
         this.select(def);
       }
     },
+    // 点击选项时触发的函数
     select(row) {
       this.selected = row;
+
+      if(this.showInput)
+        this.keyword = row[this.displayKey];
       
-      // this.keyword = row[this.displayKey];
       if (this.onSelect)
         this.onSelect(row);
     },
@@ -125,7 +124,7 @@ export default {
       clearTimeout(this.timer); //清除计时器
 
       this.timer = setTimeout(() => {
-        http.post(`${this.api_conf.model}/search`, { or: condition }).then(r => {
+        api(`${this.api_conf.model}/search`, { or: condition }).then(r => {
           this.result = r.data;
                     
         });
@@ -139,6 +138,8 @@ export default {
     let list = this.list;
 
     list && (this.result = this.list); //为什么要用result引用list
+    console.log('this.result',this.result);
+    
   },
   watch: {
     keyword() {
@@ -154,6 +155,8 @@ export default {
     list(n) {
       this.list = n;
       this.result = this.list;
+      console.log('this.result111',this.result);
+      
     },
     change_item_title() {
       if (!itemTitle) {
@@ -168,42 +171,39 @@ export default {
 };
 </script>
 <style>
-.dropdown [class^='col'] {
-    vertical-align: middle;
+.drop-area,
+.dropdown input,
+.drop-title,
+.drop-item {
+  width: 100%;
 }
 .drop-area {
+  z-index: 20;
+  position: absolute;
   opacity: .9;
 }
 .dropdown {
   position: relative;
-  display: inline-block;
-  margin: 10px;
+  /* display: inline-block; */
+  /* margin: 10px; */
 }
 .dropdown input {
-  width: 45%;
   padding: 3px 5px;
   display: inline-block;
 }
 .drop-title,
 .drop-item {
   background: #fff;
-  width: 80px;
   padding: 2px;
   display: block;
-  /* border: 1px solid #e6e6e6; */
-}
-
-.drop-title,
-.drop-item {
+  font-size: 1rem;
   border: 1px solid #d9e1e5;
 }
-.drop-item {
-  border-top: 0;
+.dropdown:hover .drop-title {
+  border-bottom: 0;
 }
-
 .dropdown:hover .drop-item,
 .dropdown:hover .drop-title {
-  /* border-bottom: 0; */
   border-color: #0b5a81;
 }
 

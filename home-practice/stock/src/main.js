@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue';
 import VueRouter from  'vue-router';
-import 'font-awesome/css/font-awesome.css';
-import 'normalize.css';
+// import './lib/font-awesome.css';
+// import './lib/fontawesome-webfont.svg'
+import '../node_modules/@fortawesome/fontawesome-free/js/all.js';
+import './lib/normalize.css'
 import './css/common/global.css';
 
 
