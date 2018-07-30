@@ -17,7 +17,8 @@ export default {
       limit: 5,
       show_form: false,
       current: {
-        preview: []
+        preview: [],
+        new:false,
       },
       list: [],
       edit_mode: false,
@@ -26,6 +27,12 @@ export default {
     };
   },
   methods: {
+    read_by_model(model){
+      api(`${model}/read`)
+        .then(r=>{
+            this[model] = r.data;
+        })
+     },
     on_page_change(page) {
       this.read(page);
     },
@@ -45,12 +52,11 @@ export default {
       });
     },
     cou(e) {
-      console.log('111',111);
-      
       e.preventDefault();
       let action = this.current.id ? "update" : "create";
       api(`${this.model}/${action}`, this.current).then(r => {
         this.read(this.current_page);
+        this.current = {};
       });
     },
     remove(id) {
@@ -63,8 +69,8 @@ export default {
       this.show_form = true;
 
       this.$nextTick(() => {
-        if(this.model == 'vehicle'){
-          this.edit_vehicle(row)          
+        if(this.model == 'wine'){
+          this.edit_wine(row)          
         }
         else if(this.model == 'model'){
           this.edit_model(row);
@@ -73,9 +79,10 @@ export default {
         }
       });
     },
-    edit_model(row) {
-      this.$refs.edit_brand.on_edit_model(row.$brand);
-      this.$refs.edit_design.on_edit_model(row.$design);
+    edit_wine(row) {
+      this.$refs.edit_wine_breed.on_edit_wine(row.$breed);
+      this.$refs.edit_wine_location.on_edit_wine(row.$location);
+      this.$refs.edit_wine_occasion.on_edit_wine(row.$occasion);
     },
     edit_vehicle(row) {
       this.$refs.edit_vehicle_brand.on_edit_vehicle(row.$brand);

@@ -2,7 +2,7 @@
 <script src="./api.js"></script>
 <script>
     let model={
-        name:'wine',
+        name:'product',
         structure:{
             name:{            //名字
                 type:'string',
@@ -29,6 +29,18 @@
                 nullable:true,
             },
             store:{            //库存
+                type:'integer',
+                nullable:true,
+            },
+            occasion_id:{      //场合
+                type:'integer',
+                nullable:true,
+            },
+            preview:{      //图片地址
+                type:'json',
+                nullable:true,
+            },
+            ptype_id:{      //产品类型
                 type:'integer',
                 nullable:true,
             },

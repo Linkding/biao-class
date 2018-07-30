@@ -4,15 +4,15 @@
     let model = {
         name:'order',
         structure:{
-            sum:{
+            sum:{               //总价
                 type:'float',
                 nullable:true,
             },
             oid:{
-                type:'string',
+                type:'string', //订单号
                 nullable:true,
             },
-            product_info:{
+            product_info:{      //订单信息
                 type:'json',
                 nullable:true,
             },
@@ -30,5 +30,9 @@
             },
         }
     }
-    api('MODEL/CREATE',model)
+    // api('MODEL/ATTACH_FEATURE',{
+    //     key:'order',
+    //     feature:'payment'
+    // })
+    api('MODEL/READ',{key:'order'})
 </script>

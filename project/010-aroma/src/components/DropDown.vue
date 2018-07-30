@@ -68,9 +68,14 @@ export default {
         property
       };
     },
-    //触发model模块编辑事件时调用
-    on_edit_model(row) {
-      if (!row) this.selected = {};
+    //触发wine模块编辑事件时调用
+    on_edit_wine(row) {
+      if (!row) {
+        this.selected = {};
+        this.keyword = '';
+      }
+      
+      this.keyword = row[this.displayKey]
       this.selected = row;
     },
     //触发vehicle模块编辑事件时调用

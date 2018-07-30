@@ -207,7 +207,26 @@ tbody tr:hover {
 .currency:before {
     content: '￥';
 }
-/* ===========色板============ */
+
+/* =========error=========
+ */
+
+ .error-list {
+    padding: 5px;
+    color: #c10;
+    font-size: 0.7rem;
+}
+.error {
+    padding: 15x;
+}
+/* ==========disabled========== */
+button[disabled],
+input[disabled],
+textarea[disabled] {
+  opacity: .6;
+  cursor: not-allowed;
+}
+ /* ===========色板============ */
 
 .color {
     color: #77D1E2;

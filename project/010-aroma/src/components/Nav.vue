@@ -1,21 +1,28 @@
 <template>
     <div :style="{marginBottom: this.pushDown ? '20px': 0,}" :class="['container' , 'nav' , is_poa?'poa':'']">
         <div class="col logo">
-            <img src="../assets/img/logo02.png" alt="">
+            <router-link to="/">
+                <img src="../assets/img/logo02.png" alt="">
+            </router-link>
         </div>
         <div class="col-lg-6 item">
-            <a href="#">item</a>
-            <a href="#">item</a>
-            <a href="#">item</a>
-            <a href="#">item</a>
+            
         </div>
         <div class="col-lg-4 right">
-            <a href="#">登录</a>
-            <a href="#">注册</a>
+            <div v-if="uinfo">
+                <router-link to="/me" class="nav-item">{{uinfo.username}}</router-link>
+                <span class="nav-item" @click="logout">退出</span>
+            </div>
+            <div v-else>
+                <router-link  class="nav-item" to="/login">登录</router-link>
+                <router-link class="nav-item" to="/signup">注册</router-link>
+            </div>
         </div>
     </div>
 </template>
 <script>
+    import session from '../lib/session';
+
     export default {
         props:{
             is_poa:{
@@ -23,6 +30,16 @@
             },
             pushDown: {
                 default: false
+            }
+        },
+        data(){
+            return{
+                uinfo:session.uinfo(),
+            }
+        },
+        methods:{
+            logout(){
+                session.logout();
             }
         }
     }
@@ -56,5 +73,11 @@
     color: rgba(0, 0, 0, .8);
     font-size: 1rem;
     padding-right: 1.3rem; 
+}
+.nav-item {
+  display: inline-block;
+  padding: 1.5rem;
+  color: #555;
+  text-decoration: none;
 }
 </style>

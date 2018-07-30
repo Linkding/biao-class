@@ -8,14 +8,14 @@
                 </div>
                 <div class="col-lg-9">
                     <div class="wrapper">
-                        <h2>酒具类型管理</h2>
+                        <h2>产品类型管理</h2>
                         <!-- <SearchBar :model="model" :isSearch="false" :onSubmit="search" :searchable="searchable"/> -->
                         <div class="tool-bar">
-                            <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建酒具类型</span></button>
+                            <button @click="show_form= !show_form"><span v-if="show_form">收起</span><span v-else>创建产品类型</span></button>
                         </div>
                         <form v-if="show_form" @submit="cou($event)">
                             <div class="input-control">
-                                <label>酒具类型名</label>
+                                <label>产品类型名</label>
                                 <input type="text" v-model="current.name">
                             </div>
                             <div class="input-control">
@@ -27,7 +27,7 @@
                             <table>
                                 <thead>
                                     <th>序号</th>
-                                    <th>酒具类型</th>
+                                    <th>产品类型</th>
                                     <th>操作</th>
                                 </thead>
                                 <tbody>
@@ -54,7 +54,7 @@ import AdminPage from '../../mixin/AdminPage';
 
 export default {
   created() {
-    this.model = "tool_type";
+    this.model = "ptype";
   },
   data() {
     return {

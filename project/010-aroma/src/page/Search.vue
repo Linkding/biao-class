@@ -4,7 +4,7 @@
             <Nav/>
         </div>
         <div class="container">
-            <div @mouseleave="cat_panel = ''">
+            <div @mouseleave="cat_panel = ''" class="search-area">
                 <div  class="search-bar">
                     <span @mouseover="cat_panel = 'wine'" class="search-item">
                         <img src="../assets/bottle02-icon.png" alt="">
@@ -18,7 +18,7 @@
                         <img src="../assets/wineparty02-icon.png" alt="">
                         <div>宴会</div>
                     </span>
-                    <span class="search-item">
+                    <span @mouseover="cat_panel = 'new'" class="search-item">
                         <img src="../assets/newwine-icon.png" alt="">
                         <div>新酒</div>
                     </span>
@@ -52,7 +52,7 @@
                             <span>2015-2017</span>
                             <span>2011-2014</span>
                             <span>2008-2010</span>
-                            <span>&lt;2008</span>
+                            <span>&lt; 2008</span>
                         </div>
                         </div>
                     </div>
@@ -97,27 +97,101 @@
                             </div>
                         </div>
                     </div>
+                    <div v-show="cat_panel == 'new'" class="winenew">
+                        <div class="panel">
+                            <div class="col-lg-1 title">新酒</div> 
+                            <div class="col-lg-11 link-group">
+                                <span>博若莱新酒</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div>
-
+        </div>
+        <div class="card-group">
+            <div
+                v-for="(pre,index) in list"
+                :key="index"
+                class="box">
+                <div class="pic">
+                    <img :src='pre.preview[0].url' alt="">
+                </div>
+                <div>
+                    <div class="info heart">
+                        <span><i class="fa fa-heart" aria-hidden="true"></i></span>
+                    </div>
+                    <div class="info plus">
+                        <!-- <span><i class="fa fa-plus" aria-hidden="true"></i></span> -->
+                        <router-link :to="'/detail/' + pre.id"><span>view</span></router-link>
+                    </div>
+                </div>
             </div>
         </div>
+        <!-- <Pagination 
+            :totalCount="total"
+            :limit="limit"
+            :onChange="on_page_change"
+
+        /> -->
     </div>
 </template>
 <script>
 import Nav from "../components/Nav";
+import Pagination from "../components/Pagination";
+import api from '../lib/api';
 
 export default {
-  components: { Nav },
+  components: { Nav , Pagination},
   data(){
       return{
-          cat_panel:'wine',
+          cat_panel:'',
+          url:[
+            {
+                url:'http://7xvj0k.com1.z0.glb.clouddn.com/18-7-26/31683090.jpg',
+            },
+            {
+                url:'http://7xvj0k.com1.z0.glb.clouddn.com/18-7-26/63202395.jpg',
+            },
+            {
+                url:'http://7xvj0k.com1.z0.glb.clouddn.com/18-7-26/94196226.jpg',
+            },
+            {
+                url:'http://7xvj0k.com1.z0.glb.clouddn.com/18-7-26/59953962.jpg',
+            },
+            {
+                url:'http://7xvj0k.com1.z0.glb.clouddn.com/18-7-26/39124024.jpg',
+            }
+          ],
+          list:{},
+          total:0,
+          limit:3,
       }
+  },
+  mounted() {
+      this.read();
+  },
+  methods:{
+        read(){
+            api('product/read')
+                .then(r=>{
+                    this.list = r.data;
+                    this.total = r.total;
+                })
+        },
+        on_page_change(page){
+            this.set_condition('page',page);
+        },
+        set_condition(){
+
+        }
+
   }
 };
 </script>
 <style scoped>
+.search-area {
+    position: relative;
+}
 .search-bar {
   background: rgb(224, 224, 224);
   padding: 10px;
@@ -135,8 +209,17 @@ export default {
 .search-item:hover {
   background: #ccc;
 }
+.cat-panel {
+    position: absolute;
+    top:100%;
+    left: 0%;
+    z-index: 1;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    opacity: .93;
+}
 .cat-panel .panel {
-  background: rgba(0, 0, 0, 0.09);
+  background: #f8f8f6;
   color: rgba(0, 0, 0, 0.7);
   cursor: pointer;
 }
@@ -146,6 +229,58 @@ export default {
 }
 .cat-panel .panel .title,
 .cat-panel .panel .link-group > * {
-  padding: 8px;
+  padding: 10px 20px;
+}
+.card-group {
+    -moz-column-count: 3;
+    -webkit-column-count: 3;
+    column-count: 3;
+    /* -webkit-column-width: 250px;
+    -moz-column-width: 250px;
+    column-width: 250px; */
+    -moz-column-gap:20px;
+    -webkit-column-gap:20px;
+    column-gap:20px;
+    padding:30px 10%;
+}
+.box{
+    box-sizing: border-box;    
+    padding: 5px;
+    /* border: solid 2px #eeeeee; */
+    border-radius: 4px;
+    margin-bottom: 30px;
+    cursor: pointer;
+    position: relative;
+}
+.pic img{
+    width: 100%;
+    opacity: .8;
+}
+
+.box:hover .info {
+    opacity: .9;
+    /* visibility: visible; */
+    display: inline-block;
+}
+.box img:hover {
+    opacity: 1;
+}
+.box .info {
+    /* visibility: hidden; */
+    display: none;
+    font-size: 1rem;
+    position: absolute;
+    color: #F9726C;
+    padding: 8px;
+    border-radius: 5px;
+    background: #fff;
+}
+.box .heart{
+    top:10%;
+    right: 10%;
+}
+.box .plus{
+    bottom:12%;
+    right: 10%;
 }
 </style>
