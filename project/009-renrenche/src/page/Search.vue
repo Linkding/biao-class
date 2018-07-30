@@ -76,14 +76,14 @@
                             更多
                         </div>
                         <div class="col-lg-10 range">
-							<div class="col-lg-3">
-                            	<DropDown  :list="design_list" 
-											:itemTitle="'车型'" 
-											:onSelect="onSelectDesign" 
-											:showItemTitle="true" 
-											Width="100"
-								/>
-							</div>
+                          <div class="col-lg-3">
+                              <DropDown  :list="design_list" 
+                              :itemTitle="'车型'" 
+                              :onSelect="onSelectDesign" 
+                              :showItemTitle="true" 
+                              Width="100"
+                              />
+                          </div>
                         </div>
                         <div class="col-lg-1 prop right">全部</div>
                     </div>

@@ -161,7 +161,7 @@
                                 <input type="checkbox" v-model="current.on_sale">
                                 </label>
                                 <label class="dib">本地车牌
-                                <input type="checkbox" v-model="current.local">
+                                <input type="checkbox" v-model="current.local" checked="checked">
                                 </label>
                             </div>
                             <div class="input-control">

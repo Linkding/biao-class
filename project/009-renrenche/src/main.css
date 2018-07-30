@@ -248,3 +248,9 @@ tbody tr:hover {
 .dib{
     display: inline-block;
 }
+button[disabled],
+input[disabled],
+textarea[disabled] {
+  opacity: .6;
+  cursor: not-allowed;
+}
