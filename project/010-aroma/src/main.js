@@ -35,6 +35,7 @@ import Ptype from './page/admin/Ptype';
 import Product from './page/admin/Product';
 import Occasion from './page/admin/Occasion';
 import Category from './page/admin/Category';
+import Cart from './page/admin/Cart';
 
 Vue.config.productionTip = false
 Vue.use(VueRouter);
@@ -65,6 +66,7 @@ const router = new VueRouter({
           {path:'ptype',component:Ptype ,meta:{title:'产品类型管理 |Aroma'}},
           {path:'product',component:Product ,meta:{title:'产品管理 |Aroma'}},
           {path:'category',component:Category ,meta:{title:'分类促销 |Aroma'}},
+          {path:'cart',component:Cart ,meta:{title:'购物车 |Aroma'}},
         ]
     }
   ]

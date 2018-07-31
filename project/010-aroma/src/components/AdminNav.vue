@@ -9,6 +9,7 @@
         <router-link class="nav-item" to="/admin/ptype">产品类型管理</router-link>
         <router-link class="nav-item" to="/admin/product">产品管理</router-link>
         <router-link class="nav-item" to="/admin/category">分类管理</router-link>
+        <router-link class="nav-item" to="/admin/cart">购物车管理</router-link>
     </div>
 </template>
 

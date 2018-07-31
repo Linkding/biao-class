@@ -33,7 +33,7 @@
                         </span>
                     </div>
                     <div class="info-item">
-                        <button type="submit">加入购物车</button>
+                        <button @click="addCart" type="submit">加入购物车</button>
                         <router-link :to="to()"><button>立即购买</button></router-link>
                     </div>
                 </div>
@@ -44,23 +44,64 @@
 <script>
     import Nav from '../components/Nav'
     import api from '../lib/api';
+    import session from '../lib/session';
+
     export default{
         components:{Nav},
         data(){
             return{
                 detail:{},
                 with:[
-                    {model:'location',type:'has_one'},
+                    {model:'location',relation:'has_many'},
                 ],
                 count:0,
+                uinfo:session.uinfo(),
+                is_exist_product:{},
             }
         },
         mounted() {
             let id = this.get_id();
             this.find(id);
+            this.is_exist();
             
         },
         methods:{
+            is_exist(){
+                return api('cart/first',{
+                    where:{
+                        product_id:this.$route.params.id,
+                    }
+                    }).then(r=>{
+                        if(r.data){
+                            this.is_exist_product = r.data;
+                        }
+                    })
+            },
+            addCart(){
+                this.is_exist_product.count = '';
+                this.is_exist()
+                    .then(r=>{
+                        let action = this.is_exist_product.count ? 'update':'create';
+        
+                        this.is_exist_product.product_id = this.detail.id;
+                        this.is_exist_product.user_id = this.uinfo.id;
+                        if(action == 'create'){
+                            console.log('111',111);
+                            this.is_exist_product.count  = this.count
+                        }else if(this.is_exist_product.count){
+                            console.log('22',22);
+                            this.is_exist_product.count = this.count + this.is_exist_product.count
+                        }else {
+                            console.log('333',333);
+                            this.is_exist_product.count = this.count + 0
+                        }
+                        // this.is_exist_product.count = action == 'create'? this.count :this.count + this.is_exist_product ? this.is_exist_product.count:0;
+                        
+                        api(`cart/${action}`,this.is_exist_product)
+                    })
+
+                    
+            },
             to(){
                 return {path:'/neworder/', query:{id:this.detail.id,count:this.count}}
             },

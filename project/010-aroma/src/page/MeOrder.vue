@@ -34,6 +34,11 @@
                 </tbody>
             </table>
         </div>
+        <div class="mask">
+            <div class="wrap-detail">
+                
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -56,6 +61,8 @@
                     user_id:this.uinfo.id,
                 }).then(r=>{
                     this.list = r.data;
+                    console.log('this.list',this.list);
+                    
                 })
             },
             cancel(id){
