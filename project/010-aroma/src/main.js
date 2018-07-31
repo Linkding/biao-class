@@ -6,6 +6,13 @@ import 'normalize.css';
 import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import '../node_modules/@fortawesome/fontawesome-free/js/all.js';
 
+//使用vue swiper 轮播组件
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+// require styles
+import '../node_modules/swiper/dist/css/swiper.css'
+
+Vue.use(VueAwesomeSwiper, /* { default global options } */)
+
 import Home from './page/Home';
 import Search from './page/Search';
 import Detail from './page/Detail';
@@ -27,6 +34,7 @@ import Order from './page/admin/Order';
 import Ptype from './page/admin/Ptype';
 import Product from './page/admin/Product';
 import Occasion from './page/admin/Occasion';
+import Category from './page/admin/Category';
 
 Vue.config.productionTip = false
 Vue.use(VueRouter);
@@ -56,6 +64,7 @@ const router = new VueRouter({
           {path:'occasion',component:Occasion ,meta:{title:'场合管理 |Aroma'}},
           {path:'ptype',component:Ptype ,meta:{title:'产品类型管理 |Aroma'}},
           {path:'product',component:Product ,meta:{title:'产品管理 |Aroma'}},
+          {path:'category',component:Category ,meta:{title:'分类促销 |Aroma'}},
         ]
     }
   ]

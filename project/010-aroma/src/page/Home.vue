@@ -1,8 +1,18 @@
 <template>
     <div>
         <div class="header">
-            <div class="slider"></div>
             <Nav :is_poa="true"/>
+            <!-- <div class="slider" v-for="(pre,index) in cat" :key="index">
+                <img :src="pre.cover_url" alt="">
+            </div> -->
+            <div v-if="cat.length">
+                <swiper :options="swiperOption" class="slider">
+                    <swiper-slide v-for="(it, index) in cat" :key="index">
+                        <img :src="it.cover_url" >
+                    </swiper-slide>
+                    <div class="swiper-pagination" slot="pagination"></div>
+                </swiper>
+            </div>
         </div>
         <div class="cat">
             <div class="container">
@@ -78,20 +88,49 @@
 </template>
 <script>
     import Nav from '../components/Nav';
+    import api from '../lib/api';
+
     export default {
         components:{Nav},
+        data(){
+            return{
+                cat:{},
+                swiperOption : {
+                    keyboard   : true,
+                    clickable  : true,
+                    loop       : true,
+                    autoplay   : {
+                        deplay:500,
+                    },
+                    pagination : {
+                        el : '.swiper-pagination',
+                    },
+                },
+                swiperSlides : [ 1, 2, 3 ],
+                }
+        },
+        mounted() {
+            this.read();
+        },
+        methods:{
+            read(){
+                api('category/read')
+                    .then(r=>{
+                        this.cat = r.data;
+                        console.log('this.cat',this.cat);
+                        
+                    })
+            }
+        }
     }
 </script>
 <style scoped>
 .header {
     position: relative;
 }
+
 .slider {
-    background-image: url(../assets/img/bg01.jpg);
-    background-repeat: no-repeat;
-    background-size:  cover;
-    min-height: 500px;
-    opacity: .87;
+    opacity: .85;
 }
 .cat {
     margin: 2rem 0;
