@@ -239,10 +239,10 @@ export default {
   data() {
     return {
       with: [
-          {model:'brand',type:'has_one'},
-          {model:'model',type:'has_one'},
-          {model:'design',type:'has_one'},
-          {model:'user',type:'has_one'},
+          {model:'brand',relation:'has_one'},
+          {model:'model',relation:'has_one'},
+          {model:'design',relation:'has_one'},
+          {model:'user',relation:'has_one'},
       ],
       searchable: ["title"],
       model_list: [],

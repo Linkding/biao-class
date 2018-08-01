@@ -95,8 +95,8 @@ export default {
         searchable:['name'],
         design_list:[],
          with: [
-        { model: "brand", type: "has_one" },
-        { model: "design", type: "has_one" }
+        { model: "brand", relation: "has_one" },
+        { model: "design", relation: "has_one" }
       ],
     };
   },

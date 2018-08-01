@@ -94,7 +94,7 @@ export default {
       searchable: ["name"],
       structure: {},
       brand_list: [],
-      with: [{ model: "vehicle", type: "has_one" }],
+      with: [{ model: "vehicle", relation: "has_one" }],
       total_check: 0,
       current: {},
       vehicle_list: {}
