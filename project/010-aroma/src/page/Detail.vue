@@ -54,7 +54,7 @@
                 with:[
                     {model:'location',relation:'has_one'},
                 ],
-                count:0,
+                count:1,
                 uinfo:session.uinfo(),
                 is_exist_product:{},
             }
@@ -85,16 +85,15 @@
         
                         this.is_exist_product.product_id = this.detail.id;
                         this.is_exist_product.user_id = this.uinfo.id;
-                        if(action == 'create'){
-                            console.log('111',111);
-                            this.is_exist_product.count  = this.count
-                        }else if(this.is_exist_product.count){
-                            console.log('22',22);
-                            this.is_exist_product.count = this.count + this.is_exist_product.count
-                        }else {
-                            console.log('333',333);
-                            this.is_exist_product.count = this.count + 0
+                        if(action == 'update') {
+                            this.is_exist_product.count = this.count + this.is_exist_product.count;
                         }
+                        else 
+                            this.is_exist_product.count  = this.count
+                        // else {
+                        //     console.log('333',333);
+                        //     this.is_exist_product.count = this.count + 0
+                        // }
                         // this.is_exist_product.count = action == 'create'? this.count :this.count + this.is_exist_product ? this.is_exist_product.count:0;
                         
                         api(`cart/${action}`,this.is_exist_product)
