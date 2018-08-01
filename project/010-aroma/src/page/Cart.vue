@@ -2,15 +2,15 @@
     <div>
        <Nav :pushDown="true"/>
        <div  class="container">
-            <div class="order">
-                <div class="wrap">
+            <div class="cart">
+                <div class="cart-item" v-for="(product,index) in cart" :key="index">
                     <div class="col-lg-1">
-                        <img src="../assets/img/100X100.png" alt="">
+                        <img :src="product.$product.preview[0].url" alt="">
                     </div>
                     <div class="col-lg-5 info">
-                        <div class="name">{{product.name}}</div>
-                        <div>单价: <span class="currency">{{product.price}}</span></div>
-                        <div>数量: <span>{{current.count}}</span></div>
+                        <div class="name">{{product.$product.name}}</div>
+                        <div>单价: <span class="currency">{{product.$product.price}}</span></div>
+                        <div>数量: <span>{{product.count}}</span></div>
                     </div>
                     <div class="col-lg-4 pay">
                         支付方式：
@@ -29,11 +29,14 @@
                     </div>
                     <div class="col-lg-2 right">
                         <div>
-                            共计： <span>{{total}}</span>
+                            小计： <span>{{product.$product.price * product.count}}</span>
                         </div>
                     </div>
                 </div>
                 <div class="right">
+                    <div>
+                    共计：{{sumAll}}
+                    </div>
                     <button class="btn" @click.prevent="submit">提交订单</button>
                 </div>
             </div>
@@ -49,23 +52,26 @@
         components:{Nav},
         data(){
             return{
-                product:{},
                 current:{
                     pay_by:'wechat',
                 },
                 payment_url:null,
                 uinfo:session.uinfo(),
+                with:[
+                    {model:'product',relation:'has_one'}
+                ],
+                cart:{},
             }
         },
         computed:{
-            total(){
-                return this.current.count * this.product.price;
+            sumAll(){
+                return this.cart.reduce((acc,product)=>{
+                    return acc + (product.$product.price * product.count)
+                },0)
             }
         },
         mounted() {
-            // console.log('this.$route.query',this.$route.query);
-            this.current = Object.assign({},this.current,this.$route.query)
-            this.find(this.current.id)
+            this.read();
         },
         methods:{
             submit(){
@@ -82,36 +88,46 @@
                         this.$router.push('/pay/'+ r.data.oid)
                     })
             },
-            find(id){
-                api('product/find',{id})
-                    .then(r=>{
-                        this.product = r.data;
+            read(){
+                api('cart/read',{
+                    where:{
+                        user_id:this.uinfo.id,
+                    },
+                    with:this.with
+                }).then(r=>{
+                        this.cart = r.data;
                     })
             },
         }
     }
 </script>
 <style scoped>
-.order{
+.cart{
     border: 1px solid rgba(0, 0, 0, .06);
     margin-bottom: 20px;
     padding: 10px;
 } 
-.order>*{
+.cart>*{
     padding-right: 20px;
 }
-.order .wrap{
-    padding-bottom: 10px;
+.cart .cart-item{
+    padding: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, .06);
 }
-.order .right{
+.cart .right{
     padding: 10px  0;
+}
+.cart .right >* {
+    margin:  5px 0;
+}
+.cart-item img{
+    width: 100px;
 }
 .info {
 padding-left: 10%;    
 }
-.order .pay >*,
-.order .info >*{
+.cart .pay >*,
+.cart .info >*{
     padding: 4px 0;
 }
 

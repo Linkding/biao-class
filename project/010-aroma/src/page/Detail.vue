@@ -9,7 +9,7 @@
                 <div class="col-lg-6 main">
                     <h1 class="title">{{detail.name}}</h1>
                     <div class="info-item">
-                        <span class="key">产地：</span>
+                        <span class="key">产地：{{detail.$location? detail.$location.name : '-'}}</span>
                         <span class="val">{{detail.location}}</span>
                     </div>
                     <div class="info-item">
@@ -52,7 +52,7 @@
             return{
                 detail:{},
                 with:[
-                    {model:'location',relation:'has_many'},
+                    {model:'location',relation:'has_one'},
                 ],
                 count:0,
                 uinfo:session.uinfo(),

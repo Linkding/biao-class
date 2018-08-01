@@ -83,8 +83,8 @@ export default {
     return {
         searchable:['name'],
         with:[
-            {model:'user',type:'has_one'},
-            {model:'product',type:'has_one'},
+            {model:'user',relation:'has_one'},
+            {model:'product',relation:'has_one'},
         ],
     };
   },

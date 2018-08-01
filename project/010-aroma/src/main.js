@@ -23,6 +23,7 @@ import Signup from './page/Signup';
 import Me from './page/Me';
 import MeOrder from './page/MeOrder';
 import MeSetting from './page/MeSetting';
+import Cart from './page/Cart';
 
 
 import AdminBase from './page/admin/Base';
@@ -35,7 +36,7 @@ import Ptype from './page/admin/Ptype';
 import Product from './page/admin/Product';
 import Occasion from './page/admin/Occasion';
 import Category from './page/admin/Category';
-import Cart from './page/admin/Cart';
+import AdminCart from './page/admin/AdminCart';
 
 Vue.config.productionTip = false
 Vue.use(VueRouter);
@@ -49,12 +50,15 @@ const router = new VueRouter({
       {path:'/login',component:Login ,meta:{title:'登录|Aroma'}},
       {path:'/signup',component:Signup ,meta:{title:'注册|Aroma'}},
       {path:'/pay/:oid',component:Pay ,meta:{title:'支付|Aroma'}},
+      {path:'/cart',component:Cart ,meta:{title:'购物车|Aroma'}},
+
       {path:'/me',component:Me ,meta:{title:'用户中心|Aroma'},
         children:[
           {path:'order',component:MeOrder,meta:{title:'用户订单|Aroma'}},
           {path:'setting',component:MeSetting,meta:{title:'设置|Aroma'}},
         ]
       },
+
       {path:'/admin', component:AdminBase,meta:{title:'后台 |Aroma'},
         children:[
           {path:'user',component:User,meta:{title:'用户管理 |Aroma'}},
@@ -66,7 +70,7 @@ const router = new VueRouter({
           {path:'ptype',component:Ptype ,meta:{title:'产品类型管理 |Aroma'}},
           {path:'product',component:Product ,meta:{title:'产品管理 |Aroma'}},
           {path:'category',component:Category ,meta:{title:'分类促销 |Aroma'}},
-          {path:'cart',component:Cart ,meta:{title:'购物车 |Aroma'}},
+          {path:'cart',component:AdminCart ,meta:{title:'购物车 |Aroma'}},
         ]
     }
   ]
