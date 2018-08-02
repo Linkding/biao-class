@@ -99,7 +99,7 @@ export default {
     return {
         searchable:['name'],
         with:[
-            {model:'user',type:'has_one'},
+            {model:'user',relation:'has_one'},
         ],
         user:{},
     };

@@ -127,65 +127,94 @@
                 </div>
             </div>
         </div>
-        <!-- <Pagination 
+        <Pagination 
             :totalCount="total"
             :limit="limit"
             :onChange="on_page_change"
 
-        /> -->
+        />
     </div>
 </template>
 <script>
 import Nav from "../components/Nav";
 import Pagination from "../components/Pagination";
 import api from '../lib/api';
+import {clone} from '../lib/helper';
 
 export default {
-  components: { Nav , Pagination},
-  data(){
-      return{
-          cat_panel:'',
-          url:[
-            {
-                url:'http://7xvj0k.com1.z0.glb.clouddn.com/18-7-26/31683090.jpg',
+    components: { Nav , Pagination},
+    data(){
+        return{
+            cat_panel:'',
+            list:{},
+            total:0,
+            limit:3,
+            search_param:{},
+        }
+    },
+    mounted() {
+        this.read();
+    },
+    methods:{
+            read(){
+                api('product/read',{limit:this.limit})
+                    .then(r=>{
+                        this.list = r.data;
+                        this.total = r.total;
+                    })
             },
-            {
-                url:'http://7xvj0k.com1.z0.glb.clouddn.com/18-7-26/63202395.jpg',
+            on_page_change(page){
+                console.log('page',page);
+                
+                this.set_condition('page',page);
             },
-            {
-                url:'http://7xvj0k.com1.z0.glb.clouddn.com/18-7-26/94196226.jpg',
+            set_condition(type,value){
+                let query = clone(this.$route.query);
+
+                switch (type){
+                    case 'page':
+                        query.page = value;
+                        break;
+                }
+                this.$router.replace({query});
+                this.search();
             },
-            {
-                url:'http://7xvj0k.com1.z0.glb.clouddn.com/18-7-26/59953962.jpg',
-            },
-            {
-                url:'http://7xvj0k.com1.z0.glb.clouddn.com/18-7-26/39124024.jpg',
-            }
-          ],
-          list:{},
-          total:0,
-          limit:3,
-      }
-  },
-  mounted() {
-      this.read();
-  },
-  methods:{
-        read(){
-            api('product/read')
-                .then(r=>{
+            search(){
+                let p = this.search_param;
+                
+                api('product/search',{
+                    limit:this.limit,
+                    page:p.page,
+                }).then(r=>{
                     this.list = r.data;
                     this.total = r.total;
                 })
-        },
-        on_page_change(page){
-            this.set_condition('page',page);
-        },
-        set_condition(){
+            },
+            prepare_search_param(){
+                let query = this.parse_route_query();
+                this.search_param = query;
+                
+            },
+            parse_route_query(){
+                let query = this.$route.query;
+                if(!query.sort_by)
+                    query.sort_by = ['id','down'];
+                
+                if(typeof query.sort_by == 'string')
+                    query.sort_by = query.sort_by.split(',')
+                return query;
+            }
 
+    },
+    watch:{
+        '$route.query':{
+            deep:true,
+            handler(){
+                this.prepare_search_param();
+                this.search();
+            }
         }
-
-  }
+    }
 };
 </script>
 <style scoped>
