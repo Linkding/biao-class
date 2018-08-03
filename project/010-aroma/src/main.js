@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router';
-import './css/global.css';
 import 'normalize.css';
+import './css/global.css';
 import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import '../node_modules/@fortawesome/fontawesome-free/js/all.js';
 
@@ -17,6 +17,7 @@ import Home from './page/Home';
 import Search from './page/Search';
 import Detail from './page/Detail';
 import NewOrder from './page/NewOrder';
+import CartOrder from './page/CartOrder';
 import Pay from './page/Pay';
 import Login from './page/Login';
 import Signup from './page/Signup';
@@ -47,6 +48,7 @@ const router = new VueRouter({
       {path:'/search',component:Search ,meta:{title:'搜索|Aroma'}},
       {path:'/detail/:id',component:Detail ,meta:{title:'详情|Aroma'}},
       {path:'/neworder',component:NewOrder ,meta:{title:'订单|Aroma'}},
+      {path:'/cartorder',component:CartOrder ,meta:{title:'购物订单|Aroma'}},
       {path:'/login',component:Login ,meta:{title:'登录|Aroma'}},
       {path:'/signup',component:Signup ,meta:{title:'注册|Aroma'}},
       {path:'/pay/:oid',component:Pay ,meta:{title:'支付|Aroma'}},

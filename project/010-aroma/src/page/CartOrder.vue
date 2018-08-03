@@ -1,18 +1,29 @@
 <template>
     <div>
        <Nav :pushDown="true"/>
-       <div  class="container">
-            <div class="cart">
-                <div class="cart-item" v-for="(product,index) in cart" :key="index">
+       <div class="container">
+            <div class="order" >
+                <div class="header">
+
+                </div>
+                <div class="wrap" v-for="(item,index) in product" :key="index">
                     <div class="col-lg-1">
-                        <img :src="product.$product.preview[0].url" alt="">
+                        <img :src="item.$product.preview[0].url" alt="">
                     </div>
                     <div class="col-lg-5 info">
-                        <div class="name">{{product.$product.name}}</div>
-                        <div>单价: <span class="currency">{{product.$product.price}}</span></div>
-                        <div>数量: <span>{{product.count}}</span></div>
+                        <div class="name">{{item.$product.name}}</div>
+                        <div>单价: <span class="currency">{{item.$product.price}}</span></div>
+                        <div>数量: <span>{{item.count}}</span></div>
                     </div>
-                    <div class="col-lg-4 pay">
+                    
+                    <div class="col-lg-2 right">
+                        <div>
+                            小计： <span>{{item.$product.price*item.count}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-lg-6 pay">
                         支付方式：
                         <div>
                             <label>
@@ -27,17 +38,10 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-lg-2 right">
-                        <div>
-                            小计： <span>{{product.$product.price * product.count}}</span>
-                        </div>
+                    <div class="col-lg-6 right">
+                        <div>共计：{{total}}</div>
+                        <button class="btn" @click.prevent="submit">提交订单</button>
                     </div>
-                </div>
-                <div class="right">
-                    <div>
-                    共计：{{sumAll}}
-                    </div>
-                    <button class="btn" @click.prevent="submit">提交订单</button>
                 </div>
             </div>
        </div>
@@ -52,33 +56,36 @@
         components:{Nav},
         data(){
             return{
+                product:{},
                 current:{
                     pay_by:'wechat',
                 },
                 payment_url:null,
                 uinfo:session.uinfo(),
                 with:[
-                    {model:'product',relation:'has_one'}
-                ],
-                cart:{},
+                    {model:'product',relation:'has_one'},
+                ]
             }
         },
         computed:{
-            sumAll(){
-                let sum = 0;
-                let cart = this.cart;
-                for(let key in cart){
-                    let item = cart[key];
-                    sum += item.$product.price * item.count
+            total(){
+                let sum = 0
+                let product = this.product;
+                for(let key in product){
+                    let val = product[key];
+                    sum += val.$product.price * val.count
                 }
-            }
+                return sum;
+            },
         },
         mounted() {
-            this.read();
+            // console.log('this.$route.query',this.$route.query);
+            this.current = Object.assign({},this.current,this.$route.query)
+            this.find(this.current.cart_id)
         },
         methods:{
             submit(){
-                this.current.oid = generate_oid(this.product.id);
+                this.current.oid = generate_oid(parseInt(Math.random()*10));
                 this.current.sum = this.total;
                 
                 this.current.user_id = this.uinfo.id;
@@ -91,46 +98,39 @@
                         this.$router.push('/pay/'+ r.data.oid)
                     })
             },
-            read(){
-                api('cart/read',{
-                    where:{
-                        user_id:this.uinfo.id,
-                    },
-                    with:this.with
+            find(id){
+                api('cart/find',{
+                    id,
+                    with:this.with,
                 }).then(r=>{
-                        this.cart = r.data;
+                        this.product = r.data;
                     })
             },
         }
     }
 </script>
 <style scoped>
-.cart{
+.order{
     border: 1px solid rgba(0, 0, 0, .06);
     margin-bottom: 20px;
     padding: 10px;
 } 
-.cart>*{
+.order>*{
     padding-right: 20px;
 }
-.cart .cart-item{
-    padding: 10px;
+.order .wrap{
+    padding-bottom: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, .06);
 }
-.cart .right{
+
+.order .right{
     padding: 10px  0;
-}
-.cart .right >* {
-    margin:  5px 0;
-}
-.cart-item img{
-    width: 100px;
 }
 .info {
 padding-left: 10%;    
 }
-.cart .pay >*,
-.cart .info >*{
+.order .pay >*,
+.order .info >*{
     padding: 4px 0;
 }
 

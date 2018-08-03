@@ -95,6 +95,7 @@
                         <div class="table">
                             <table>
                                 <thead>
+                                    <th>序号</th>
                                     <th>产品名称</th>
                                     <th>产品类型</th>
                                     <th>年份</th>
@@ -109,6 +110,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(row,index) in list" :key="index">
+                                    <td>{{row.id||'-'}}</td>
                                     <td>{{row.name||'-'}}</td>
                                     <td>{{row.$ptype?row.$ptype.name:'-'}}</td>
                                     <td>{{row.year||'-'}}</td>
@@ -147,10 +149,10 @@ export default {
         searchable:['name'],
         breed:{},
         with:[
-            {model:'location',type:"has_one"},
-            {model:'breed',type:"has_one"},
-            {model:'occasion',type:"has_one"},
-            {model:'ptype',type:"has_one"},
+            {model:'location',relation:"has_one"},
+            {model:'breed',relation:"has_one"},
+            {model:'occasion',relation:"has_one"},
+            {model:'ptype',relation:"has_one"},
         ]
 
     };

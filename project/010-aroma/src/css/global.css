@@ -164,7 +164,9 @@ button {
     vertical-align: middle;
     /* padding-right: 8px; */
 }
-
+[type='checkbox'] {
+    margin: 0 5px;
+}
 .input-control label {
     display: block;
     padding: 2px;

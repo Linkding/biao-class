@@ -22,7 +22,7 @@
                     <td>{{row.pay_by||'-'}}</td>
                     <td>{{row._paid?'是':'否'}}</td>
                     <td>{{row.memo||'-'}}</td>
-                    <td>{{row.$user?row.$user.name:'-'}}</td>
+                    <td>{{row.$user?row.$user.username:'-'}}</td>
                     <td>
                         <div v-if="!row._paid">
                             <router-link :to="`/pay/${row.oid}`" class="btn">付款</router-link>
@@ -50,6 +50,9 @@
                 show_detail:false,
                 uinfo:session.uinfo(),
                 list:{},
+                with:[
+                    {model:'user',relation:'has_one'},
+                ]
             }
         },
         mounted() {
@@ -59,6 +62,7 @@
             read(){
                 api('order/search',{
                     user_id:this.uinfo.id,
+                    with:this.with,
                 }).then(r=>{
                     this.list = r.data;
                     console.log('this.list',this.list);
