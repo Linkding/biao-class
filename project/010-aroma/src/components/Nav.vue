@@ -1,93 +1,97 @@
 <template>
     <div :style="{marginBottom: this.pushDown ? '20px': 0,}" :class="['container' , 'nav' , is_poa?'poa':'']">
-        <div class="col logo">
+        <div class="col-lg-4 logo">
             <router-link to="/">
                 <img src="../assets/img/logo02.png" alt="">
             </router-link>
         </div>
-        <div class="col-lg-6 item">
+        <div class="col-lg-6 right">
+            <SearchBar/>
         </div>
-        <div class="col-lg-4 right">
+        <div class="col-lg-2 right">
             <div v-if="uinfo">
-                <div class="user-panel">
-                    <div @click="show_user_drop =!show_user_drop" >
+                <div class="user-panel" @mouseleave="show_user_drop = false">
+                    <div @mouseover="show_user_drop =!show_user_drop" >
                         <div class="nav-item username" >{{uinfo.username}}</div>
                     </div>
-                    <div class="user-drop" v-if="show_user_drop" :style="{top:dropTop,right:dropUserRight}">
-                        <div>
-                            <router-link to="/me/order">
-                                <i class="fa fa-bars" aria-hidden="true"></i> 
-                                我的订单
-                            </router-link>
-                        </div>
-                        <div>
-                            <router-link to="/me/setting">
-                                <i class="fa fa-cog" aria-hidden="true"></i>
-                                设置
-                            </router-link>
-                        </div>
-                        <div>
-                            <div @click="logout">
-                                <i class="fas fa-sign-out-alt"></i>
-                                退出
+                    <transition name="tr-user">
+                        <div class="user-drop" v-if="show_user_drop" :style="{top:dropTop,right:dropUserRight}">
+                            <div>
+                                <router-link to="/me/order">
+                                    <i class="fa fa-bars" aria-hidden="true"></i> 
+                                    我的订单
+                                </router-link>
+                            </div>
+                            <div>
+                                <router-link to="/me/setting">
+                                    <i class="fa fa-cog" aria-hidden="true"></i>
+                                    设置
+                                </router-link>
+                            </div>
+                            <div>
+                                <div @click="logout">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    退出
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </transition>
                 </div>
-                <div class="cart-panel">
-                    <div class="nav-item cart" @click="onShowCart">
+                <div class="cart-panel" @mouseleave="show_cart_drop=false">
+                    <div class="nav-item cart" @mouseover="onShowCart">
                         <i class="fas fa-cart-arrow-down"></i>    
                     </div>
-                    
-                    <div  class="cart-drop" v-if="show_cart_drop" :style="{top:dropTop,right:dropCartRight}">
-                        <div class="cart-drop-header">
-                            <div v-if="cart">
-                                <input type="checkbox" id="allselect" @click="toggle_check" v-model="check_all">
-                                <label for="allselect">全选</label>
-                            </div>
-                            <div v-else class="empty">
-                                空空如也~
-                            </div>
-                        </div>
-                        <div class="cart-warp">
-                            <div  class="cart-list" v-for="(item,index) in cart" :key="index">
-                                <div class="col-lg-1">
-                                    <input type="checkbox" v-model="item._checked">
+                    <transition name="tr-cart">
+                        <div  class="cart-drop" v-if="show_cart_drop" :style="{top:dropTop,right:dropCartRight}">
+                            <div class="cart-drop-header">
+                                <div v-if="cart">
+                                    <input type="checkbox" id="allselect" @click="toggle_check" v-model="check_all">
+                                    <label for="allselect">全选</label>
                                 </div>
-                                <div class="col-lg-2">
-                                    <img :src="item.$product.preview[0].url" alt="">
+                                <div v-else class="empty">
+                                    空空如也~
                                 </div>
-                                <div class="col-lg-8 info">
-                                    <div class="name">{{item.$product.name}}</div>
-                                    <div>
-                                        <div class="col-lg-6 count">X {{item.count}}</div>
-                                        <div class="col-lg-6">
-                                            <span class="currency">{{item.$product.price}}</span>
+                            </div>
+                            <div class="cart-warp">
+                                <div  class="cart-list" v-for="(item,index) in cart" :key="index">
+                                    <div class="col-lg-1">
+                                        <input type="checkbox" v-model="item._checked">
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <img :src="item.$product.preview[0].url" alt="">
+                                    </div>
+                                    <div class="col-lg-8 info">
+                                        <div class="name">{{item.$product.name}}</div>
+                                        <div>
+                                            <div class="col-lg-6 count">X {{item.count}}</div>
+                                            <div class="col-lg-6">
+                                                <span class="currency">{{item.$product.price}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <div class="remove">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-1">
-                                    <div class="remove">
-                                        <i class="fa fa-times" aria-hidden="true"></i>
-                                    </div>
+                            </div>
+                            <div class="sub-bar" v-if="cart">
+                                <div class="col-lg-8">
+                                    <!-- <div>已选：{{selected}}</div> -->
+                                    <span>商品共计： </span><span class="currency">{{total}}</span>
+                                </div>
+                                <div class="col-lg-4">
+                                    <router-link :to="to()">
+                                        <button class="sub-btn">
+                                            提交订单
+                                        </button>
+                                    </router-link>
                                 </div>
                             </div>
+                            
                         </div>
-                        <div class="sub-bar" v-if="cart">
-                            <div class="col-lg-8">
-                                <!-- <div>已选：{{selected}}</div> -->
-                                <span>商品共计： </span><span class="currency">{{total}}</span>
-                            </div>
-                            <div class="col-lg-4">
-                                <router-link :to="to()">
-                                    <button class="sub-btn">
-                                        提交订单
-                                    </button>
-                                </router-link>
-                            </div>
-                        </div>
-                        
-                    </div>
+                    </transition>
                 </div>
             </div>
             <div v-else>
@@ -99,9 +103,11 @@
 </template>
 <script>
     import session from '../lib/session';
+    import SearchBar from './SearchBar';
     import api from '../lib/api';
 
     export default {
+        components:{SearchBar},
         props:{
             is_poa:{
                 default:false,
@@ -256,7 +262,7 @@
 .cart-drop {
     position: absolute;
     background: #fff;
-    top:9.5%;
+    top:9.1%;
     border: 1px solid rgba(0, 0, 0, .08);
     box-shadow: 1px 1px 2px rgba(0, 0, 0, .08);
     z-index: 20;
@@ -267,8 +273,9 @@
     overflow: scroll;
 }
 .user-drop{
-    width: 100px;
-    right: 16.6%;
+    width: 110px;
+    right: 13.9%;
+    padding: 8px 10px;
 }
 .cart-drop {
     width: 350px;
@@ -343,5 +350,10 @@
     padding: 8px 5px;
     text-align: left;
 }
-
+.tr-user-enter-active, .tr-user-leave-active {
+  transition: opacity .5s
+}
+.tr-user-enter, .tr-user-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0
+}
 </style>

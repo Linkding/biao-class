@@ -4,5 +4,11 @@
     // api('MODEL/READ')
     api('MODEL/DELETE',{key:'cart'})
     // api('product/delete',{id:4})
-
+    api('PROPERTY/UPDATE',{
+        model:'product',
+        key:'year',
+        structure:{
+            type:int
+        },
+    })
     </script>

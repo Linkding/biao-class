@@ -24,25 +24,31 @@
                     </span>
                 </div>
                 <div class="cat-panel">
-                    <div v-show="cat_panel == 'wine'" class="wine">
+                    <div  v-show="cat_panel == 'wine'" class="wine">
                         <div class="panel">
                             <div class="col-lg-1 title">品种</div> 
-                            <div class="col-lg-11 link-group">
-                                <span>赤霞珠</span>
-                                <span>梅洛</span>
+                            <div class="col-lg-11 link-group" >
+                                <span v-for="(item,index) in breed_list" :key="index">
+                                    <span @click="set_query_where('breed_id',item.id)">{{item.name}}</span>
+                                </span>
+                                <!-- <span>梅洛</span>
                                 <span>西拉</span>
                                 <span>霞多丽</span>
-                                <span>长相思</span>
+                                <span>长相思</span> -->
                             </div>
                         </div>
                         <div class="panel">
                         <div class="col-lg-1 title">地区</div> 
                         <div class="col-lg-11 link-group">
-                            <span>法国</span>
-                            <span>西班牙</span>
+                            <span v-for="(item,index) in location_list" :key="index">
+                                <span @click="set_query_where('location_id',item.id)">
+                                    {{item.name}}
+                                </span>
+                            </span>
+                            <!-- <span>西班牙</span>
                             <span>意大利</span>
                             <span>澳大利亚</span>
-                            <span>智利</span>
+                            <span>智利</span> -->
                         </div>
                         </div>
                         <div class="panel">
@@ -60,18 +66,25 @@
                         <div class="panel">
                             <div class="col-lg-1 title">类型</div> 
                             <div class="col-lg-11 link-group">
-                                <span>泡杯</span>
-                                <span>醒酒器</span>
+                                <span v-for="(item,index) in ptype_list" :key="index">
+                                    <span @click="set_query_where('ptype_id',item.id)">
+                                        {{item.name}}
+                                    </span>
+                                </span>
+                                <!-- <span>醒酒器</span>
                                 <span>开瓶器</span>
                                 <span>酒架</span>
-                                <span>瓶嘴</span>
+                                <span>瓶嘴</span> -->
                             </div>
                         </div>
                         <div class="panel">
                             <div class="col-lg-1 title">材质</div> 
                             <div class="col-lg-11 link-group">
-                                <span>水晶</span>
-                                <span>玻璃</span>
+                                <span v-for="(item,index) in material_list" :key="index">
+                                    <span  @click="set_query_where('material_id',item.id)">
+                                        {{item.name}}
+                                    </span>
+                                </span>
                             </div>
                         </div>
                         <div class="panel">
@@ -89,11 +102,15 @@
                         <div class="panel">
                             <div class="col-lg-1 title">场合</div> 
                             <div class="col-lg-11 link-group">
-                                <span>家庭</span>
-                                <span>朋友</span>
+                                <span v-for="(item,index) in occasion_list" :key="index">
+                                    <span @click="set_query_where('occasion_id',item.id)">
+                                        {{item.name}}
+                                    </span>
+                                </span>
+                                <!-- <span>朋友</span>
                                 <span>商务</span>
                                 <span>郊游</span>
-                                <span>婚礼</span>
+                                <span>婚礼</span> -->
                             </div>
                         </div>
                     </div>
@@ -150,10 +167,20 @@ export default {
             total:0,
             limit:6,
             search_param:{},
+            breed_list:[],
+            location_list:[],
+            ptype_list:[],
+            occasion_list:[],
+            material_list:[],
         }
     },
     mounted() {
         this.read();
+        this.read_by_model('breed');
+        this.read_by_model('location');
+        this.read_by_model('ptype');
+        this.read_by_model('occasion');
+        this.read_by_model('material');
     },
     methods:{
             read(){
@@ -163,26 +190,52 @@ export default {
                         this.total = r.total;
                     })
             },
+            read_by_model(model){
+                api(`${model}/read`)
+                    .then(r=>{
+                        this[model + '_list']= r.data;
+                    })
+            },
             on_page_change(page){
-                console.log('page',page);
-                
                 this.set_condition('page',page);
             },
             set_condition(type,value){
                 let query = clone(this.$route.query);
-
                 switch (type){
                     case 'page':
                         query.page = value;
                         break;
                 }
                 this.$router.replace({query});
+                console.log('111query',query);
                 this.search();
+            },
+            set_query_where(type,value){
+                let condition = {};
+                condition[type] = value;
+
+                let o = this.search_param;
+                let n = Object.assign({},o,condition);
+                this.$router.replace({query:n});
             },
             search(){
                 let p = this.search_param;
                 
-                api('product/search',{
+                let breed_query = ''
+                    ,location_query = ''
+                    ,ptype_query = ''
+                    ,occasion_query = ''
+                    ,material_query = ''
+                    ;
+                p.breed_id &&( breed_query = `and "breed_id" = ${p.breed_id}`);
+                p.location_id &&( location_query = `and "location_id" = ${p.location_id}`);
+                p.occasion_id &&( occasion_query = `and "occasion_id" = ${p.occasion_id}`);
+                p.material_id &&( material_query = `and "material_id" = ${p.material_id}`);
+
+                let query = `where("name" contains "${p.keyword||''}" ${breed_query} ${location_query} ${occasion_query} ${material_query})`
+
+                api('product/read',{
+                    query:query,
                     limit:this.limit,
                     page:p.page,
                 }).then(r=>{
@@ -197,6 +250,7 @@ export default {
             },
             parse_route_query(){
                 let query = this.$route.query;
+                
                 if(!query.sort_by)
                     query.sort_by = ['id','down'];
                 
@@ -245,7 +299,7 @@ export default {
     z-index: 1;
     width: 100%;
     border: 1px solid rgba(0, 0, 0, 0.07);
-    /* opacity: 1; */
+    opacity: 1;
 }
 .cat-panel .panel {
   background: #f8f8f6;

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="header">
-            <Nav :is_poa="true" :dropTop="'99.5%'" :dropUserRight="'7.7%'" :dropCartRight="'0%'"/>
+            <Nav :is_poa="true" :dropTop="'99.5%'" :dropUserRight="'4.5%'" :dropCartRight="'0%'"/>
             <!-- <div class="slider" v-for="(pre,index) in cat" :key="index">
                 <img :src="pre.cover_url" alt="">
             </div> -->
