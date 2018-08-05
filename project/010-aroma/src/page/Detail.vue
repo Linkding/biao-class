@@ -102,7 +102,7 @@
                     
             },
             to(){
-                return {path:'/neworder/', query:{id:this.detail.id,count:this.count}}
+                return {path:'/order/confirm', query:{id:this.detail.id,count:this.count,_referer:'item_buy'}}
             },
             reduce(){
                 if(this.count <= 0)

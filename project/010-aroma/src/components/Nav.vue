@@ -57,33 +57,30 @@
                                 <div class="col-lg-2">
                                     <img :src="item.$product.preview[0].url" alt="">
                                 </div>
-                                <div class="col-lg-6 info">
+                                <div class="col-lg-8 info">
                                     <div class="name">{{item.$product.name}}</div>
-                                    <div>价格:
-                                        <span class="currency">{{item.$product.price}}</span>
+                                    <div>
+                                        <div class="col-lg-6 count">X {{item.count}}</div>
+                                        <div class="col-lg-6">
+                                            <span class="currency">{{item.$product.price}}</span>
+                                        </div>
                                     </div>
-                                    <div>数量: {{item.count}}</div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <div class="count-bar">
-                                        <button class="count-btn" @click="item.count--">-</button>
-                                        <span class="count"> {{item.count}} </span>
-                                        <button class="count-btn" @click="item.count++">+</button>
-                                    </div>
+                                <div class="col-lg-1">
                                     <div class="remove">
-                                        <button class="btn" @click="remove(item.id)">移除</button>
+                                        <i class="fa fa-times" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="sub-bar" v-if="cart">
-                            <div class="sub-first">
-                                <div class="col-lg-6">已选：{{selected}}</div>
-                                <div class="col-lg-6 right currency">{{total}}</div>
+                            <div class="col-lg-8">
+                                <!-- <div>已选：{{selected}}</div> -->
+                                <span>商品共计： </span><span class="currency">{{total}}</span>
                             </div>
-                            <div>
-                                <router-link :to="to()" style="width:100%" >
-                                    <button style="width:100%" class="sub-btn">
+                            <div class="col-lg-4">
+                                <router-link :to="to()">
+                                    <button class="sub-btn">
                                         提交订单
                                     </button>
                                 </router-link>
@@ -195,8 +192,7 @@
                         check.push(val.id)
                 }
                 console.log('check',check);
-                return {path:'/cartorder/', query:{cart_id:check}}
-                // return {path:'/neworder/',query:{id:4,count:4}}
+                return {path:'/order/confirm', query:{id:check,_referer:'cart_buy'}}
             }
         }
     }
@@ -205,6 +201,16 @@
 .poa{
     z-index: 10;
     position: absolute;
+}
+.fa-times{
+    font-size: 1.2rem;
+}
+.fa-bars,
+.fa-cog{
+    margin-right: 5px;
+}
+.currency{
+    color: #F9726C;
 }
 .nav{
     background: #F1EDEE;
@@ -249,13 +255,15 @@
 .user-drop,
 .cart-drop {
     position: absolute;
-    background: #F1EDEE;
+    background: #fff;
     top:9.5%;
-    border: 1px solid rgba(0, 0, 0, .2);
-
+    border: 1px solid rgba(0, 0, 0, .08);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .08);
+    z-index: 20;
+    border-radius: 3px;
 }
 .cart-drop .cart-warp {
-    height: 400px;
+    height: 300px;
     overflow: scroll;
 }
 .user-drop{
@@ -263,11 +271,10 @@
     right: 16.6%;
 }
 .cart-drop {
-    width: 400px;
+    width: 350px;
     right: 10%;
-    padding: 5px;
+    /* padding: 5px; */
     text-align: left;
-    opacity: 1;
 }
 .cart-drop .empty{
     padding: 10px;
@@ -286,7 +293,7 @@
     padding: 7px 0;
     border-bottom: 1px solid rgba(0, 0, 0, .08);
     margin-bottom: 7px;
-    background: #fff;
+    /* background: #F1EDEE; */
 }
 .cart-drop .cart-list > *{
     font-size: 0.8rem;
@@ -303,8 +310,8 @@
     height: 60px;
 }
 .cart-drop .cart-list .count{
-    border: 1px solid rgba(0, 0, 0, .08);
-    padding: 5px 10px;
+    font-size: 0.8rem;
+    color: #999;
 }
 .cart-drop .cart-list .count-bar,
 .cart-drop .cart-list .remove {
@@ -317,13 +324,16 @@
     margin-top: 10px;
 }
 .cart-drop  .sub-bar {
-    padding: 0 8px;
+    background: #F1EDEE;
+    margin: 0;
+    padding: 10px;
 }
 .cart-drop  .sub-btn{
     background: #F9726C;
     border-radius: 3px;
-    padding: 8px 0;
+    padding: 8px;
     color: #fff;
+    text-align: center;
 }
 .cart-drop  .sub-first {
     padding: 8px;
@@ -333,8 +343,5 @@
     padding: 8px 5px;
     text-align: left;
 }
-.fa-bars,
-.fa-cog{
-    margin-right: 5px;
-}
+
 </style>

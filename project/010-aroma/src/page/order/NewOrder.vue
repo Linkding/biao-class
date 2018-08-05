@@ -1,29 +1,18 @@
 <template>
     <div>
        <Nav :pushDown="true"/>
-       <div class="container">
-            <div class="order" >
-                <div class="header">
-
-                </div>
-                <div class="wrap" v-for="(item,index) in product" :key="index">
+       <div  class="container">
+            <div class="order">
+                <div class="wrap">
                     <div class="col-lg-1">
-                        <img :src="item.$product.preview[0].url" alt="">
+                        <img :src="product.preview[0].url" alt="">
                     </div>
                     <div class="col-lg-5 info">
-                        <div class="name">{{item.$product.name}}</div>
-                        <div>单价: <span class="currency">{{item.$product.price}}</span></div>
-                        <div>数量: <span>{{item.count}}</span></div>
+                        <div class="name">{{product.name}}</div>
+                        <div>单价: <span class="currency">{{product.price}}</span></div>
+                        <div>数量: <span>{{current.count}}</span></div>
                     </div>
-                    
-                    <div class="col-lg-2 right">
-                        <div>
-                            小计： <span>{{item.$product.price*item.count}}</span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="col-lg-6 pay">
+                    <div class="col-lg-4 pay">
                         支付方式：
                         <div>
                             <label>
@@ -38,20 +27,24 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-lg-6 right">
-                        <div>共计：{{total}}</div>
-                        <button class="btn" @click.prevent="submit">提交订单</button>
+                    <div class="col-lg-2 right">
+                        <div>
+                            共计： <span>{{total}}</span>
+                        </div>
                     </div>
+                </div>
+                <div class="right">
+                    <button class="btn" @click.prevent="submit">提交订单</button>
                 </div>
             </div>
        </div>
     </div>
 </template>
 <script>
-    import Nav from '../components/Nav';
-    import api from '../lib/api';
-    import {generate_oid} from '../lib/order';
-    import session from '../lib/session';
+    import Nav from '../../components/Nav';
+    import api from '../../lib/api';
+    import {generate_oid} from '../../lib/order';
+    import session from '../../lib/session';
     export default{
         components:{Nav},
         data(){
@@ -62,30 +55,23 @@
                 },
                 payment_url:null,
                 uinfo:session.uinfo(),
-                with:[
-                    {model:'product',relation:'has_one'},
-                ]
             }
         },
         computed:{
             total(){
-                let sum = 0
-                let product = this.product;
-                for(let key in product){
-                    let val = product[key];
-                    sum += val.$product.price * val.count
-                }
-                return sum;
-            },
+                return this.current.count * this.product.price;
+            }
         },
         mounted() {
             // console.log('this.$route.query',this.$route.query);
-            this.current = Object.assign({},this.current,this.$route.query)
-            this.find(this.current.cart_id)
+            let c =  this.current = Object.assign({},this.current,this.$route.query)
+            if(c._referer= 'item_buy')
+                this.find('product',this.current.id)
+            this.find_cart('cart',this.current.id);
         },
         methods:{
             submit(){
-                this.current.oid = generate_oid(parseInt(Math.random()*10));
+                this.current.oid = generate_oid(this.product.id);
                 this.current.sum = this.total;
                 
                 this.current.user_id = this.uinfo.id;
@@ -98,14 +84,13 @@
                         this.$router.push('/pay/'+ r.data.oid)
                     })
             },
-            find(id){
-                api('cart/find',{
-                    id,
-                    with:this.with,
-                }).then(r=>{
+            find(model,id){
+                api(`${model}/find`,{id})
+                    .then(r=>{
                         this.product = r.data;
                     })
             },
+           
         }
     }
 </script>
@@ -122,7 +107,6 @@
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, .06);
 }
-
 .order .right{
     padding: 10px  0;
 }

@@ -148,7 +148,7 @@ export default {
             cat_panel:'',
             list:{},
             total:0,
-            limit:3,
+            limit:6,
             search_param:{},
         }
     },
@@ -245,7 +245,7 @@ export default {
     z-index: 1;
     width: 100%;
     border: 1px solid rgba(0, 0, 0, 0.07);
-    opacity: .93;
+    /* opacity: 1; */
 }
 .cat-panel .panel {
   background: #f8f8f6;
