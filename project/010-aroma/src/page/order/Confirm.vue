@@ -166,11 +166,18 @@
                 c.sum = this.total;
                 
                 c.user_id = this.uinfo.id;
+                
+                // 删除购物车对应的项后，创建订单
+                this.remove_cart(c.id);
+
                 delete c.id
                 api('order/create',c)
                     .then(r=>{
                         this.$router.push('/pay/'+ r.data.oid)
                     })
+            },
+            remove_cart(id){
+                api('cart/delete_many',{in:this.current.id})
             },
             find(model,id){
                 api(`${model}/find`,{

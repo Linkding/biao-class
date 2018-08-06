@@ -61,6 +61,7 @@
                     id:id,
                     pay_by:pay_by,
                     fee:fee,
+                    // return_url:url('/#/'),
                 }).then(r=>{
                     if(r.data.url){
                         location.href = r.data.url; //如果返回是url，即支付宝支付，跳转到支付url

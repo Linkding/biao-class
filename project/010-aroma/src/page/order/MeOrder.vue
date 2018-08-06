@@ -73,7 +73,9 @@
         methods:{
             read(){
                 api('order/search',{
+                    or:{
                     user_id:this.uinfo.id,
+                    },
                     with:this.with,
                 }).then(r=>{
                     this.list = r.data;

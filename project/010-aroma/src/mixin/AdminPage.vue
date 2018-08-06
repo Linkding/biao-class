@@ -69,8 +69,8 @@ export default {
       this.show_form = true;
 
       this.$nextTick(() => {
-        if(this.model == 'wine'){
-          this.edit_wine(row)          
+        if(this.model == 'product'){
+          this.edit_product(row)          
         }
         else if(this.model == 'model'){
           this.edit_model(row);
@@ -79,10 +79,11 @@ export default {
         }
       });
     },
-    edit_wine(row) {
-      this.$refs.edit_wine_breed.on_edit_wine(row.$breed);
-      this.$refs.edit_wine_location.on_edit_wine(row.$location);
-      this.$refs.edit_wine_occasion.on_edit_wine(row.$occasion);
+    edit_product(row) {
+      this.$refs.edit_product_breed.on_edit_product(row.$breed);
+      this.$refs.edit_product_location.on_edit_product(row.$location);
+      this.$refs.edit_product_occasion.on_edit_product(row.$occasion);
+      this.$refs.edit_product_ptype.on_edit_product(row.$ptype);
     },
     edit_vehicle(row) {
       this.$refs.edit_vehicle_brand.on_edit_vehicle(row.$brand);

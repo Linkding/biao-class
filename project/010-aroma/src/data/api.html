@@ -2,13 +2,15 @@
 <script src="./api.js"></script>
 <script>
     // api('MODEL/READ')
-    api('MODEL/DELETE',{key:'cart'})
+    // api('MODEL/DELETE',{key:'cart'})
     // api('product/delete',{id:4})
-    api('PROPERTY/UPDATE',{
+    api('PROPERTY/CREATE',{
+        // force:true,
         model:'product',
         key:'year',
         structure:{
-            type:int
+            type:'integer',
+            nullable:true,
         },
     })
     </script>

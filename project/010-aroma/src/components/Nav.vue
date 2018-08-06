@@ -17,7 +17,7 @@
                     <transition name="tr-user">
                         <div class="user-drop" v-if="show_user_drop" :style="{top:dropTop,right:dropUserRight}">
                             <div>
-                                <router-link to="/me/order">
+                                <router-link to="/order/meorder">
                                     <i class="fa fa-bars" aria-hidden="true"></i> 
                                     我的订单
                                 </router-link>
@@ -38,8 +38,10 @@
                     </transition>
                 </div>
                 <div class="cart-panel" @mouseleave="show_cart_drop=false">
-                    <div class="nav-item cart" @mouseover="onShowCart">
-                        <i class="fas fa-cart-arrow-down"></i>    
+                    <div @mouseover="onShowCart">
+                        <div class="nav-item cart" >
+                            <i class="fas fa-cart-arrow-down"></i>    
+                        </div>
                     </div>
                     <transition name="tr-cart">
                         <div  class="cart-drop" v-if="show_cart_drop" :style="{top:dropTop,right:dropCartRight}">

@@ -25,7 +25,7 @@
                                     :Width="'200'"
                                     :list='ptype'
                                     :onSelect="set_ptype_id"
-                                    ref="edit_wine_ptype"
+                                    ref="edit_product_ptype"
                                 />
                             </div>
                              <div class="input-control">
@@ -40,7 +40,7 @@
                                         :Width="'200'"
                                         :list='breed'
                                         :onSelect="set_breed_id"
-                                        ref="edit_wine_breed"
+                                        ref="edit_product_breed"
                                     />
                                 <!-- </div> -->
                             </div>
@@ -51,7 +51,7 @@
                                     :Width="'200'"
                                     :list='location'
                                     :onSelect="set_location_id"
-                                    ref="edit_wine_location"
+                                    ref="edit_product_location"
                                 />
                             </div>
                             <div class="input-control">
@@ -61,7 +61,7 @@
                                     :Width="'200'"
                                     :list='occasion'
                                     :onSelect="set_occasion_id"
-                                    ref="edit_wine_occasion"
+                                    ref="edit_product_occasion"
                                 />
                             </div>
                              <div class="input-control">

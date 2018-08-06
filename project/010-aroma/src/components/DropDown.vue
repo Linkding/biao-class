@@ -68,15 +68,15 @@ export default {
         property
       };
     },
-    //触发wine模块编辑事件时调用
-    on_edit_wine(row) {
-      if (!row) {
+    //触发product模块编辑事件时调用
+    on_edit_product(row) {
+      if (!row || row == null || row == undefined) {
         this.selected = {};
         this.keyword = '';
+      }else{
+        this.keyword = row[this.displayKey];
+        this.selected = row;
       }
-      
-      this.keyword = row[this.displayKey]
-      this.selected = row;
     },
     //触发vehicle模块编辑事件时调用
     on_edit_vehicle(row) {

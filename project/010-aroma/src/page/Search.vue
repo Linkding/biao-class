@@ -54,8 +54,7 @@
                         <div class="panel">
                         <div class="col-lg-1 title">年份</div> 
                         <div class="col-lg-11 link-group">
-                            <span>新酒</span>
-                            <span>2015-2017</span>
+                            <span @click="set_query_year_range(2015,2017)">2015-2017</span>
                             <span>2011-2014</span>
                             <span>2008-2010</span>
                             <span>&lt; 2008</span>
@@ -199,7 +198,8 @@ export default {
             on_page_change(page){
                 this.set_condition('page',page);
             },
-            set_condition(type,value){
+            //set_condition为请求的api中的专有属性
+            set_condition(type,value){ 
                 let query = clone(this.$route.query);
                 switch (type){
                     case 'page':
@@ -207,9 +207,9 @@ export default {
                         break;
                 }
                 this.$router.replace({query});
-                console.log('111query',query);
                 this.search();
             },
+            //set_query_where为请求中对数据范围的属性值
             set_query_where(type,value){
                 let condition = {};
                 condition[type] = value;
@@ -217,6 +217,20 @@ export default {
                 let o = this.search_param;
                 let n = Object.assign({},o,condition);
                 this.$router.replace({query:n});
+            },
+            set_query_year_range(min,max){
+                let query = this.parse_route_query();
+                if(!min && !max){
+                    delete query.year_min;
+                    delete query.year_max;
+                }else{
+                    let condition = {
+                        year_min :min,
+                        year_max :max,
+                    };
+                    query = Object.assign({},query,condition);
+                }
+                this.$router.replace({query});
             },
             search(){
                 let p = this.search_param;
@@ -226,13 +240,17 @@ export default {
                     ,ptype_query = ''
                     ,occasion_query = ''
                     ,material_query = ''
+                    ,year_min_query = ''
+                    ,year_max_query = ''
                     ;
                 p.breed_id &&( breed_query = `and "breed_id" = ${p.breed_id}`);
                 p.location_id &&( location_query = `and "location_id" = ${p.location_id}`);
                 p.occasion_id &&( occasion_query = `and "occasion_id" = ${p.occasion_id}`);
                 p.material_id &&( material_query = `and "material_id" = ${p.material_id}`);
+                p.year_max && ( year_max_query = `and "year" <= ${p.year_max}`);
+                p.year_min && ( year_min_query = `and "year" >= ${p.year_min}`);
 
-                let query = `where("name" contains "${p.keyword||''}" ${breed_query} ${location_query} ${occasion_query} ${material_query})`
+                let query = `where("name" contains "${p.keyword||''}" ${breed_query} ${location_query} ${occasion_query} ${material_query} ${year_min_query} ${year_max_query})`
 
                 api('product/read',{
                     query:query,
