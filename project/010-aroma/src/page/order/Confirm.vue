@@ -43,7 +43,7 @@
                 <div class="wrap" v-if="current._referer == 'item_buy'">
                    <div class="col-lg-4">
                         <div class="col-lg-4">
-                            <img :src="product.preview[0].url" alt="">
+                            <img :src="product.preview && product.preview[0] && product.preview[0].url" alt="此无图片">
                        </div>
                         <div class="col-lg-8 name">{{product.name}}</div>
                     </div>

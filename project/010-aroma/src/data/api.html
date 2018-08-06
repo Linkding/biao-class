@@ -5,11 +5,10 @@
     // api('MODEL/DELETE',{key:'cart'})
     // api('product/delete',{id:4})
     api('PROPERTY/CREATE',{
-        // force:true,
         model:'product',
-        key:'year',
+        key:'start_hot',
         structure:{
-            type:'integer',
+            type:'boolean',
             nullable:true,
         },
     })
