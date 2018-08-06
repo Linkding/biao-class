@@ -167,7 +167,21 @@
                 
                 c.user_id = this.uinfo.id;
                 
-                // 删除购物车对应的项后，创建订单
+                //给订单的product_info添加信息
+                if(c._referer == 'item_bug'){
+                    let info = {id:c.id,count:c.count};
+                    c.product_info = info;
+                }else{
+                    let info = []
+                    let product = this.product;
+                    for(let key in product){
+                        let val = product[key];
+                        info.push({id:val.id,count:val.count})
+                    }
+                    c.product_info = info;
+                }
+                
+                // 删除购物车对应的项
                 this.remove_cart(c.id);
 
                 delete c.id

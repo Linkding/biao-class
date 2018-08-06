@@ -42,7 +42,7 @@
                 </div>
                 <div class="mask">
                     <div class="wrap-detail">
-                        
+                         
                     </div>
                 </div>
             </div>
