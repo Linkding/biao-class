@@ -1,5 +1,31 @@
 <template>
     <div>
+        <div class="mask" v-if="show_detail_mask">
+                    <div class="wrap-detail">
+                        <div class="close right" @click="show_detail_mask = false">
+                        </div>
+                        <div>
+                            <table>
+                                <thead>
+                                    <th>序号</th>
+                                    <th>商品名称</th>
+                                    <th>单价</th>
+                                    <th>数量</th>
+                                    <th>小计</th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item,index) in product_info" :key="index">
+                                        <td>{{item.$product?item.$product.id:item.id}}</td>
+                                        <td>{{item.$product?item.$product.name:item.name}}</td>
+                                        <td>{{item.$product?item.$product.price:item.price}}</td>
+                                        <td>{{item.count||'-'}}</td>
+                                        <td>{{item.$product?item.$product.price:item.price * item.count }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
         <Nav :pushDown="true"/>
         <div class="container">
             <div class="col-lg-3">
@@ -24,7 +50,7 @@
                             <td>{{row.id||'-'}}</td>
                             <td>{{row.oid||'-'}}</td>
                             <td>{{row.sum||'-'}}</td>
-                            <td><span @click="show_detail(row)">查看</span></td>
+                            <td><span @click="show_detail(row.product_info)">查看</span></td>
                             <td>{{row.pay_by||'-'}}</td>
                             <td>{{row._paid?'是':'否'}}</td>
                             <td>{{row.memo||'-'}}</td>
@@ -40,11 +66,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="mask">
-                    <div class="wrap-detail">
-                         
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -59,7 +81,8 @@
         components:{Nav,SideNav},
         data(){
             return{
-                show_detail:false,
+                show_detail_mask:false,
+                product_info:{},
                 uinfo:session.uinfo(),
                 list:{},
                 with:[
@@ -71,6 +94,40 @@
             this.read()
         },
         methods:{
+            show_detail(row){
+                // this.parse_product_info(row);
+                this.product_info = [row];
+                console.log('this.product_infot',this.product_info);
+                
+                this.show_detail_mask = true;
+            },
+            parse_product_info(row){
+                console.log('row',row);
+                
+                let p = row.product_info
+                    ,len = p.length
+                    ,id
+                    ;
+                if(len > 1){
+                    let info_id = []
+                    for(let i = 0;i<len;i++){
+                        info_id.push(p[i].id)
+                    }
+                    id = info_id;
+                    this.read_product_info(id)
+                        .then()
+                }else {
+                    let id = p.id
+                }
+
+            },
+            read_product_info(id){
+                return api('product/find_many',{
+                            in:id,
+                        }).then(r=>{
+                            this.product_info = r.data;
+                        });
+            },
             read(){
                 api('order/search',{
                     or:{
@@ -99,5 +156,20 @@
     color: #000;
     cursor: pointer;
     margin: 0 2px;
+}
+.mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .1);
+}
+.wrap-detail {
+    position: absolute;
+    top: 15%;
+    left: 22%;
+    width: 700px;
+    height: 250px;
+    background: #f8f8f6;
+    padding: 20px;
 }
 </style>

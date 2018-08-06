@@ -231,6 +231,10 @@ textarea[disabled] {
   opacity: .6;
   cursor: not-allowed;
 }
+/* ===========close======== */
+.close::before{
+    content: 'X';
+}
  /* ===========色板============ */
 
 .color {

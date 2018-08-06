@@ -168,20 +168,25 @@
                 c.user_id = this.uinfo.id;
                 
                 //给订单的product_info添加信息
-                if(c._referer == 'item_bug'){
-                    let info = {id:c.id,count:c.count};
-                    c.product_info = info;
+                let product = this.product
+                    ,len = product.length
+                    ,info = []
+                    ;
+                if(c._referer == 'item_buy'){
+                    // let info = {id:c.id,count:c.count};
+                    // c.product_info = info;
+                    c.product_info = product;
+                    c.product_info.count = c.count
                 }else{
-                    let info = []
-                    let product = this.product;
-                    for(let key in product){
-                        let val = product[key];
-                        info.push({id:val.id,count:val.count})
+                    // console.log('this.product',this.product);
+                    
+                    for(let i =0;i<len;i++ ){
+                        info.push(product[i])
                     }
                     c.product_info = info;
                 }
                 
-                // 删除购物车对应的项
+                // // 删除购物车对应的项
                 this.remove_cart(c.id);
 
                 delete c.id
@@ -199,8 +204,6 @@
                     with:this.with,
                 }).then(r=>{
                         this.product = r.data;
-                        console.log('this.product',this.product);
-                        
                     })
             },
         }
