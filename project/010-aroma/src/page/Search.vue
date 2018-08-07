@@ -147,7 +147,6 @@
             :totalCount="total"
             :limit="limit"
             :onChange="on_page_change"
-
         />
     </div>
 </template>
@@ -164,7 +163,7 @@ export default {
             cat_panel:'',
             list:{},
             total:0,
-            limit:6,
+            limit:10,
             search_param:{},
             breed_list:[],
             location_list:[],
@@ -200,6 +199,8 @@ export default {
             },
             //set_condition为请求的api中的专有属性
             set_condition(type,value){ 
+                console.log('11',11);
+                
                 let query = clone(this.$route.query);
                 switch (type){
                     case 'page':

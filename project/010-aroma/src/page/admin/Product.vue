@@ -76,6 +76,18 @@
                                 <label>是否新酒</label>{{current.new}}
                                 <input type="checkbox" v-model="current.new">
                             </div>
+                             <div class="input-control">
+                                <label>是否明星推荐</label>{{current.start_hot}}
+                                <input type="checkbox" v-model="current.start_hot">
+                            </div>
+                            <div class="input-control">
+                                <label>是否人气单品</label>{{current.single_hot}}
+                                <input type="checkbox" v-model="current.single_hot">
+                            </div>
+                            <div class="input-control">
+                                <label>是否品酒酒具</label>{{current.wineset_hot}}
+                                <input type="checkbox" v-model="current.wineset_hot">
+                            </div>
                             <div class="input-control">
                                 <label>图片地址</label>
                                 <div style="margin-bottom: 5px;">
@@ -96,6 +108,7 @@
                             <table>
                                 <thead>
                                     <th>序号</th>
+                                    <th>图片</th>
                                     <th>产品名称</th>
                                     <th>产品类型</th>
                                     <th>年份</th>
@@ -105,12 +118,16 @@
                                     <th>库存</th>
                                     <th>场合</th>
                                     <th>是否新酒</th>
+                                    <th>是否明星推荐</th>
+                                    <th>是否人气单品</th>
+                                    <th>是否品酒周边</th>
                                     <th>图片数量</th>
                                     <th>操作</th>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(row,index) in list" :key="index">
                                     <td>{{row.id||'-'}}</td>
+                                    <td><img :src="row.preview&&row.preview[2]&&row.preview[2].url" alt=""></td>
                                     <td>{{row.name||'-'}}</td>
                                     <td>{{row.$ptype?row.$ptype.name:'-'}}</td>
                                     <td>{{row.year||'-'}}</td>
@@ -120,6 +137,9 @@
                                     <td>{{row.store||'-'}}</td>
                                     <td>{{row.$occasion?row.$occasion.name:'-'}}</td>
                                     <td>{{row.new||'-'}}</td>
+                                    <td>{{row.start_hot||'-'}}</td>
+                                    <td>{{row.single_hot||'-'}}</td>
+                                    <td>{{row.wineset_hot||'-'}}</td>
                                     <td>{{row.preview.length||'-'}}</td>
                                     <td>
                                         <button @click="update(row)">编辑</button>
